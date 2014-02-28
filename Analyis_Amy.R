@@ -1,4 +1,4 @@
-	#---loading packages
+#---loading packages
 library(spacodiR)
 library(foodweb)
 library(NetIndices)
@@ -9,9 +9,7 @@ library(apTreeshape)
 library(phytools)
 
 #---Data input and manipulation of trees to be dated in Phylocom
-phylog.2002=read.tree(text="((((Utricularia_vulgaris,Myriophyllum_verticullatum),Ceratophyllum_demersum),((Vallisneria_americana,Elodea_nuttallii),(Potamogeton_zosteriformis,Potamogeton_crispus))),((Lithobates_catesbeianus,Lithobates_clamitans),((Physa_gyrina,Helisoma_trivolis),((Crangonyx_richmondensis,Hyalella_azteca),((Gyrinus_sp,Acilius_sp),(Belostoma_flumireum,(Trichocorixa_sp,(Ambrysus_sp,((Notonecta_undulata,Notonecta_sp),Neoplea_striola)))))))));")
-phylog.2002=drop.tip(phylog.2002, c("Vallisneria_americana", "Utricularia_vulgaris"))
-#phy.2002=compute.brlen(phylog.2002, "Grafen")
+phylog.2002=read.tree(text="(((Myriophyllum_verticullatum,Ceratophyllum_demersum),(Elodea_nuttallii,(Potamogeton_zosteriformis,Potamogeton_crispus))),((Lithobates_catesbeianus,Lithobates_clamitans),((Physa_gyrina,Helisoma_trivolis),((Gammarus_americana,Hyalella_azteca),((Gyrinus_sp,Acilius_sp),(Belostoma_flumireum,(Trichocorixa_sp,(Ambrysus_sp,((Notonecta_undulata,Notonecta_sp),Neoplea_striola)))))))));")
 phylog.2005=read.tree(text="(((((Sagittaria_rigida,Vallisneria_americana),Elodea_nuttallii),(Potamogeton_crispus,Potamogeton_natans)),(Ceratophyllum_demersum,(Utricularia_vulgaris,Myriophyllum_verticullatum))),((Lithobates_catesbeianus,Lithobates_clamitans),((Helisoma_trivolis,Physa_gyrina),((Crangonyx_richmondensis,Hyallela_azteca),((Coptotomus_sp,(Dineutus_sp,Gyrinus_sp)),(Belostoma_flumireum,((Hesperocorixa_sp,Trichocorixa_sp),(Ambrysus_sp,(Neoplea_striola,(Buenoa_sp,Notonecta_undulata))))))))));")
 phyloNodes=makeNodeLabel(phylog.2002)
 phyloNodes1=makeNodeLabel(phylog.2005)
