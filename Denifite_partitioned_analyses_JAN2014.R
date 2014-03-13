@@ -8,9 +8,9 @@ dados <- read.csv("data_diogo.csv", header = T, sep = ";")
 dados=dados[,-15]
 head(dados)
 str(dados)
-attach(dados)
 
 dados$PD2<-dados$PD/1000
+attach(dados)
 
 dados1<-split(dados, dados$div)
 str(dados1)
