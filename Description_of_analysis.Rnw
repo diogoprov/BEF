@@ -1,0 +1,183 @@
+\documentclass[a4paper]{article}
+
+\title{Analysis from Provete et al. 2014. Phylogenetic and taxononomic diversity interactively influence freshwater ecosystem functioning}
+
+\author{Diogo B. Provete}
+
+\begin{document}
+
+\maketitle
+
+These are the analyses I run for the Amy's experiment (Downing \& Leibold 2002 Nature) in which I investigated the effects of phylogenetic diversity on ecosystem functioning. This is one of my PhD. dissertation chapters.
+
+\section*{Loading R packages and data input}
+
+<<packages, warning=FALSE, message=FALSE, cache=FALSE, results='hide'>>=
+library(spacodiR)
+library(lme4)
+library(ecoPD)
+library(picante)
+library(apTreeshape)
+library(phytools)
+library(MuMIn)
+library(lmerTest)
+@
+
+<<data>>=
+dados <- read.csv("data_diogo.csv", header = T, sep = ";")
+dados=dados[,-15]
+head(dados)
+dados$PD2<-dados$PD/1000
+attach(dados)
+@
+
+\section*{Phylogeny input and calculating PD variables}
+
+Here I assembled by hand a phylogeny of all species in the
+treatments using Mesquite. Then, I looked for node ages in 
+www.timetree.org. After I got these data, I took the tree 
+and the node ages to Phylocom to obtain a pseudochronogram 
+by using BLADJ. From that, I imported the dated tree again into R. 
+
+<<Phylogeny>>=
+#---Data input and manipulation of trees to be dated in Phylocom
+phylog.2002=read.tree("undated_tree.txt")
+phyloNodes=makeNodeLabel(phylog.2002)
+write.tree(phyloNodes, file="phylo_2002.txt")
+
+#---Working wih dated phylogenies
+amy.nature=read.tree("phylog_dated_2002.txt")
+plot(amy.nature, cex=0.8);axisPhylo()
+nodelabels(node=c(20, 21, 22, 23, 24,27, 29, 31, 33, 32),
+bg="black", frame="circle", cex=0.3)
+title("Downing & Leibold (2002;2010)", xlab="Mya")
+@
+\begin{figure}
+\caption{The black dots indicate the nodes with known ages used to date the tree}
+\end{figure}
+
+\subsection*{Tree shape metrics}
+
+Since previous studies suggesteed that tree imbalance and 
+rootness could alter the influence of phylogeny on
+ecosystem functioning, I calculated two commonly used metrics, 
+$I_{c} and Pybus'\gamma$.
+
+<<Tree shape metrics>>=
+#---Playing with tree shape metrics
+treeNature=as.treeshape(amy.nature)
+colless.test(treeNature)#the tree is more balanced than 
+#predicted by the Yule model 
+z=ltt(amy.nature, plot=F, gamma=F)
+set.seed(1001)
+gammatest(z)#gamma=0.40; P=0.686
+@
+
+\subsection*{Calculating PD variables}
+
+Importing data in the supplementary material of 
+Downing \& Leibold (2002) Nature that describes final 
+species composition in each treatment to calculate PD.
+
+<<Calculating PD>>=
+#---Species composition per treatments, calculating PD
+treat=read.table("treat.txt", h=T)
+
+#--Independent on species richness
+mpd.nature=mpd(t(treat),cophenetic(amy.nature))#mpd
+obj=phylo4d(amy.nature, tip.data=treat)
+cadotte=haed(obj)#Haed
+raodiv=raoD(t(treat), amy.nature)$Dkk
+
+#--Dependent on species richness
+PD.nature=picante::pd(t(treat), amy.nature)#Faith's PD
+mntd.nature=mntd(t(treat),cophenetic(amy.nature))#mnnd
+SimpsonPhyl=simpson(obj, "phylogenetic")#Simpson Phylogenetic
+Shannon=diversity(t(treat), "shannon")#Shannon
+Simpson=diversity(t(treat), "simpson")#Simpson
+J=sum(cophenetic.phylo(amy.nature))/(colSums(treat)^2)#see_Schweiger et al. 2008 Oecologia
+@
+
+Pasting the new variables into the dataset.
+
+<<Data handling>>=
+#---Binding phylogenetic diversity variables into data file
+d<-dados[order(dados$comp),]#sorting data by composition
+head(d)
+d$mpd<-rep(mpd.nature,each=12)#repeat MPD 12 times
+d$haed<-rep(cadotte,each=12)
+d$raodiv<-rep(raodiv,each=12)
+d$mntd<-rep(mntd.nature,each=12)
+d$SimpsonPhyl<-rep(SimpsonPhyl,each=12)
+d$Shannon<-rep(Shannon,each=12)
+d$Simpson<-rep(Simpson,each=12)
+d$Intens_Q<-rep(J,each=12)
+@
+
+Exploring the variation in PD variables in relation to species composition (treatment) and species richness.
+
+<<PD vs. richness plots>>=
+#---Plots variation in PD and MPD
+plot(PD.nature[[1]]~PD.nature[[2]], xlab="Species richness", ylab="Faith's PD")
+plot(PD.nature[[1]], xlab="Species composition", ylab="Faith's PD")
+
+plot(mpd.nature~PD.nature[[2]], xlab="Species richness", ylab="MPD")
+plot(mpd.nature, xlab="Species composition", ylab="MPD")
+
+plot(cadotte~PD.nature[[2]], xlab="Species richness", ylab="Haed")
+plot(raodiv~PD.nature[[2]], xlab="Species richness", ylab="Rao Entropy")
+plot(mntd.nature~PD.nature[[2]], xlab="Species richness", ylab="MNTD")
+plot(SimpsonPhyl~PD.nature[[2]], xlab="Species richness", ylab="Phylogenetic Simpson index")
+plot(Shannon~PD.nature[[2]], xlab="Species richness", ylab="Shannon index")
+plot(Simpson~PD.nature[[2]], xlab="Species richness", ylab="Simpson index")
+plot(J~PD.nature[[2]], xlab="Species richness", ylab="Intensive Quadratic Entropy")
+@
+
+Visualizing species incidence in each treatment plotted in the regional phylogeny
+
+<<Species incidence on the regional phylogeny>>=
+#---Distribution of species assigned to treatments on regional phylogeny
+spa=as.spacodi(t(treat))
+phy.dotplot(spa, phy=amy.nature, tips.adj=c(0.50,0.55), lab.adj=c(0,1))
+@
+
+\begin{figure}
+\caption{Regional phylogeny showing the combination of species present in each
+of the 21 treatments}
+\end{figure}
+
+\section*{Exploratory data analysis}
+
+<<Plots>>=
+plot(prod~as.factor(PD2), xlab="Faith's PD", ylab="Productivity")
+plot(prod~as.factor(div), xlab="Species Richness (Treatments)", ylab="Productivity")
+boxplot(prod~as.factor(div)+time)
+plot(prod~PD2, xlab="Faith's PD", ylab="Productivity")
+boxplot(prod~as.factor(time), xlab="Time", ylab="Productivity")
+@
+
+\section*{Models for the influence of PD on ecosystem functioning}
+
+I run a linear mixed effects model to investigate the influence of PD on productivity, considering tank and the repeated measures as crossed random factors and PD as a fixed factor, nested within each treatment (=species richness). Following, I plotted some diagnostic plots and calculated the Wand's F statistic, and its associated P-value, to the random factors.
+
+<<Productivity>>=
+trata=factor(div)
+filo<-factor(PD)
+nest<-trata:filo
+summary(finalModel<-lmer(prod~nest + (1|tank)+(1|time) ,data=dados))
+results <- groupedData(prod~tank|time,outer = ~ trata,dados)#dando erro
+qqmath(ranef(finalModel))
+rand(finalModel)
+r.squaredGLMM(finalModel)
+@
+
+It looks like time explain the most variation in productivity. 
+
+<<Productivity Plot>>=
+boxplot(prod ~ factor(time), ylab = "Productivity") ## productivity decreases with time regardless of richness
+@
+
+<<Model for Decomposition>>=
+
+@
+\end{document}
