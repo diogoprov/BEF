@@ -13,22 +13,19 @@ These are the analyses I run for the Amy's experiment (Downing \& Leibold 2002 N
 \section*{Loading R packages and data input}
 
 <<packages, warning=FALSE, message=FALSE, cache=FALSE, results='hide'>>=
-library(spacodiR)
-library(lme4)
-library(ecoPD)
-library(picante)
-library(apTreeshape)
-library(phytools)
-library(MuMIn)
-library(lmerTest)
+library(spacodiR) #0.13.0115
+library(lme4) #1.1-5
+library(lattice)#0.20-27
+library(ecoPD) #0.2
+library(picante)#1.6-2
+library(apTreeshape)#1.4-5
+library(phytools)#0.3-93
+library(lmerTest) #2.0-6
+#Run in R 3.0.2
 @
 
 <<data>>=
-dados <- read.csv("data_diogo.csv", header = T, sep = ";")
-dados=dados[,-15]
-head(dados)
-dados$PD2<-dados$PD/1000
-attach(dados)
+	 
 @
 
 \section*{Phylogeny input and calculating PD variables}
@@ -53,7 +50,7 @@ bg="black", frame="circle", cex=0.3)
 title("Downing & Leibold (2002;2010)", xlab="Mya")
 @
 \begin{figure}
-\caption{The black dots indicate the nodes with known ages used to date the tree}
+\caption{Dated phylogeny with the 19 species that remained at the end of the experiment. The black dots indicate the nodes with known ages used to date the tree}
 \end{figure}
 
 \subsection*{Tree shape metrics}
@@ -61,7 +58,7 @@ title("Downing & Leibold (2002;2010)", xlab="Mya")
 Since previous studies suggesteed that tree imbalance and 
 rootness could alter the influence of phylogeny on
 ecosystem functioning, I calculated two commonly used metrics, 
-$I_{c} and Pybus'\gamma$.
+$I_{c}$ and $Pybus'\gamma$.
 
 <<Tree shape metrics>>=
 #---Playing with tree shape metrics
@@ -75,8 +72,8 @@ gammatest(z)#gamma=0.40; P=0.686
 
 \subsection*{Calculating PD variables}
 
-Importing data in the supplementary material of 
-Downing \& Leibold (2002) Nature that describes final 
+Importing data from the supplementary material of 
+Downing \& Leibold (2002) that describes final 
 species composition in each treatment to calculate PD.
 
 <<Calculating PD>>=
@@ -95,7 +92,7 @@ mntd.nature=mntd(t(treat),cophenetic(amy.nature))#mnnd
 SimpsonPhyl=simpson(obj, "phylogenetic")#Simpson Phylogenetic
 Shannon=diversity(t(treat), "shannon")#Shannon
 Simpson=diversity(t(treat), "simpson")#Simpson
-J=sum(cophenetic.phylo(amy.nature))/(colSums(treat)^2)#see_Schweiger et al. 2008 Oecologia
+J=sum(cophenetic.phylo(amy.nature))/(colSums(treat)^2)#see Schweiger et al. 2008\\ Oecologia
 @
 
 Pasting the new variables into the dataset.
@@ -103,7 +100,6 @@ Pasting the new variables into the dataset.
 <<Data handling>>=
 #---Binding phylogenetic diversity variables into data file
 d<-dados[order(dados$comp),]#sorting data by composition
-head(d)
 d$mpd<-rep(mpd.nature,each=12)#repeat MPD 12 times
 d$haed<-rep(cadotte,each=12)
 d$raodiv<-rep(raodiv,each=12)
@@ -133,7 +129,7 @@ plot(Simpson~PD.nature[[2]], xlab="Species richness", ylab="Simpson index")
 plot(J~PD.nature[[2]], xlab="Species richness", ylab="Intensive Quadratic Entropy")
 @
 
-Visualizing species incidence in each treatment plotted in the regional phylogeny
+Visualizing species incidence in each treatment plotted on the regional phylogeny
 
 <<Species incidence on the regional phylogeny>>=
 #---Distribution of species assigned to treatments on regional phylogeny
@@ -143,7 +139,7 @@ phy.dotplot(spa, phy=amy.nature, tips.adj=c(0.50,0.55), lab.adj=c(0,1))
 
 \begin{figure}
 \caption{Regional phylogeny showing the combination of species present in each
-of the 21 treatments}
+of the 21 species compositions manipulated in the experiment}
 \end{figure}
 
 \section*{Exploratory data analysis}
@@ -154,6 +150,10 @@ plot(prod~as.factor(div), xlab="Species Richness (Treatments)", ylab="Productivi
 boxplot(prod~as.factor(div)+time)
 plot(prod~PD2, xlab="Faith's PD", ylab="Productivity")
 boxplot(prod~as.factor(time), xlab="Time", ylab="Productivity")
+results <- groupedData(prod~div/PD|time,data=dados, FUN=mean)
+results1 <- groupedData(prod~div/PD|tank,data=dados, FUN=mean)
+plot(results)
+plot(results1)
 @
 
 \section*{Models for the influence of PD on ecosystem functioning}
@@ -165,7 +165,6 @@ trata=factor(div)
 filo<-factor(PD)
 nest<-trata:filo
 summary(finalModel<-lmer(prod~nest + (1|tank)+(1|time) ,data=dados))
-results <- groupedData(prod~tank|time,outer = ~ trata,dados)#dando erro
 qqmath(ranef(finalModel))
 rand(finalModel)
 r.squaredGLMM(finalModel)
@@ -174,10 +173,14 @@ r.squaredGLMM(finalModel)
 It looks like time explain the most variation in productivity. 
 
 <<Productivity Plot>>=
-boxplot(prod ~ factor(time), ylab = "Productivity") ## productivity decreases with time regardless of richness
+boxplot(prod ~ factor(time), ylab = "Productivity") ## productivity decreases\\ with time regardless of richness
 @
 
 <<Model for Decomposition>>=
+
+@
+
+<<Model for Respiration>>=
 
 @
 \end{document}
