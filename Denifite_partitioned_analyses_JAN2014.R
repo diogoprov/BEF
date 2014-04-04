@@ -1,28 +1,77 @@
-library(lme4)
+library(nlme)
 library(lmerTest)
+library(lme4)
 library(bbmle)
 library(MuMIn)
 
 ##--- Data input and manipulation
-dados <- read.csv("data_diogo.csv", header = T, sep = ";")
+dados <- read.csv("data_diogo.csv", header = T, sep = ",")
 dados=dados[,-15]
 head(dados)
 str(dados)
 
-dados$PD2<-dados$PD/1000
+
 attach(dados)
 
-dados1<-split(dados, dados$div)
-str(dados1)
-head(dados1$"9")
 trata=factor(div)
-filo<-factor(PD)
-nest<-trata:filo
-#summary(lmer(prod~nest + (~tank|time) ,data=dados))
-summary(finalModel<-lmer(prod~nest + (1|tank)+(1|time) ,data=dados))
-results <- groupedData(prod~tank|time,outer = ~ trata,dados)#dando erro
-qqmath(ranef(finalModel))
-rand(finalModel)
+COMP<-factor(comp)
+TIME<-factor(time)
+table(trata:COMP)
+
+mode<-lm(prod~trata+trata/COMP+TIME, data=dados)
+mod1<-anova(mode)
+mode2<-lm(prod~trata+PD+TIME, data=dados)
+mod2<-anova(mode2)
+pf(mod1[1,3]/mod1[3,3], 2, 18, lower.tail=F)#valor de P para efeito do trataemnto (diversidade)
+names(mod2)
+
+modeq<-lm(prod~trata+PD+I(PD^2)+TIME, data=dados)
+modq<-anova(modeq)
+summary(modeq)
+pred.mod<-predict(modeq)
+dados$pred<-pred.mod
+
+mq<-lm(prod~PD+I(PD^2), data=dados)
+coef(mq)
+
+
+me<-aggregate(prod, list(trata, PD), "mean")
+me$pred<-aggregate(dados$pred, list(trata, PD), "mean")$x
+me$pred<-coef(mq)[1]+coef(mq)[2]*me$PD+coef(mq)[3]*me$PD^2
+
+names(me)=c("Diversity", "PD", "Productivity", "pred")
+
+ggplot(me,aes(x=PD, y=Productivity, colour=Diversity))+
+	geom_line()
+
+ggplot(me,aes(x=PD, y=Productivity, colour=Diversity))+
+	geom_boxplot()
+
+ggplot(me,aes(x=Diversity, y=Productivity))+
+	geom_boxplot()
+
+gf<-as.data.frame(cbind(rep(1:2, each=21), rbind(cbind(me$PD, me$Productivity), cbind(me$PD, me$pred))))
+names(gf)=c("Group", "PD", "Productivity")
+
+#points(me$PD,me$Productivity, type="l")
+#plot(me$PD, me$pred.x, type="l")
+
+ggplot(me, aes(x=PD))+
+	geom_line(aes(y=pred), colour="blue")+
+	geom_line(aes(y=Productivity), colour="red")
+	
+
+#summary(finalModel<-lmer(prod~nest + (1|tank)+(1|time) ,data=dados))
+#results <- groupedData(prod~tank|time,outer = ~ trata,dados)#dando erro
+#plot(ranef(finalModel))
+#rand(finalModel)
+#dotchart(ranef(finalModel))
+
+#simulate(finalModel, 999)
+
+#exactLRT 
+
+#getME(finalModel)
 
 ##--- models for Productivity
 ic<-function(dados){
