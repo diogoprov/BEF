@@ -13,14 +13,11 @@ These are the analyses I run for the Amy's experiment (Downing \& Leibold 2002 N
 \section*{Loading R packages and data input}
 
 <<packages, warning=FALSE, message=FALSE, cache=FALSE, results='hide'>>=
-library(spacodiR) #0.13.0115
-library(ecoPD) #0.2
+library(spacodiR)#0.13.0115
 library(picante)#1.6-2
 library(apTreeshape)#1.4-5
-library(phytools)#0.3-93
-library(bbmle)#1.0.16
-library(MuMIn)#1.9.13
-library(ggplot2)#0.9.3.1
+library(phytools)#0.4-21
+library(ggplot2)#1.0.0
 #Run in R 3.0.3
 @
 
@@ -94,32 +91,19 @@ treat=read.table("treat.txt", h=T)
 
 #--Independent on species richness
 mpd.nature=mpd(t(treat),cophenetic(amy.nature))#mpd
-obj=phylo4d(amy.nature, tip.data=treat)
-cadotte=haed(obj)#Haed
-raodiv=raoD(t(treat), amy.nature)$Dkk
 
 #--Dependent on species richness
 PD.nature=picante::pd(t(treat), amy.nature)#Faith's PD
-mntd.nature=mntd(t(treat),cophenetic(amy.nature))#mnnd
-SimpsonPhyl=simpson(obj, "phylogenetic")#Simpson Phylogenetic
-Shannon=diversity(t(treat), "shannon")#Shannon
-Simpson=diversity(t(treat), "simpson")#Simpson
-J=sum(cophenetic.phylo(amy.nature))/(colSums(treat)^2)#see Schweiger et al. 2008\\ Oecologia
 @
 
 Pasting the new variables into the dataset.
 
 <<Data handling>>=
 #---Binding phylogenetic diversity variables into data file
+
 d<-dados[order(dados$comp),]#sorting data by composition
 d$mpd<-rep(mpd.nature,each=12)#repeat MPD 12 times
-d$haed<-rep(cadotte,each=12)
-d$raodiv<-rep(raodiv,each=12)
-d$mntd<-rep(mntd.nature,each=12)
-d$SimpsonPhyl<-rep(SimpsonPhyl,each=12)
-d$Shannon<-rep(Shannon,each=12)
-d$Simpson<-rep(Simpson,each=12)
-d$Intens_Q<-rep(J,each=12)
+cor(cbind(mpd.nature,PD.nature[,1]))#r=0.407
 @
 
 Exploring the variation in PD variables in relation to species composition (treatment) and species richness.
@@ -131,14 +115,6 @@ plot(PD.nature[[1]], xlab="Species composition", ylab="Faith's PD")
 
 plot(mpd.nature~PD.nature[[2]], xlab="Species richness", ylab="MPD")
 plot(mpd.nature, xlab="Species composition", ylab="MPD")
-
-plot(cadotte~PD.nature[[2]], xlab="Species richness", ylab="Haed")
-plot(raodiv~PD.nature[[2]], xlab="Species richness", ylab="Rao Entropy")
-plot(mntd.nature~PD.nature[[2]], xlab="Species richness", ylab="MNTD")
-plot(SimpsonPhyl~PD.nature[[2]], xlab="Species richness", ylab="Phylogenetic Simpson index")
-plot(Shannon~PD.nature[[2]], xlab="Species richness", ylab="Shannon index")
-plot(Simpson~PD.nature[[2]], xlab="Species richness", ylab="Simpson index")
-plot(J~PD.nature[[2]], xlab="Species richness", ylab="Intensive Quadratic Entropy")
 @
 
 Visualizing species incidence in each treatment plotted on the regional phylogeny
@@ -261,9 +237,6 @@ ggplot(resp.plot, aes(x=PD)) +
 	geom_point(aes(y=Respiration), colour="red", size=4, shape=21, fill="white")
 @
 
-\subsection*{Model Selection for PD variables}
-
-Now, I entered all alternative diversity variables in a model selection to see which\\ one best describes the three EF. 
 
 \subsubsection*{Productivity}
 
@@ -276,41 +249,6 @@ mq.prodPD<-lm(prod~trata+PD+I(PD^2)+TIME, data=dados)
 prod.pd<-lm(prod~trata+mpd+TIME, data=d)
 mq.mpd<-lm(prod~trata+mpd+I(mpd^2)+TIME, data=d)
 
-#-With Haed
-prod.haed<-lm(prod~trata+haed+TIME, data=d)
-mq.haed<-lm(prod~trata+haed+I(haed^2)+TIME, data=d)
-
-#-With Rao
-prodrao<-lm(prod~trata+raodiv+TIME, data=d)
-mq.rao<-lm(prod~trata+raodiv+I(raodiv^2)+TIME, data=d)
-
-#-With MNTD
-prod.mntd<-lm(prod~trata+mntd+TIME, data=d)
-mq.mntd<-lm(prod~trata+mntd+I(mntd^2)+TIME, data=d)
-
-#-With Simpson Phylogenetic
-prod.SimpPhyl<-lm(prod~trata+SimpsonPhyl+TIME, data=d)
-mq.SimpPhyl<-lm(prod~trata+SimpsonPhyl+I(SimpsonPhyl^2)+TIME, data=d)
-
-#-With Shannon
-prod.Shannon<-lm(prod~trata+Shannon+TIME, data=d)
-mq.Shannon<-lm(prod~trata+Shannon+I(Shannon^2)+TIME, data=d)
-
-#-With Simpson
-prod.Simpson<-lm(prod~trata+Simpson+TIME, data=d)
-mq.Simpson<-lm(prod~trata+Simpson+I(Simpson^2)+TIME, data=d)
-
-#-With Simpson
-prod.Intens_Q<-lm(prod~trata+Intens_Q+TIME, data=d)
-mq.Intens_Q<-lm(prod~trata+Intens_Q+I(Intens_Q^2)+TIME, data=d)
-
-#-- Model selection table			
-(ICtab(prod.PD,mq.prodPD, prod.pd,mq.mpd,prod.haed,mq.haed,prodrao,mq.rao,prod.mntd,
-			 mq.mntd,prod.SimpPhyl, mq.SimpPhyl, prod.Shannon, mq.Shannon, prod.Simpson,
-			 mq.Simpson,prod.Intens_Q,mq.Intens_Q,
-			 type = c("AICc"), weights = TRUE, delta = TRUE, sort = TRUE, nobs=504))
-@
-
 \subsubsection*{Respiration}
 
 <<Model selection Respiration>>=
@@ -322,40 +260,6 @@ qpd<-lm(resp~trata+PD+I(PD^2)+TIME, data=dados)
 resp.mpd<-lm(resp~trata+mpd+TIME, data=d)
 qmpd<-lm(resp~trata+mpd+I(mpd^2)+TIME, data=d)
 
-#-With Haed
-resp.haed<-lm(resp~trata+haed+TIME, data=d)
-qhaed<-lm(resp~trata+haed+I(haed^2)+TIME, data=d)
-
-#-With Rao
-resprao<-lm(resp~trata+raodiv+TIME, data=d)
-qrao<-lm(resp~trata+raodiv+I(raodiv^2)+TIME, data=d)
-
-#-With MNTD
-resp.mntd<-lm(resp~trata+mntd+TIME, data=d)
-qmntd<-lm(resp~trata+mntd+I(mntd^2)+TIME, data=d)
-
-#-With Simpson Phylogenetic
-resp.SimpPhyl<-lm(resp~trata+SimpsonPhyl+TIME, data=d)
-qSimpPhyl<-lm(resp~trata+SimpsonPhyl+I(SimpsonPhyl^2)+TIME, data=d)
-
-#-With Shannon
-resp.Shannon<-lm(resp~trata+Shannon+TIME, data=d)
-qShannon<-lm(resp~trata+Shannon+I(Shannon^2)+TIME, data=d)
-
-#-With Simpson
-resp.Simpson<-lm(resp~trata+Simpson+TIME, data=d)
-qSimpson<-lm(resp~trata+Simpson+I(Simpson^2)+TIME, data=d)
-
-#-With Simpson
-resp.Intens_Q<-lm(resp~trata+Intens_Q+TIME, data=d)
-qIntens_Q<-lm(resp~trata+Intens_Q+I(Intens_Q^2)+TIME, data=d)
-
-#-- Model selection table			
-(ICtab(resp.PD,qpd, qmntd,resp.mntd,qrao,resprao,qhaed,resp.haed,qmpd,resp.mpd,
-			resp.SimpPhyl,qSimpPhyl, resp.Shannon, qShannon, resp.Intens_Q, qIntens_Q,
-			 type = c("AICc"), weights = TRUE, delta = TRUE, sort = TRUE, nobs=504))
-@
-
 \subsubsection*{Decomposition}
 <<Model selection Decomposition>>=
 #-with PD
@@ -366,60 +270,5 @@ qdec<-lm(dc~trata+PD+I(PD^2)+TIME, data=dados)
 dec.mpd<-lm(dc~trata+mpd+TIME, data=d)
 decqmpd<-lm(dc~trata+mpd+I(mpd^2)+TIME, data=d)
 
-#-With Haed
-dc.haed<-lm(dc~trata+haed+TIME, data=d)
-qdhaed<-lm(dc~trata+haed+I(haed^2)+TIME, data=d)
-
-#-With Rao
-dcrao<-lm(dc~trata+raodiv+TIME, data=d)
-qdrao<-lm(dc~trata+raodiv+I(raodiv^2)+TIME, data=d)
-
-#-With MNTD
-dc.mntd<-lm(dc~trata+mntd+TIME, data=d)
-qdmntd<-lm(dc~trata+mntd+I(mntd^2)+TIME, data=d)
-
-#-With Simpson Phylogenetic
-dc.SimpPhyl<-lm(dc~trata+SimpsonPhyl+TIME, data=d)
-qdSimpPhyl<-lm(dc~trata+SimpsonPhyl+I(SimpsonPhyl^2)+TIME, data=d)
-
-#-With Shannon
-dc.Shannon<-lm(dc~trata+Shannon+TIME, data=d)
-qdShannon<-lm(dc~trata+Shannon+I(Shannon^2)+TIME, data=d)
-
-#-With Simpson
-dc.Simpson<-lm(dc~trata+Simpson+TIME, data=d)
-qdSimpson<-lm(dc~trata+Simpson+I(Simpson^2)+TIME, data=d)
-
-#-With Simpson
-dc.Intens_Q<-lm(dc~trata+Intens_Q+TIME, data=d)
-qdIntens_Q<-lm(dc~trata+Intens_Q+I(Intens_Q^2)+TIME, data=d)
-
-#-- Model selection table			
-(ICtab(dec.PD,qdec, qdmntd,dc.mntd,qdrao,dcrao,qdhaed,dc.haed,decqmpd,dec.mpd,
-			 dc.SimpPhyl,qdSimpPhyl, dc.Shannon, qdShannon, dc.Intens_Q, qIntens_Q,
-			 type = c("AICc"), weights = TRUE, delta = TRUE, sort = TRUE, nobs=504))
-@
-
-Plotting the best model
-
-<<Plot Best Model Decomposition>>=
-qdIntens_Q<-lm(dc~Intens_Q+I(Intens_Q^2), data=d)
-anova(qdIntens_Q)
-summary(qdIntens_Q)
-coef(qdIntens_Q)
-dec.pred<-predict(qdIntens_Q)#predicted values for each observation
-d$dec.pred<-dec.pred#binding to the data frame
-
-dec.plot1<-aggregate(dc, list(trata, d$Intens_Q), "mean")
-dec.plot1$dec.pred<-aggregate(d$dec.pred, list(trata, d$Intens_Q), "mean")$x
-names(dec.plot1)=c("Diversity", "Intens_Q", "Decompositon", "pred")#renaming the columns to make the plot
-dec.plot1$dec.pred<-coef(qdIntens_Q)[1]+coef(qdIntens_Q)[2]*dec.plot1$Intens_Q+coef(qdIntens_Q)[3]*dec.plot1$Intens_Q^2#adding the predicted values 
-#for PD by the quadratic model
-
-#Just another version with data as points and model as line
-ggplot(dec.plot1, aes(x=Intens_Q)) + 
-	geom_line(aes(y=pred), colour="blue", linetype="solid", size=1) + 
-	geom_point(aes(y=Decompositon), colour="red", size=4, shape=21, fill="white")
-@
 
 \end{document}
