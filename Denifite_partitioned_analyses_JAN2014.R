@@ -149,7 +149,9 @@ mq.rao<-lm(prod~trata+raodiv+I(raodiv^2)+TIME, data=d)
 
 #-With MNTD
 prod.mntd<-lm(prod~trata+mntd+TIME, data=d)
+anova(prod.mntd)
 mq.mntd<-lm(prod~trata+mntd+I(mntd^2)+TIME, data=d)
+anova(mq.mntd)
 
 #-With Simpson Phylogenetic
 prod.SimpPhyl<-lm(prod~trata+SimpsonPhyl+TIME, data=d)
@@ -236,7 +238,9 @@ qdrao<-lm(dc~trata+raodiv+I(raodiv^2)+TIME, data=d)
 
 #-With MNTD
 dc.mntd<-lm(dc~trata+mntd+TIME, data=d)
-qdmntd<-lm(dc~trata+mntd+I(mntd^2)+TIME, data=d)
+anova(dc.mntd)
+qdmntd<-lm(dc~trata*mntd+I(mntd^2)+TIME, data=d)
+anova(qdmntd)
 
 #-With Simpson Phylogenetic
 dc.SimpPhyl<-lm(dc~trata+SimpsonPhyl+TIME, data=d)
