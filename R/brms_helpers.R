@@ -54,15 +54,24 @@ rhs <- function(x = NULL, ar = TRUE, extra = NULL) {
   )
 }
 
-# `rhs_override` replaces the default right-hand side (used in step 3)
+# Distributional model for the residual SD (log scale; standardized responses)
+priors_sigma <- c(
+  prior(normal(0, 1), class = Intercept, dpar = sigma),
+  prior(normal(0, 1), class = b, dpar = sigma)
+)
+
+# `rhs_override` replaces the default right-hand side (used in step 3);
+# `sigma_rhs` (e.g. "ftime") models the residual SD
 fit_uni <- function(resp, x = NULL, data, ar = TRUE, extra = NULL, name = NULL,
-                    rhs_override = NULL) {
+                    rhs_override = NULL, sigma_rhs = NULL) {
   if (is.null(name)) name <- paste("uni", resp, x %||% "base", if (ar) "ar1" else "noar", sep = "_")
+  fml <- paste(resp, "~", rhs_override %||% rhs(x, ar, extra))
+  pri <- if (ar) priors_uni else priors_uni[priors_uni$class != "ar", ]
+  if (!is.null(sigma_rhs)) pri <- c(pri[pri$class != "sigma", ], priors_sigma)
   args <- list(
-    formula = bf(paste(resp, "~", rhs_override %||% rhs(x, ar, extra))),
+    formula = if (is.null(sigma_rhs)) bf(fml) else bf(as.formula(fml), as.formula(paste("sigma ~", sigma_rhs))),
     data = data, family = families[[resp]],
-    prior = c(if (ar) priors_uni else priors_uni[priors_uni$class != "ar", ],
-              if (families[[resp]]$family == "student") prior_nu),
+    prior = c(pri, if (families[[resp]]$family == "student") prior_nu),
     iter = ITER, chains = 4, seed = SEED, control = CONTROL,
     file = here::here("output", "models", name), file_refit = "on_change"
   )

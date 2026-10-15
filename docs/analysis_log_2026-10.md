@@ -104,3 +104,32 @@
 - T99 (Downing 2005, Ecology): 26 composições com composição de grupos
   funcionais variável; alinhamento 0,70; razão de traços Kphy/Kid 1,57
   (T98: 0,26). Candidato melhor para o passo 4 e para replicação.
+
+## 9. T99 (Downing 2005, Ecology) — passos 1–3 (`analysis/10_build_data_t99.R`, `11_models_t99.R`)
+
+- 27 composições × 4 tanques; composição 0 = controle sem espécies (excluída).
+  Células do desenho: composição de grupos funcionais × riqueza
+  (M_6, G_6, MG_6, GP_6, MGP_6, MGP_18). 13 amostragens irregulares
+  (dias 0–72); decomposição em 9.
+- Mapeamento de códigos resolvido pelos dados; `Ecology2005.txt` tem 2 erros
+  (comp. 5 sem *L. clamitans*; comp. 16 com *Buenoa* em vez de *Dineutus*),
+  confirmados pela biomassa final. Fonte: planilha do desenho.
+- Pulso ácido entre os períodos 4 (dia 19) e 5 (dia 22), inferido das médias
+  [verificar em Downing & Leibold 2010]. Resistência = 5–6; recuperação = 7–13.
+- Variância das métricas iniciais dentro das células: PD 1,8%, MPD 2,2%,
+  VPD 3,8%, MNTD 16%.
+- Heterocedasticidade temporal forte em prod/resp (DP varia 3–5×); primeira
+  versão Student-t estimou nu ≈ 2. Versão final: gaussiana com sigma ~ ftime
+  (prod, resp); Student-t (dc). Versão Student-t em `output/tables/sensitivity/`.
+- (a) Dentro das células: nenhuma inclinação credível (98,33%).
+- (b) Células vs métrica única: células explicam 89% (prod) e 79% (resp) da
+  variância entre composições; VPD sozinho ~70%/68%, MPD 22–28%, PD ~0.
+  VPD: prod 0,11 [0,06; 0,16], resp 0,12 [0,06; 0,18]. dc: nada.
+- (c) Distúrbio: resp resistência ≈ −1,1 DP; recuperação 0,90 (S6), 1,13 (S18).
+  MPD (inicial e final) modula negativamente a fase de recuperação de prod
+  (−0,10; −0,08) e resp (−0,15; −0,13), todos fora do zero a 98,33%; mesmo
+  sinal em T98 para resp (−0,10 [−0,26; 0,05]). Tentativo: checar influência
+  de composições individuais.
+- Convergência: R-hat ≤ 1,01 exceto 2 modelos com VPD (≤ 1,019) por trade-off
+  entre efeitos fixos de célula e tempo (parâmetro focal ok). Corrigir com
+  contrastes soma-zero em ftime no fechamento.
