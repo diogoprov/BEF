@@ -13,3 +13,4 @@ refs/
 # macOS / Office
 .DS_Store
 ~$*
+output/models/
