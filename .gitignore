@@ -1,0 +1,15 @@
+# Third-party PDFs (copyrighted) — kept locally only
+refs/
+# R / RStudio
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+# LaTeX / knitr build artefacts
+*.aux
+*.log
+*.out
+*.synctex.gz
+# macOS / Office
+.DS_Store
+~$*
