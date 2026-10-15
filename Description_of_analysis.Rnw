@@ -72,7 +72,8 @@ $I_{c}$ and $Pybus'\gamma$.
 <<Tree shape metrics>>=
 #---Playing with tree shape metrics
 treeNature=as.treeshape(amy.nature)
-colless.test(treeNature)#the tree is more balanced than 
+set.seed(1002)
+colless.test(treeNature)#Ic=0.750, the tree is more balanced than 
 #predicted by the Yule model 
 z=ltt(amy.nature, plot=F, gamma=F)
 set.seed(1001)
@@ -110,6 +111,7 @@ Exploring the variation in PD variables in relation to species composition (trea
 
 <<PD vs. richness plots>>=
 #---Plots variation in PD and MPD
+par(mfrow=c(2,2))
 plot(PD.nature[[1]]~PD.nature[[2]], xlab="Species richness", ylab="Faith's PD")
 plot(PD.nature[[1]], xlab="Species composition", ylab="Faith's PD")
 
@@ -196,6 +198,8 @@ modee1<-anova(modeL)
 modee2<-lm(dc~trata+PD+TIME, data=dados)
 md2<-anova(modee2)
 pf(modee1[1,3]/modee1[3,3], 2, 18, lower.tail=F)#valor de P para efeito do tratamento (diversidade)
+modeqdec<-lm(dc~trata+PD+I(PD^2)+TIME, data=dados)#model with PD as a quadratic term
+anova(modeqdec)#the quadratic term is significant
 @
 
 <<Plotting Decomposition>>=
@@ -263,12 +267,10 @@ qmpd<-lm(resp~trata+mpd+I(mpd^2)+TIME, data=d)
 \subsubsection*{Decomposition}
 <<Model selection Decomposition>>=
 #-with PD
-dec.PD<-lm(dc~trata+PD+TIME, data=dados)
 qdec<-lm(dc~trata+PD+I(PD^2)+TIME, data=dados)
-
+anova(qdec)
 #-With MPD
-dec.mpd<-lm(dc~trata+mpd+TIME, data=d)
 decqmpd<-lm(dc~trata+mpd+I(mpd^2)+TIME, data=d)
-
+anova(decqmpd)
 
 \end{document}

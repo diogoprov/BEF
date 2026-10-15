@@ -9,7 +9,7 @@ Lithobates_catesbeianus	0	1	0	0	0	1	0	0	0	0	0	0	0	0	0	0	1	0	0	1	0
 Lithobates_clamitans	0	0	1	0	0	0	0	1	0	0	0	1	0	1	1	0	0	0	1	1	0
 Physa_gyrina	1	0	0	1	1	1	1	1	1	1	1	1	1	1	1	1	1	1	0	1	1
 Hyalella_azteca	0	0	0	0	0	0	0	0	1	0	1	0	1	0	0	1	0	0	0	1	1
-Helisoma_trivolis	0	0	0	0	1	0	1	0	0	1	1	0	0	0	1	1	1	1	1	0	1
+Helisoma_trivolvis	0	0	0	0	1	0	1	0	0	1	1	0	0	0	1	1	1	1	1	0	1
 Trichocorixa_sp	0	0	0	1	0	0	1	0	0	0	1	0	0	1	1	1	1	1	0	1	1
 Neoplea_striola	1	1	1	1	1	0	1	1	1	1	1	1	1	1	1	1	1	1	1	0	1
 Ambrysus_sp	1	1	0	0	0	0	0	0	0	0	1	0	0	0	0	1	0	0	0	1	0

@@ -15,18 +15,18 @@ trata=factor(div)
 COMP<-factor(comp)
 TIME<-factor(time)
 
-me<-aggregate(prod, list(trata, PD), "mean")
+me<-aggregate(prod, list(trata, PD), "mean")#para fazer os graficos
 
 ##--- Linear Model with nested design and repeated measures for Productivity
-mode<-lm(prod~trata+trata/COMP+TIME, data=dados)
+mode<-lm(prod~trata+trata/COMP+TIME, data=dados)#reproduzindo os resultados do artigo original, comparar com a tabela do artigo Nature
 mod1<-anova(mode)
-mode2<-lm(prod~trata+PD+TIME, data=dados)
+mode2<-lm(prod~trata/PD+TIME, data=dados)
 mod2<-anova(mode2)
 pf(mod1[1,3]/mod1[3,3], 2, 18, lower.tail=F)#valor de P para efeito do tratamento (diversidade)
 names(mod2)
 
 ##-- Quadratic Model with nested design and repeated measures for Productivity
-modeq<-lm(prod~trata+PD+I(PD^2)+TIME, data=dados)#model with PD as a quadratic term
+modeq<-lm(prod~trata/PD+trata/I(PD^2)+TIME, data=dados)#model with PD as a quadratic term
 anova(modeq)#the quadratic term is significant
 summary(modeq)#to get the parameters and estimated values of the model
 pred.mod<-predict(modeq)#predicted values for each observation
@@ -85,7 +85,7 @@ ggplot(dec.plot,aes(x=PD, y=Decomposition, colour=Diversity))+
 
 modeL<-lm(dc~trata+trata/COMP+TIME, data=dados)
 modee1<-anova(modeL)
-modee2<-lm(dc~trata+PD+TIME, data=dados)
+modee2<-lm(dc~trata/PD+TIME, data=dados)
 md2<-anova(modee2)
 pf(modee1[1,3]/modee1[3,3], 2, 18, lower.tail=F)#valor de P para efeito do tratamento (diversidade)
 names(md2)
@@ -100,7 +100,7 @@ m.resp.lin<-lm(resp~trata+PD+TIME, data=dados)
 res.resp.lin<-anova(m.resp.lin)
 pf(res.resp.lin[1,3]/res.resp.lin[3,3], 2, 18, lower.tail=F)#valor de P para efeito do tratamento (diversidade)
 
-mdeq<-lm(resp~trata+PD+I(PD^2)+TIME, data=dados)#model with PD as a quadratic term
+mdeq<-lm(resp~trata/PD+trata/I(PD^2)+TIME, data=dados)#model with PD as a quadratic term
 anova(mdeq)#the quadratic term is significant
 
 modq<-lm(resp~PD+I(PD^2), data=dados)#to get the values without time, to make the plot 
@@ -136,8 +136,12 @@ prod.PD<-lm(prod~trata+PD+TIME, data=dados)
 mq.prodPD<-lm(prod~trata+PD+I(PD^2)+TIME, data=dados)
 
 #-With MPD
-prod.pd<-lm(prod~trata+mpd+TIME, data=d)
-mq.mpd<-lm(prod~trata+mpd+I(mpd^2)+TIME, data=d)
+prod.pd<-lm(prod~trata/mpd+TIME, data=d)
+anova(prod.pd)
+mq.mpd<-lm(prod~trata/mpd+I(mpd^2)+TIME, data=d)
+aa1<-anova(mq.mpd)
+aa1[1,3]/(aa1[5,3]+aa1[1,3])#R2 do tratamento (Riqueza)
+aa1[4,3]/(aa1[5,3]+aa1[4,3])#R2 do MPD
 
 #-With Haed
 prod.haed<-lm(prod~trata+haed+TIME, data=d)
@@ -150,8 +154,9 @@ mq.rao<-lm(prod~trata+raodiv+I(raodiv^2)+TIME, data=d)
 #-With MNTD
 prod.mntd<-lm(prod~trata+mntd+TIME, data=d)
 anova(prod.mntd)
-mq.mntd<-lm(prod~trata+mntd+I(mntd^2)+TIME, data=d)
-anova(mq.mntd)
+mq.mntd<-lm(prod~trata/mntd+I(mntd^2)+TIME, data=d)
+za<-anova(mq.mntd)
+za[4,3]/(za[5,3]+za[4,3])#R2 do MPD
 
 #-With Simpson Phylogenetic
 prod.SimpPhyl<-lm(prod~trata+SimpsonPhyl+TIME, data=d)
@@ -183,7 +188,8 @@ qpd<-lm(resp~trata+PD+I(PD^2)+TIME, data=dados)
 
 #-With MPD
 resp.mpd<-lm(resp~trata+mpd+TIME, data=d)
-qmpd<-lm(resp~trata+mpd+I(mpd^2)+TIME, data=d)
+qmpd<-lm(resp~trata/mpd+I(mpd^2)+TIME, data=d)
+anova(qmpd)
 
 #-With Haed
 resp.haed<-lm(resp~trata+haed+TIME, data=d)
@@ -195,7 +201,9 @@ qrao<-lm(resp~trata+raodiv+I(raodiv^2)+TIME, data=d)
 
 #-With MNTD
 resp.mntd<-lm(resp~trata+mntd+TIME, data=d)
-qmntd<-lm(resp~trata+mntd+I(mntd^2)+TIME, data=d)
+qmntd<-lm(resp~trata/mntd+I(mntd^2)+TIME, data=d)
+dca<-anova(qmntd)
+dca[4,3]/(dca[5,3]+dca[4,3])#R2 do MNTD
 
 #-With Simpson Phylogenetic
 resp.SimpPhyl<-lm(resp~trata+SimpsonPhyl+TIME, data=d)
@@ -226,7 +234,8 @@ qdec<-lm(dc~trata+PD+I(PD^2)+TIME, data=dados)
 
 #-With MPD
 dec.mpd<-lm(dc~trata+mpd+TIME, data=d)
-decqmpd<-lm(dc~trata+mpd+I(mpd^2)+TIME, data=d)
+decqmpd<-lm(dc~trata/mpd+I(mpd^2)+TIME, data=d)
+anova(decqmpd)
 
 #-With Haed
 dc.haed<-lm(dc~trata+haed+TIME, data=d)
@@ -239,8 +248,9 @@ qdrao<-lm(dc~trata+raodiv+I(raodiv^2)+TIME, data=d)
 #-With MNTD
 dc.mntd<-lm(dc~trata+mntd+TIME, data=d)
 anova(dc.mntd)
-qdmntd<-lm(dc~trata*mntd+I(mntd^2)+TIME, data=d)
-anova(qdmntd)
+qdmntd<-lm(dc~trata/mntd+I(mntd^2)+TIME, data=d)
+deca<-anova(qdmntd)
+deca[4,3]/(deca[5,3]+deca[4,3])#R2 do MNTD
 
 #-With Simpson Phylogenetic
 dc.SimpPhyl<-lm(dc~trata+SimpsonPhyl+TIME, data=d)
