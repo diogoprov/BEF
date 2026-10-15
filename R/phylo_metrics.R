@@ -35,8 +35,31 @@ biomass_presence <- function(biomass, site_col = "tank") {
   m
 }
 
-# Faith's PD (root included), MPD, MNTD, PSV and richness for each site.
-# Unweighted (presence/absence) metrics; MNTD is NA for single-species sites.
+# Spelling used in the 2014 trees -> current tip labels
+fix_tip_labels <- function(tree) {
+  tree$tip.label <- dplyr::recode(tree$tip.label,
+    Potamageton_zosteriformis = "Potamogeton_zosteriformis",
+    Potamageton_crispus = "Potamogeton_crispus",
+    Hyallela_azteca = "Hyalella_azteca",
+    Helisoma_trivolis = "Helisoma_trivolvis"
+  )
+  tree
+}
+
+# Variance of pairwise phylogenetic distances (regularity dimension;
+# Tucker et al. 2017). NA for sites with fewer than two species.
+vpd <- function(comm, dist_mat) {
+  apply(comm, 1, \(x) {
+    sp <- names(x)[x > 0]
+    if (length(sp) < 2) return(NA_real_)
+    d <- dist_mat[sp, sp]
+    var(d[lower.tri(d)])
+  })
+}
+
+# Faith's PD (root included), MPD, MNTD, VPD, PSV and richness for each site.
+# Unweighted (presence/absence) metrics; MPD/MNTD/VPD are NA for
+# single-species sites.
 phylo_metrics <- function(comm, tree) {
   mm <- picante::match.phylo.comm(tree, comm)
   dist_mat <- ape::cophenetic.phylo(mm$phy)
@@ -47,6 +70,7 @@ phylo_metrics <- function(comm, tree) {
     PD   = pd$PD,
     MPD  = picante::mpd(mm$comm, dist_mat),
     MNTD = picante::mntd(mm$comm, dist_mat),
+    VPD  = vpd(mm$comm, dist_mat),
     PSV  = picante::psv(mm$comm, mm$phy)$PSVs
   )
 }

@@ -2,8 +2,11 @@
 # phylogenetic diversity metrics.
 #
 # Inputs (read-only): data/raw/nature2001/, data/raw/phylogeny/
+# Requires: data/derived/si_table1_long.csv (analysis/00a_initial_composition.py,
+#           Table 1 of the Downing & Leibold 2002 Supplementary Information)
 # Outputs: data/derived/bef_long.csv, data/derived/metrics_composition.csv,
-#          data/derived/metrics_tank.csv, output/tables/pd_checks.csv
+#          data/derived/metrics_initial.csv, data/derived/metrics_tank.csv,
+#          data/derived/comm_initial.csv, output/tables/pd_checks.csv
 
 library(tidyverse)
 library(readxl)
@@ -57,12 +60,47 @@ met_comp <- phylo_metrics(comm_comp, tree) |>
 met_tank <- phylo_metrics(comm_tank, tree) |>
   mutate(tank = as.integer(site), .keep = "unused", .before = 1)
 
+# ---- Initial (stocked) composition: SI Table 1 of Downing & Leibold 2002 ----
+si <- read_csv(here("data", "derived", "si_table1_long.csv"), show_col_types = FALSE)
+comm_init <- si |>
+  mutate(stocked = as.integer(status %in% c("stocked_survived", "stocked_extinct"))) |>
+  select(comp, species, stocked) |>
+  pivot_wider(names_from = species, values_from = stocked) |>
+  arrange(comp) |>
+  column_to_rownames("comp") |>
+  as.matrix()
+
+# Design check: 1, 3 or 5 species per functional group (3, 9, 15 in total)
+stopifnot(all(rowSums(comm_init) == rep(c(3, 9, 15), each = 7)))
+# Final composition in the SI (survivors + invaders) == treat.txt
+final_si <- si |>
+  mutate(present = as.integer(status %in% c("stocked_survived", "invader"))) |>
+  select(comp, species, present) |>
+  pivot_wider(names_from = species, values_from = present) |>
+  arrange(comp) |>
+  column_to_rownames("comp") |>
+  as.matrix()
+stopifnot(all(final_si[, colnames(comm_comp)] == comm_comp),
+          all(final_si[, setdiff(colnames(final_si), colnames(comm_comp))] == 0))
+
+# The initial pool includes Utricularia and Vallisneria (extinct in all tanks),
+# so it requires the original 21-species pseudochronogram (commit 4b4da4d)
+tree21 <- read.tree(here("data", "raw", "phylogeny", "phylog_dated_2002_21spp_4b4da4d.txt")) |>
+  fix_tip_labels()
+stopifnot(is.ultrametric(tree21, tol = 1e-4), setequal(tree21$tip.label, colnames(comm_init)))
+
+met_init <- phylo_metrics(comm_init, tree21) |>
+  mutate(comp = as.integer(site), .keep = "unused", .before = 1)
+stopifnot(all(met_init$SR == rep(c(3, 9, 15), each = 7)))
+write_csv(as_tibble(comm_init, rownames = "comp"), here("data", "derived", "comm_initial.csv"))
+write_csv(met_init, here("data", "derived", "metrics_initial.csv"))
+
 # Sensitivity to branch lengths: Grafen (topology only) and unit branch lengths
 tree_grafen <- compute.brlen(tree, method = "Grafen")
 tree_unit <- compute.brlen(tree, 1)
 sens <- map(list(bladj = tree, grafen = tree_grafen, unit = tree_unit),
             \(tr) phylo_metrics(comm_comp, tr))
-sens_cor <- map_dfr(c("PD", "MPD", "MNTD", "PSV"), \(v) tibble(
+sens_cor <- map_dfr(c("PD", "MPD", "MNTD", "VPD", "PSV"), \(v) tibble(
   metric = v,
   r_grafen = cor(sens$bladj[[v]], sens$grafen[[v]]),
   r_unit = cor(sens$bladj[[v]], sens$unit[[v]])
@@ -81,6 +119,7 @@ print(pd_checks, n = 21)
 # ---- Assemble long data ----
 bef <- ef |>
   left_join(met_comp |> rename_with(\(x) paste0(x, "_comp"), -comp), by = "comp") |>
+  left_join(met_init |> rename_with(\(x) paste0(x, "_init"), -comp), by = "comp") |>
   left_join(met_tank |> rename_with(\(x) paste0(x, "_tank"), -tank), by = "tank") |>
   mutate(
     # acid pulse applied after sampling period 2
@@ -94,9 +133,12 @@ write_csv(met_comp, here("data", "derived", "metrics_composition.csv"))
 write_csv(met_tank, here("data", "derived", "metrics_tank.csv"))
 
 # Correlations among composition-level predictors (21 compositions)
-met_comp |>
+cor_tab <- met_init |>
+  rename_with(\(x) paste0(x, "_init"), -comp) |>
+  left_join(met_comp |> rename_with(\(x) paste0(x, "_final"), -comp), by = "comp") |>
   left_join(distinct(ef, comp, div), by = "comp") |>
-  select(div, SR, PD, MPD, MNTD, PSV) |>
-  cor() |>
-  round(2) |>
-  print()
+  select(div, PD_init, MPD_init, MNTD_init, VPD_init, SR_final, PD_final, MPD_final, MNTD_final, VPD_final) |>
+  cor(use = "pairwise.complete.obs") |>
+  round(2)
+print(cor_tab)
+write_csv(as_tibble(cor_tab, rownames = "var"), here("output", "tables", "predictor_correlations.csv"))

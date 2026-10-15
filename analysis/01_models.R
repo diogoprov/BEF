@@ -31,11 +31,7 @@ dir.create(here("output", "models"), showWarnings = FALSE, recursive = TRUE)
 dir.create(here("output", "tables"), showWarnings = FALSE, recursive = TRUE)
 dir.create(here("figures", "ppc"), showWarnings = FALSE, recursive = TRUE)
 
-z <- \(x) as.numeric(scale(x))
-SEED <- 20261015
-ITER <- 2000
-ITER_MV <- 4000
-CONTROL <- list(adapt_delta = 0.95)
+source(here("R", "brms_helpers.R"))
 
 # ---- Data ----
 bef <- read_csv(here("data", "derived", "bef_long.csv"), show_col_types = FALSE)
@@ -46,91 +42,14 @@ comp_preds <- bef |>
 
 d <- bef |>
   left_join(select(comp_preds, comp, zPD, zMPD, zMNTD), by = "comp") |>
-  mutate(
-    y_prod = z(prod),
-    y_resp = z(log(resp)),
-    y_dc   = z(dc),
-    div    = factor(div, levels = c(1, 9, 15), labels = c("S3", "S9", "S15")),
-    ftime  = factor(time),
-    comp   = factor(comp),
-    tank   = factor(tank)
-  )
+  prep_data()
 
-responses <- c(prod = "y_prod", resp = "y_resp", dc = "y_dc")
-families <- list(y_prod = gaussian(), y_resp = gaussian(), y_dc = student())
 predictors <- c("zMPD", "zPD", "zMNTD")
-
-# ---- Priors (standardized scale) ----
-priors_uni <- c(
-  prior(normal(0, 1), class = b),
-  prior(exponential(2), class = sd),
-  prior(exponential(1), class = sigma),
-  prior(normal(0, 0.5), class = ar)
-)
-prior_nu <- prior(gamma(2, 0.1), class = nu)
-
-rhs <- function(x, ar = TRUE) {
-  paste0(
-    "0 + div + div:", x, " + ftime + dist + dist:post + (1 | comp) + (1 | tank)",
-    if (ar) " + ar(time = time, gr = tank, p = 1)" else ""
-  )
-}
-
-fit_uni <- function(resp, x, ar = TRUE) {
-  name <- paste("uni", resp, x, if (ar) "ar1" else "noar", sep = "_")
-  brm(
-    bf(paste(resp, "~", rhs(x, ar))),
-    data = d, family = families[[resp]],
-    prior = c(if (ar) priors_uni else priors_uni[priors_uni$class != "ar", ],
-              if (families[[resp]]$family == "student") prior_nu),
-    iter = ITER, chains = 4, seed = SEED, control = CONTROL,
-    file = here("output", "models", name), file_refit = "on_change"
-  )
-}
-
-# ---- Diagnostics helper ----
-diagnose <- function(fit, name) {
-  s <- summarise_draws(as_draws_df(fit), "rhat", "ess_bulk", "ess_tail")
-  np <- nuts_params(fit)
-  tibble(
-    model = name,
-    max_rhat = max(s$rhat, na.rm = TRUE),
-    min_ess_bulk = min(s$ess_bulk, na.rm = TRUE),
-    min_ess_tail = min(s$ess_tail, na.rm = TRUE),
-    divergences = sum(np$Value[np$Parameter == "divergent__"]),
-    max_treedepth_hits = sum(np$Value[np$Parameter == "treedepth__"] >= 10)
-  )
-}
-
-# Slopes of predictor x per richness level, plus their average
-slope_draws <- function(fit, x, resp_prefix = "") {
-  dr <- as_draws_df(fit)
-  lv <- levels(d$div)
-  cols <- paste0("b_", resp_prefix, "div", lv, ":", x)
-  out <- map(cols, \(cl) dr[[cl]]) |> set_names(lv)
-  out$average <- rowMeans(do.call(cbind, out))
-  out
-}
-
-summarise_slopes <- function(sl, model, response, x) {
-  imap_dfr(sl, \(v, k) tibble(
-    model = model, response = response, predictor = x, div = k,
-    mean = mean(v),
-    q2.5 = quantile(v, 0.025), q97.5 = quantile(v, 0.975),
-    q0.83 = quantile(v, 0.05 / 6), q99.17 = quantile(v, 1 - 0.05 / 6),
-    p_gt0 = mean(v > 0)
-  ))
-}
-
-save_ppc <- function(fit, name, resp = NULL) {
-  p <- pp_check(fit, ndraws = 100, resp = resp) + ggtitle(name)
-  ggsave(here("figures", "ppc", paste0(name, ".png")), p, width = 5, height = 3.5, dpi = 150)
-}
 
 # ---- Step 1: is AR(1) needed? (MPD models, with vs without AR) ----
 ar_check <- imap_dfr(responses, \(r, nm) {
-  f_ar <- fit_uni(r, "zMPD", ar = TRUE)
-  f_no <- fit_uni(r, "zMPD", ar = FALSE)
+  f_ar <- fit_uni(r, "zMPD", data = d, ar = TRUE)
+  f_no <- fit_uni(r, "zMPD", data = d, ar = FALSE)
   ar_dr <- as_draws_df(f_ar)$`ar[1]`
   lc <- loo_compare(list(ar1 = loo(f_ar), noar = loo(f_no)))
   tibble(
@@ -144,7 +63,7 @@ print(ar_check)
 
 # ---- Step 2: univariate models (AR1) for each response x predictor ----
 uni <- expand_grid(resp = names(responses), x = predictors) |>
-  mutate(fit = map2(resp, x, \(r, x) fit_uni(responses[[r]], x, ar = TRUE)),
+  mutate(fit = map2(resp, x, \(r, x) fit_uni(responses[[r]], x, data = d, ar = TRUE)),
          name = paste("uni", resp, x, sep = "_"))
 
 diag_uni <- pmap_dfr(list(uni$fit, uni$name), diagnose)

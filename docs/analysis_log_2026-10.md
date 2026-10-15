@@ -58,3 +58,49 @@
   e não da inicial manipulada.
 - Opcional: modelos com métricas por tanque; interação MPD × distúrbio
   (estabilidade).
+
+## 5. Composição inicial (suplemento da *Nature*)
+
+- `analysis/00a_initial_composition.py` extrai a Table 1 do SI de Downing &
+  Leibold (2002) (`refs/`, não versionado): "–" não estocada; "0" estocada e
+  extinta; valor = estocada e sobreviveu; itálico = invasora. Validação: todas
+  as 21 composições têm 1/3/5 espécies por grupo funcional; sobreviventes +
+  invasoras reproduzem exatamente o `treat.txt`. Invasoras: *Neoplea* (7
+  composições), *Physa* (7), *Trichocorixa* (3), *Belostoma* (1).
+- Métricas da composição inicial usam a árvore de 21 espécies (commit
+  `4b4da4d`, `data/raw/phylogeny/phylog_dated_2002_21spp_4b4da4d.txt`).
+- **As métricas iniciais são quase determinadas pela riqueza**: fração da
+  variância dentro dos níveis de riqueza = 2% (PD), 11% (MPD), 86% (VPD).
+  Causa: cada composição tem proporções iguais de macrófitas, herbívoros e
+  predadores, e a divergência planta–animal domina as distâncias.
+
+## 6. Passo 2 (`analysis/02_initial_composition.R`)
+
+- PD, MPD, VPD fixados a priori (Tucker et al. 2017), padronizados dentro de
+  cada nível de riqueza; composição inicial e final.
+- Nenhuma inclinação credível. Maior: dc ~ MPD inicial 0,25 [−0,06; 0,57].
+- Variância entre composições pequena e mal estimada (sd_comp: prod 0,16,
+  resp 0,20, dc 0,29; sigma 0,37–0,58); R² de composição não informativo.
+- Riqueza: S15 ≈ +0,4 DP acima de S9 em prod e resp; S3 ≈ S9.
+
+## 7. Passo 3 (`analysis/03_disturbance.R`)
+
+- Resistência (período 3) e fase de recuperação (4–6) por nível de riqueza.
+  Respiração: queda ≈ −1 DP em todos os níveis; recuperação (late − early)
+  S3 0,42 [0,12; 0,74], S9 0,18 [−0,13; 0,49], S15 0,71 [0,39; 1,02].
+- Modulação filogenética: nenhuma credível em 98,33%. Único IC 95% sem zero:
+  resp, PD inicial × fase de recuperação −0,19 [−0,35; −0,04] (1 de 24
+  testes; esperado ~1 por acaso).
+
+## 8. Passo 4 — avaliação
+
+- Modelo de identidade de espécie como efeito aleatório de composição com
+  covariância K = P C Pᵀ (filogenético) e P Pᵀ (identidade), kernels
+  duplo-centrados; ligação com DI models (Kirwan et al. 2009; Connolly et al.
+  2011): com proporções iguais, a interação dependente da distância
+  filogenética se reduz a θ(S−1)/(2S)·MPD.
+- T98: alinhamento entre kernels 0,87; posto 18; variância entre composições
+  pequena → separação filogenia vs identidade fracamente identificada.
+- T99 (Downing 2005, Ecology): 26 composições com composição de grupos
+  funcionais variável; alinhamento 0,70; razão de traços Kphy/Kid 1,57
+  (T98: 0,26). Candidato melhor para o passo 4 e para replicação.
