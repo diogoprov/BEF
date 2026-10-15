@@ -29,11 +29,11 @@ d98 <- bef |>
   prep_data()
 d99 <- prep_t99()
 
-rhs_a99 <- paste0("0 + cell + zw_MPD_init + ftime + dist + dist:post", random_ar)
+rhs_a99 <- \(resp) paste0("0 + cell + zw_MPD_init + ftime + dist + dist:post", random_for(resp))
 
 models <- bind_rows(
   tibble(exp = "T98", resp = names(responses), y = unname(responses),
-         name = paste0("uni_", unname(responses), "_zw_MPD_init_ar1")),
+         name = paste0("uni_", unname(responses), "_zw_MPD_init_ar1", c("_sig", "_sig", ""))),
   tibble(exp = "T99", resp = names(responses99), y = unname(responses99),
          name = paste0("t99a_", names(responses99), "_zw_MPD_init_sig"))
 )
@@ -41,9 +41,9 @@ models <- bind_rows(
 get_fit <- function(exp, resp, y, name, prior_only = FALSE) {
   nm <- if (prior_only) paste0(name, "_prioronly") else name
   if (exp == "T98") {
-    f <- fit_uni(y, "zw_MPD_init", data = d98)
+    f <- fit_uni(y, "zw_MPD_init", data = d98, sigma_rhs = sigma98[[y]])
   } else {
-    f <- fit_uni(y, data = d99, name = name, rhs_override = rhs_a99, sigma_rhs = sigma99[[resp]])
+    f <- fit_uni(y, data = d99, name = name, rhs_override = rhs_a99(resp), sigma_rhs = sigma99[[resp]])
   }
   if (!prior_only) return(f)
   update(f, sample_prior = "only", recompile = TRUE, seed = SEED, refresh = 0,

@@ -32,11 +32,13 @@ run("analysis/03_disturbance.R")             # step 3: resistance and recovery
 # T99 (Downing 2005)
 run("analysis/10_build_data_t99.R")
 run("analysis/11_models_t99.R")              # steps 2-3 and cells vs phylogenetic metrics
-run("analysis/12_influence_t99.R")           # leave-one-composition-out
+run("analysis/12_influence_t99.R")           # leave-one-composition-out (effects excluding zero)
 run("analysis/13_species_identity_t99.R")    # Box: phylogenetically structured species effects
 
 # BARG checks
 run("analysis/14_prior_checks.R")            # prior predictive and prior sensitivity
+run("analysis/15_ppc_detail.R")              # grouped posterior predictive checks
+run("analysis/16_variance_sensitivity_t99.R") # alternative variance structures (T99)
 
 # Report
 stopifnot(system2("quarto", c("render", shQuote(here("analysis", "report.qmd")))) == 0)

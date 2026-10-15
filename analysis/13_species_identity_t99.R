@@ -59,14 +59,15 @@ message("Kernel alignment (phy vs id): ", round(alignment, 3))
 
 d <- d |> mutate(comp_phy = comp, comp_id = comp)
 
-rhs_sp <- paste0("0 + rich + ftime + dist + dist:post",
-                 " + (1 | gr(comp_phy, cov = K_phy)) + (1 | gr(comp_id, cov = K_id))",
-                 " + (1 | comp) + (1 | tank) + ar(time = time, gr = tank, p = 1)")
+rhs_sp_for <- \(resp) paste0("0 + rich + ftime + dist + dist:post",
+                             " + (1 | gr(comp_phy, cov = K_phy)) + (1 | gr(comp_id, cov = K_id))",
+                             random_for(resp))
 
 fit_sp <- function(resp, prior_only = FALSE) {
   r <- responses99[[resp]]
   sig <- sigma99[[resp]]
-  pri <- priors_uni
+  rhs_sp <- rhs_sp_for(resp)
+  pri <- if (grepl("ar(", rhs_sp, fixed = TRUE)) priors_uni else priors_uni[priors_uni$class != "ar", ]
   if (!is.null(sig)) pri <- c(pri[pri$class != "sigma", ], priors_sigma)
   if (families[[r]]$family == "student") pri <- c(pri, prior_nu)
   brm(

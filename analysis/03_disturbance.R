@@ -40,9 +40,10 @@ rhs_dist <- function(x) {
 }
 
 fits <- expand_grid(resp = names(responses), x = predictors) |>
-  mutate(name = paste("dist", resp, x, sep = "_"),
+  mutate(name = paste0(paste("dist", resp, x, sep = "_"), if_else(resp %in% c("prod", "resp"), "_sig", "")),
          fit = pmap(list(resp, x, name), \(r, x, nm)
-           fit_uni(responses[[r]], data = d, name = nm, rhs_override = rhs_dist(x))))
+           fit_uni(responses[[r]], data = d, name = nm, rhs_override = rhs_dist(x),
+                   sigma_rhs = sigma98[[responses[[r]]]])))
 
 diag <- pmap_dfr(list(fits$fit, fits$name), diagnose)
 print(diag, n = Inf)

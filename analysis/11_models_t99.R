@@ -33,11 +33,11 @@ metrics <- metrics99
 d <- prep_t99()
 
 # ---- (a) within-cell slopes ----
-rhs_a <- \(x) paste0("0 + cell + ", x, " + ftime + dist + dist:post", random_ar)
+rhs_a <- \(x, resp) paste0("0 + cell + ", x, " + ftime + dist + dist:post", random_for(resp))
 fits_a <- expand_grid(resp = names(responses99), x = paste0("zw_", metrics)) |>
   mutate(name = paste("t99a", resp, x, "sig", sep = "_"),
          fit = pmap(list(resp, x, name), \(r, x, nm)
-           fit_uni(responses99[[r]], data = d, name = nm, rhs_override = rhs_a(x), sigma_rhs = sigma99[[r]])))
+           fit_uni(responses99[[r]], data = d, name = nm, rhs_override = rhs_a(x, r), sigma_rhs = sigma99[[r]])))
 
 slopes_a <- pmap_dfr(list(fits_a$fit, fits_a$resp, fits_a$x), \(f, r, x)
   bind_cols(tibble(response = r, predictor = x),
@@ -54,7 +54,7 @@ rhs_b <- list(
 fits_b <- expand_grid(resp = names(responses99), model = names(rhs_b)) |>
   mutate(name = paste("t99b", resp, model, "sig", sep = "_"),
          fit = pmap(list(resp, model, name), \(r, m, nm)
-           fit_uni(responses99[[r]], data = d, name = nm, rhs_override = paste0(rhs_b[[m]], random_ar),
+           fit_uni(responses99[[r]], data = d, name = nm, rhs_override = paste0(rhs_b[[m]], random_for(r)),
                    sigma_rhs = sigma99[[r]])))
 
 sd_comp <- \(f) as_draws_df(f)$sd_comp__Intercept
@@ -85,7 +85,7 @@ slopes_b <- fits_b |>
 fits_c <- expand_grid(resp = names(responses99), x = paste0("zw_", metrics)) |>
   mutate(name = paste("t99c", resp, x, "sig", sep = "_"),
          fit = pmap(list(resp, x, name), \(r, x, nm)
-           fit_uni(responses99[[r]], data = d, name = nm, rhs_override = rhs_c(x), sigma_rhs = sigma99[[r]])))
+           fit_uni(responses99[[r]], data = d, name = nm, rhs_override = rhs_c(x, r), sigma_rhs = sigma99[[r]])))
 
 effects_c <- pmap_dfr(list(fits_c$fit, fits_c$resp, fits_c$x), \(f, r, x) {
   dr <- as_draws_df(f)

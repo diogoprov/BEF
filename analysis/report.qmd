@@ -72,9 +72,19 @@ get_w <- \(w, m, col) w[[col]][w$metric == m]
   among-composition variance; VPD alone for
   `r pct(r2b$r2_comp[r2b$resp == "prod" & r2b$model == "rich_VPD"])` and
   `r pct(r2b$r2_comp[r2b$resp == "resp" & r2b$model == "rich_VPD"])`; PD for none.
-- **The acid pulse strongly depressed respiration and productivity, followed by
-  recovery**; phylogenetic metrics did not robustly modulate resistance or
-  recovery (an apparent effect in T99 depends on a single composition).
+- **The acid pulse strongly depressed respiration (≈ −1 SD) and, less,
+  productivity, followed by recovery of respiration.** Phylogenetic metrics did
+  not robustly modulate resistance or recovery of productivity and respiration
+  (the apparent T99 effect depends on a single composition). In T99 only,
+  higher PD/MPD was associated with a larger post-pulse increase in
+  decomposition (robust to leaving out single compositions at the 95% level),
+  but this was not replicated in T98 and is one of ~48 modulation tests; we
+  treat it as exploratory.
+- **Why this matters:** Srivastava et al. (2012) argued that phylogenetic
+  diversity may predict ecosystem function "from single-trophic to complex
+  networks". Experiments manipulating more than two trophic levels are rare;
+  these two are among the few, and they show that whole-community phylogenetic
+  metrics largely restate trophic structure.
 - **Box (exploratory):** a Diversity–Interaction-type model with
   phylogenetically structured species identity effects is not identifiable with
   these designs (posterior ≈ prior for the phylogenetic share).
@@ -226,7 +236,7 @@ For tank $j$ in composition $c[j]$ at sampling period $t$, the primary model
 
 ```{r}
 #| label: fig-dag
-#| fig-cap: "Directed acyclic graph of the primary model (T99 version; in T98 the design cells are richness levels with level-specific slopes, and σ is constant)."
+#| fig-cap: "Directed acyclic graph of the primary model (T99 version; in T98 the design cells are richness levels with level-specific slopes). σ varies by period for productivity and respiration; decomposition has constant σ, Student-t errors and, in T99, no AR(1) term."
 #| out-width: "100%"
 DiagrammeR::grViz("
 digraph bef_dag {
@@ -241,7 +251,7 @@ digraph bef_dag {
   Pb  [label='α, β, γ, δ, θ ~ N(0, 1²)']
   Ps  [label='σ_comp, σ_tank ~ Exp(2)']
   Pa  [label='φ ~ N(0, 0.5²), |φ| < 1']
-  Pe  [label='T98: σ ~ Exp(1)\nT99: log σ_t = κ₀ + κ_t,\nκ ~ N(0, 1²)']
+  Pe  [label='prod, resp: log σ_t = κ₀ + κ_t,\nκ ~ N(0, 1²); dc: σ ~ Exp(1)']
 
   # Parameters
   node [shape=ellipse, style=filled, fillcolor='#FFF9C4',
@@ -332,8 +342,10 @@ v_j \sim \mathcal{N}(0, \sigma^2_{\text{tank}}), \qquad
 $$
 
 $$
-\log \sigma_t = \kappa_0 + \kappa_t \quad \text{(T99 prod, resp; sum-to-zero contrasts)}
+\log \sigma_t = \kappa_0 + \kappa_t \quad \text{(prod, resp; in T99 with sum-to-zero contrasts)}
 $$
+
+The AR(1) term is omitted for T99 decomposition (see @sec-ppc).
 
 **Stage 4 — Priors** (see @sec-priors)
 
@@ -355,10 +367,9 @@ tribble(
   "Fixed effects (cells, periods, pulse, phylogenetic slopes)", "N(0, 1)", "Weakly informative on the z-scale: effects of ±2 SD are plausible, larger ones rare",
   "σ_comp, σ_tank", "Exponential(2)", "Prior mean 0.5 SD; among-unit SDs larger than the total SD are implausible",
   "σ (constant)", "Exponential(1)", "Residual SD below the total SD of 1",
-  "log σ_t: intercept and period effects (T99)", "N(0, 1)", "Allows several-fold changes in residual SD among periods (observed: 3–5-fold)",
+  "log σ_t: intercept and period effects (prod, resp)", "N(0, 1)", "Allows several-fold changes in residual SD among periods (observed: up to 1.5-fold in T98, 3–5-fold in T99)",
   "AR(1) coefficient φ", "N(0, 0.5), bounded (−1, 1)", "Moderate autocorrelation most plausible",
-  "Student-t ν (dc)", "Gamma(2, 0.1)", "brms default; allows heavy to near-Gaussian tails",
-  "Correlations (multivariate model)", "LKJ(2)", "Mild shrinkage towards zero"
+  "Student-t ν (dc)", "Gamma(2, 0.1)", "brms default; allows heavy to near-Gaussian tails"
 ) |> kable()
 ```
 
@@ -378,14 +389,15 @@ tab("prior_predictive_summary") |>
 ```{r}
 #| label: fig-prior-pred
 #| fig-cap: "Prior predictive density (light) vs observed standardized response (dark)."
+#| fig-subcap: ["T98 decomposition", "T98 productivity", "T98 respiration", "T99 decomposition", "T99 productivity", "T99 respiration"]
 #| layout-ncol: 3
-include_graphics(list.files(here("figures", "prior_predictive"), full.names = TRUE))
+include_graphics(here("figures", "prior_predictive", paste0(rep(c("T98", "T99"), each = 3), "_", c("dc", "prod", "resp"), ".png")))
 ```
 
-The priors are weakly informative for T98 and for T99 decomposition. In T99,
-the prior on the residual-SD submodel is diffuse on the outcome scale (the sum
-of an intercept and 13 period effects on the log scale), producing a long
-prior-predictive tail; power-scaling shows that posteriors are not sensitive
+The priors are weakly informative for decomposition. For productivity and
+respiration, the prior on the residual-SD submodel is diffuse on the outcome
+scale (the sum of an intercept and period effects on the log scale), producing
+a long prior-predictive tail; power-scaling shows that posteriors are not sensitive
 to it (@sec-priorsense).
 
 # Computation and model checking
@@ -400,7 +412,6 @@ refitted with 4000 iterations and `adapt_delta = 0.99`.
 #| label: tbl-diagnostics
 #| tbl-cap: "Convergence summary by analysis (worst value across all parameters and models)."
 diag_all <- bind_rows(
-  tab("diagnostics") |> mutate(analysis = "T98 final composition (step 1)"),
   tab("step2_diagnostics") |> mutate(analysis = "T98 step 2"),
   tab("step3_diagnostics") |> mutate(analysis = "T98 step 3"),
   tab("t99_diagnostics") |> mutate(analysis = "T99 steps 2–3"),
@@ -413,9 +424,10 @@ diag_all |>
   kable()
 ```
 
-In the T98 multivariate model, R-hat reached 1.017 only for a nuisance
-parameter (tank-level correlation between productivity and decomposition,
-posterior mean ≈ 0); all focal parameters had R-hat ≤ 1.01.
+Maximum-treedepth warnings occurred only in T99 decomposition models refitted
+with 8000 post-warm-up transitions (≤ 0.5% of transitions); they indicate
+reduced sampling efficiency, not biased estimates, and all R-hat and ESS
+criteria were met.
 
 ## Residual autocorrelation and variance structure
 
@@ -428,21 +440,57 @@ tab("ar1_check") |>
   kable()
 ```
 
-In T99 the residual SD of productivity and respiration varies 3–5-fold among
-periods (largest right after the pulse). A first fit with Student-t errors
-absorbed this as very heavy tails (ν ≈ 2); the final models use a
-distributional submodel for σ. The Student-t results are kept as a
-sensitivity analysis (`output/tables/sensitivity/`).
+The residual SD of productivity and respiration varies among periods
+(up to 1.5-fold in T98, 3–5-fold in T99, largest right after the pulse), as
+shown by grouped posterior predictive checks of earlier constant-σ fits. In
+T99, a first fit with Student-t errors absorbed this as very heavy tails
+(ν ≈ 2). The final models use a distributional submodel for σ; the Student-t
+results are kept as a sensitivity analysis (`output/tables/sensitivity/`).
 
-## Posterior predictive checks
+For T99 decomposition, models with AR(1) failed to reproduce the mean of each
+sampling period (grouped posterior predictive p = 0 or 1 in 7 of 10 periods,
+with Gaussian or Student-t errors), whereas models without AR(1) did
+(p = 0.42–0.64). Residual autocorrelation of decomposition is negligible
+(T98: φ ≈ 0.05), so AR(1) was omitted for T99 decomposition.
+
+## Posterior predictive checks {#sec-ppc}
+
+Density overlays are a weak check; each panel below also compares the observed
+mean and SD within each sampling period and design stratum with their
+posterior predictive distributions, and shows LOO-PIT calibration.
+
+```{r}
+#| label: tbl-ppc-grouped
+#| tbl-cap: "Grouped posterior predictive checks of the primary MPD models: number of groups (periods or strata) whose observed statistic falls outside the central 90% of its posterior predictive distribution (p < 0.05 or p > 0.95)."
+tab("ppc_grouped_pvalues") |>
+  summarise(groups = n(), outside_90 = sum(p < 0.05 | p > 0.95), .by = c(exp, response, stat, group)) |>
+  kable()
+```
 
 ```{r}
 #| label: fig-ppc
-#| fig-cap: "Posterior predictive checks of the primary MPD models (initial composition). Top: T98; bottom: T99."
-#| layout-ncol: 3
-include_graphics(here("figures", "ppc", c(
-  "uni_prod_zw_MPD_init.png", "uni_resp_zw_MPD_init.png", "uni_dc_zw_MPD_init.png",
-  "t99a_prod_zw_MPD_init_sig.png", "t99a_resp_zw_MPD_init_sig.png", "t99a_dc_zw_MPD_init_sig.png")))
+#| fig-cap: "Posterior predictive checks of the primary MPD models (initial composition)."
+#| fig-subcap: ["T98 productivity", "T98 respiration", "T98 decomposition", "T99 productivity", "T99 respiration", "T99 decomposition"]
+#| layout-ncol: 2
+include_graphics(here("figures", "ppc_detail", paste0(rep(c("T98", "T99"), each = 3), "_", c("prod", "resp", "dc"), ".png")))
+```
+
+LOO-PIT is shown only for models without AR(1), because with AR terms the
+pointwise log-likelihood is conditional on the previous observation and
+PSIS-LOO is not valid. Period means are reproduced in all models. The SD
+within some sampling periods is not reproduced for T99 respiration (and, to
+a lesser degree, productivity and decomposition), even when σ varies by
+period. None of four alternative variance structures removed this misfit,
+and the focal slope was insensitive to them:
+
+```{r}
+#| label: tbl-var-sens
+#| tbl-cap: "T99: grouped posterior predictive checks and the within-cell MPD slope under alternative variance structures (number of periods whose observed SD or mean falls outside the central 90% of the posterior predictive distribution)."
+tab("t99_variance_sensitivity") |>
+  transmute(response, variant, `SD outside` = paste0(sd_outside, "/", periods),
+            `mean outside` = paste0(mean_outside, "/", periods),
+            `MPD slope` = ci(slope, q2.5, q97.5), max_rhat = round(max_rhat, 3)) |>
+  kable()
 ```
 
 ## Prior sensitivity (priorsense) {#sec-priorsense}
@@ -463,27 +511,17 @@ whose prior sensitivity (0.053) is at the threshold; its posterior
 
 # Results — T98
 
-## Step 1: final-composition metrics
+## Metrics fixed *a priori*, within richness levels
 
 ```{r}
-#| label: fig-t98-step1
-#| fig-cap: "T98: slopes of final-composition metrics (globally standardized) on each response; average across richness levels; 95% (thick) and 98.33% (thin) credible intervals."
-#| fig-height: 3.5
+#| label: fig-t98-step2
+#| fig-cap: "T98: average within-richness slopes of PD, MPD and VPD (initial and final composition); 95% (thick) and 98.33% (thin) credible intervals."
+#| fig-height: 4
 forest <- \(df, x = "predictor") ggplot(df, aes(mean, .data[[x]])) +
   geom_vline(xintercept = 0, linetype = 2, colour = "grey50") +
   geom_linerange(aes(xmin = q0.83, xmax = q99.17), linewidth = 0.4) +
   geom_linerange(aes(xmin = q2.5, xmax = q97.5), linewidth = 1.2) +
   geom_point(size = 2) + labs(x = "Effect (SD of response per SD of predictor)", y = NULL)
-tab("pd_slopes") |> filter(div == "average", model == "univariate") |>
-  forest() + facet_wrap(~response)
-```
-
-## Step 2: metrics fixed *a priori*, within richness levels
-
-```{r}
-#| label: fig-t98-step2
-#| fig-cap: "T98: average within-richness slopes of PD, MPD and VPD (initial and final composition)."
-#| fig-height: 4
 s98 <- tab("step2_slopes") |> filter(div == "average") |>
   mutate(predictor = str_remove(predictor, "^zw_"))
 forest(s98) + facet_wrap(~response)
@@ -491,11 +529,10 @@ forest(s98) + facet_wrap(~response)
 
 ```{r}
 #| label: tbl-t98-varcomp
-#| tbl-cap: "T98: proportion of among-composition variance explained by each metric relative to a richness-only model (posterior medians are very uncertain because σ_comp is small)."
+#| tbl-cap: "T98: among-composition SD (posterior median) in the richness-only model and with each metric. Among-composition variance is small, so the share explained by a metric cannot be estimated reliably (draw-wise ratios span from strongly negative to ~1)."
 tab("step2_r2_composition") |>
   transmute(response, predictor = str_remove(predictor, "^zw_"),
-            `σ_comp (base)` = f2(sd_comp_base), `σ_comp (with metric)` = f2(sd_comp_x),
-            `R²_comp` = ci(r2_comp_ratio_of_means, q2.5, q97.5)) |>
+            `σ_comp (richness only)` = f2(sd_comp_base), `σ_comp (with metric)` = f2(sd_comp_x)) |>
   kable()
 ```
 
@@ -574,16 +611,19 @@ c99 |> filter(str_detect(term, "modulates")) |>
 
 ```{r}
 #| label: fig-influence
-#| fig-cap: "T99: MPD × recovery-phase effect when each composition is left out in turn (red: full data)."
-#| fig-height: 5
+#| fig-cap: "T99: effects whose 95% interval excluded zero, re-estimated leaving out each composition in turn (red: full data). Top row: modulation of the recovery phase; last panel: within-cell MPD slope on decomposition."
+#| fig-height: 6
+#| fig-width: 10
 inf <- tab("t99_influence_mpd_recovery")
-inf |> mutate(dropped = fct_reorder(dropped, mean)) |>
+inf |> mutate(dropped = fct_reorder(dropped, mean),
+              panel = paste(response, str_remove(predictor, "^zw_"), sep = ": ")) |>
   ggplot(aes(mean, dropped, colour = dropped == "none")) +
   geom_vline(xintercept = 0, linetype = 2, colour = "grey50") +
   geom_linerange(aes(xmin = q2.5, xmax = q97.5)) + geom_point() +
   scale_colour_manual(values = c(`FALSE` = "black", `TRUE` = "red"), guide = "none") +
-  facet_grid(~ response + predictor) +
-  labs(x = "MPD × recovery-phase effect", y = "Composition left out")
+  facet_wrap(~ effect + panel, nrow = 2, scales = "free_x") +
+  theme(axis.text.y = element_text(size = 6)) +
+  labs(x = "Effect", y = "Composition left out")
 ```
 
 The negative MPD × recovery-phase effect disappears when composition 12 (cell
@@ -592,6 +632,23 @@ already had lower productivity and respiration than the two control tanks
 before the pulse and higher values afterwards, so much of its apparent
 "recovery" reflects a pre-treatment imbalance. We therefore do not interpret
 this effect.
+
+```{r}
+#| label: tbl-influence
+#| tbl-cap: "Leave-one-composition-out summary: number of the 26 refits whose 95% and 98.33% intervals exclude zero."
+inf |> filter(dropped != "none") |>
+  summarise(full = round(mean[1], 2), min = round(min(mean), 2), max = round(max(mean), 2),
+            `95% excl. 0` = sum(q2.5 > 0 | q97.5 < 0), `98.33% excl. 0` = sum(q0.83 > 0 | q99.17 < 0),
+            .by = c(response, predictor, effect)) |>
+  mutate(full = round(inf$mean[inf$dropped == "none"][match(paste(response, predictor, effect),
+           paste(inf$response, inf$predictor, inf$effect)[inf$dropped == "none"])], 2)) |>
+  kable()
+```
+
+For decomposition, the within-cell MPD slope depends on composition 11
+(without it 0.04), whereas the positive modulation of the post-pulse phase by
+PD and MPD persists in most leave-one-out refits. Because T98 shows no such
+effect, we report it as exploratory.
 
 # Box — phylogenetically structured species identity effects (exploratory)
 
@@ -648,6 +705,7 @@ structure.
 - Downing, A. L. & Leibold, M. A. (2010). Species richness facilitates ecosystem resilience in aquatic food webs. *Freshwater Biology*. doi:10.1111/j.1365-2427.2010.02472.x
 - Kirwan, L., Connolly, J., Finn, J. A., Brophy, C., Lüscher, A., Nyfeler, D., & Sebastià, M. (2009). Diversity–interaction modeling: estimating contributions of species identities and interactions to ecosystem function. *Ecology* 90: 2032–2038. doi:10.1890/08-1684.1
 - Kruschke, J. K. (2021). Bayesian analysis reporting guidelines. *Nature Human Behaviour*. doi:10.1038/s41562-021-01177-7
+- Srivastava, D. S., et al. (2012). Phylogenetic diversity and the functioning of ecosystems. *Ecology Letters* 15: 637–648. doi:10.1111/j.1461-0248.2012.01795.x
 - Tucker, C. M., et al. (2016). A guide to phylogenetic metrics for conservation, community ecology and macroecology. *Biological Reviews*. doi:10.1111/brv.12252
 - [CITAR: priorsense (Kallioinen et al.) — not verified]
 - [CITAR: Zuur & Ieno 2016 — not verified]

@@ -47,9 +47,9 @@ print(within_share)
 write_csv(within_share, here("output", "tables", "step2_within_div_variance.csv"))
 
 # ---- Fits ----
-base <- map(responses, \(r) fit_uni(r, NULL, data = d))
+base <- map(responses, \(r) fit_uni(r, NULL, data = d, sigma_rhs = sigma98[[r]]))
 fits <- expand_grid(resp = names(responses), x = predictors) |>
-  mutate(fit = map2(resp, x, \(r, x) fit_uni(responses[[r]], x, data = d)),
+  mutate(fit = map2(resp, x, \(r, x) fit_uni(responses[[r]], x, data = d, sigma_rhs = sigma98[[responses[[r]]]])),
          name = paste("uni", resp, x, sep = "_"))
 
 # ---- Diagnostics ----

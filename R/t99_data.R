@@ -30,9 +30,14 @@ prep_t99 <- function(path = here::here("data", "derived", "t99_long.csv")) {
 }
 
 random_ar <- " + (1 | comp) + (1 | tank) + ar(time = time, gr = tank, p = 1)"
+# Decomposition: no AR(1). With AR, predictions failed to reproduce the
+# period means (grouped PPC p = 0 or 1 in 7 of 10 periods); without AR they
+# did, and residual autocorrelation of dc is negligible (T98: phi ~ 0.05)
+random_noar <- " + (1 | comp) + (1 | tank)"
+random_for <- \(resp) if (resp == "dc") random_noar else random_ar
 
-rhs_c <- \(x) paste0("0 + cell + ", x, " + ftime + rich:dist + rich:dist:early + rich:dist:late",
-                     " + dist:early:", x, " + dist:late:", x, random_ar)
+rhs_c <- \(x, resp = "prod") paste0("0 + cell + ", x, " + ftime + rich:dist + rich:dist:early + rich:dist:late",
+                                   " + dist:early:", x, " + dist:late:", x, random_for(resp))
 
 # Match a coefficient by its component terms, whatever order brms uses
 find_col <- function(nms, parts) {

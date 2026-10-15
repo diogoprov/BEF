@@ -20,6 +20,8 @@ responses <- c(prod = "y_prod", resp = "y_resp", dc = "y_dc")
 # prod on the raw scale (log(prod) is left-skewed), log(resp), and dc with
 # Student-t errors (heavy tails), as indicated by posterior predictive checks
 families <- list(y_prod = gaussian(), y_resp = gaussian(), y_dc = student())
+# T98: residual SD of prod and resp varies among sampling periods (grouped PPC)
+sigma98 <- list(y_prod = "ftime", y_resp = "ftime")
 
 prep_data <- function(bef) {
   bef |>
@@ -64,9 +66,11 @@ priors_sigma <- c(
 # `sigma_rhs` (e.g. "ftime") models the residual SD
 fit_uni <- function(resp, x = NULL, data, ar = TRUE, extra = NULL, name = NULL,
                     rhs_override = NULL, sigma_rhs = NULL) {
-  if (is.null(name)) name <- paste("uni", resp, x %||% "base", if (ar) "ar1" else "noar", sep = "_")
+  if (is.null(name)) name <- paste(c("uni", resp, x %||% "base", if (ar) "ar1" else "noar",
+                                     if (!is.null(sigma_rhs)) "sig"), collapse = "_")
   fml <- paste(resp, "~", rhs_override %||% rhs(x, ar, extra))
-  pri <- if (ar) priors_uni else priors_uni[priors_uni$class != "ar", ]
+  has_ar <- ar && grepl("ar(", fml, fixed = TRUE)
+  pri <- if (has_ar) priors_uni else priors_uni[priors_uni$class != "ar", ]
   if (!is.null(sigma_rhs)) pri <- c(pri[pri$class != "sigma", ], priors_sigma)
   args <- list(
     formula = if (is.null(sigma_rhs)) bf(fml) else bf(as.formula(fml), as.formula(paste("sigma ~", sigma_rhs))),
