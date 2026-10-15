@@ -18,10 +18,12 @@ Derived from the original spreadsheet
 - Six sampling periods per tank (`time`); 504 observations.
 - Responses: productivity and respiration (diurnal oxygen), decomposition (`dc`).
 
-Phylogenetic metrics are computed from the **final** species composition
-(`treat.txt`, Downing & Leibold 2002 supplement), which equals the union of the
-species surviving in the four tanks of each composition. Each composition has a
-unique PD/MPD value, so these metrics are composition-level predictors.
+Phylogenetic metrics are computed for the **initial** (stocked) composition,
+parsed from Table 1 of the Downing & Leibold (2002) Supplementary Information,
+and for the **final** composition (`treat.txt`), which equals the union of the
+species surviving in the four tanks of each composition. Each composition has
+a unique value, so these metrics are composition-level predictors. The second
+experiment (T99; Downing 2005, Ecology) is in `data/raw/ecology2005/`.
 
 ## Workflow
 
