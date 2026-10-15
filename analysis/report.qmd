@@ -1,0 +1,662 @@
+---
+title: "Phylogenetic diversity and ecosystem functioning in multitrophic pond mesocosms"
+subtitle: "Analysis report — reanalysis of the T98 (Downing & Leibold 2002) and T99 (Downing 2005) experiments"
+author: "Diogo B. Provete, Amy Downing, Mathew Leibold"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    number-sections: true
+    code-fold: true
+    code-tools: true
+    theme: cosmo
+    fig-width: 8
+    fig-height: 5
+    df-print: kable
+    embed-resources: true
+execute:
+  cache: true
+  warning: false
+  message: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r}
+#| label: setup
+#| cache: false
+library(tidyverse)
+library(ape)
+library(knitr)
+library(here)
+
+source(here("R", "phylo_metrics.R"))
+
+tab <- \(f) read_csv(here("output", "tables", paste0(f, ".csv")), show_col_types = FALSE)
+f2 <- \(x) formatC(x, format = "f", digits = 2)
+ci <- \(m, lo, hi) paste0(f2(m), " [", f2(lo), ", ", f2(hi), "]")
+pct <- \(x) paste0(formatC(100 * x, format = "f", digits = 0), "%")
+theme_set(theme_bw(base_size = 11))
+```
+
+# Summary {.unnumbered}
+
+```{r}
+#| label: summary-numbers
+w98 <- tab("step2_within_div_variance")
+w99 <- tab("t99_within_cell_variance")
+r2b <- tab("t99_cells_vs_phylo_r2")
+get_w <- \(w, m, col) w[[col]][w$metric == m]
+```
+
+- **Phylogenetic metrics in these multitrophic experiments mostly encode trophic
+  structure.** In both experiments every composition is assembled from
+  macrophytes, grazers and predators, and the plant–animal divergence dominates
+  phylogenetic distances. Once the design is accounted for (richness in T98;
+  functional-group composition × richness in T99), little variance in the
+  metrics of the stocked communities remains: in T98,
+  `r pct(get_w(w98, "PD_init", "within_div_share"))` (PD) and
+  `r pct(get_w(w98, "MPD_init", "within_div_share"))` (MPD), although VPD keeps
+  `r pct(get_w(w98, "VPD_init", "within_div_share"))`; in T99,
+  `r pct(get_w(w99, "PD_init", "within_cell_share"))`–`r pct(get_w(w99, "VPD_init", "within_cell_share"))`
+  for PD, MPD and VPD.
+- **No credible effect of phylogenetic diversity on productivity, respiration
+  or decomposition** at fixed richness/design cell, for any metric, for initial
+  or final composition, in either experiment.
+- **Across trophic configurations (T99), a single metric is an imperfect
+  summary of trophic structure:** design cells account for
+  `r pct(r2b$r2_comp[r2b$resp == "prod" & r2b$model == "cells"])` (productivity) and
+  `r pct(r2b$r2_comp[r2b$resp == "resp" & r2b$model == "cells"])` (respiration) of
+  among-composition variance; VPD alone for
+  `r pct(r2b$r2_comp[r2b$resp == "prod" & r2b$model == "rich_VPD"])` and
+  `r pct(r2b$r2_comp[r2b$resp == "resp" & r2b$model == "rich_VPD"])`; PD for none.
+- **The acid pulse strongly depressed respiration and productivity, followed by
+  recovery**; phylogenetic metrics did not robustly modulate resistance or
+  recovery (an apparent effect in T99 depends on a single composition).
+- **Box (exploratory):** a Diversity–Interaction-type model with
+  phylogenetically structured species identity effects is not identifiable with
+  these designs (posterior ≈ prior for the phylogenetic share).
+
+# Data and design
+
+## Experiments
+
+```{r}
+#| label: tbl-design
+#| tbl-cap: "Design of the two mesocosm experiments (derived from the original spreadsheets)."
+t98 <- read_csv(here("data", "derived", "bef_long.csv"), show_col_types = FALSE)
+t99 <- read_csv(here("data", "derived", "t99_long.csv"), show_col_types = FALSE)
+tibble(
+  ` ` = c("Tanks", "Compositions", "Tanks per composition", "Richness levels (stocked)",
+          "Functional-group (FG) composition", "Acid pulse", "Sampling periods", "Responses"),
+  `T98 (Downing & Leibold 2002)` = c(
+    n_distinct(t98$tank), n_distinct(t98$comp), "4", "3, 9, 15 (1, 3, 5 per FG)",
+    "always macrophytes + grazers + predators", "after period 2; 2 of 4 tanks per composition",
+    "6", "productivity, respiration, decomposition"),
+  `T99 (Downing 2005)` = c(
+    n_distinct(t99$tank), paste(n_distinct(t99$comp) - 1, "+ 1 no-species control"), "4", "6, 18",
+    "M, G, MG, GP, MGP", "between periods 4 and 5 (inferred); 2 of 4 tanks",
+    "13 (irregular, days 0–72); decomposition in 9", "productivity, respiration, decomposition")
+) |> kable()
+```
+
+## Data sources and corrections
+
+All derived data are rebuilt from Amy Downing's original spreadsheets
+(`data/raw/`), which are kept read-only.
+
+- **T98 ecosystem functioning**: sheet "ecosystem functioning T98 long". The
+  legacy file `data_diogo.csv` is a rounded copy with one error (`dist = 6`
+  for tank 5, period 6; the original has 1).
+- **T98 initial (stocked) composition**: Table 1 of the Supplementary
+  Information of Downing & Leibold (2002), parsed by
+  `analysis/00a_initial_composition.py` (non-italic values = stocked;
+  "0" = stocked and extinct; italic = invader). All 21 compositions contain
+  exactly 1, 3 or 5 species per FG, and survivors + invaders reproduce the
+  final composition (`treat.txt`) exactly.
+- **T99 composition**: sheet "FG expt design T99". Species codes were mapped to
+  tip labels by matching presence patterns against `Ecology2005.txt`; the two
+  mismatches are errors in `Ecology2005.txt` (composition 5 lacks
+  *L. clamitans*; composition 16 lists *Buenoa* instead of *Dineutus*), as
+  confirmed by final biomass.
+- **Legacy analyses (2014–2019) must not be reused.** MPD and MNTD were
+  attached with `rep(mpd, each = 12)` although each composition has 24 rows,
+  which silently recycled the vector and assigned wrong values to 480 of 504
+  rows; the PD column was computed on an earlier tree (+21.1 Myr in nine
+  compositions) and PSV of composition 6 was copied from composition 5.
+
+```{r}
+#| label: tbl-pd-checks
+#| tbl-cap: "T98 final-composition metrics recomputed with the re-dated tree, compared with the legacy data file."
+tab("pd_checks") |>
+  distinct(comp, .keep_all = TRUE) |>
+  transmute(comp, SR, PD = round(PD, 1), PD_legacy = round(PD_legacy, 1), dPD = round(dPD, 1),
+            PSV = round(PSV, 3), PSV_legacy = round(PSV_legacy, 3)) |>
+  kable()
+```
+
+## Ecosystem functioning over time
+
+```{r}
+#| label: fig-timeseries
+#| fig-cap: "Mean (± SE across tanks) productivity, respiration and decomposition over sampling periods, by acid-pulse treatment. Dashed line: timing of the pulse."
+#| fig-height: 6
+ts <- bind_rows(
+  t98 |> transmute(exp = "T98", time, dist, productivity = prod, respiration = resp, decomposition = dc, pulse = 2.5),
+  t99 |> filter(comp > 0) |> transmute(exp = "T99", time, dist, productivity = prod, respiration = resp, decomposition = dc, pulse = 4.5)
+) |>
+  pivot_longer(productivity:decomposition, names_to = "response") |>
+  filter(!is.na(value)) |>
+  summarise(m = mean(value), se = sd(value) / sqrt(n()), .by = c(exp, response, time, dist, pulse))
+ggplot(ts, aes(time, m, colour = factor(dist), group = dist)) +
+  geom_vline(aes(xintercept = pulse), linetype = 2, colour = "grey50") +
+  geom_pointrange(aes(ymin = m - se, ymax = m + se), size = 0.2) + geom_line() +
+  facet_grid(response ~ exp, scales = "free") +
+  scale_colour_manual(values = c("0" = "#1565C0", "1" = "#E65100"), labels = c("control", "acid pulse")) +
+  labs(x = "Sampling period", y = NULL, colour = NULL)
+```
+
+# Phylogenies and phylogenetic metrics
+
+Pseudochronograms were assembled from node ages (TimeTree) and dated with
+`bladj` (Phylocom). T98 uses the 21-species tree for the stocked composition
+and the re-dated 19-species tree (two macrophytes extinct in all tanks) for
+the final composition; T99 uses a 24-species tree. Metrics follow the three
+dimensions of Tucker et al. (2016), fixed *a priori*: PD (richness), MPD
+(divergence) and VPD (regularity); MNTD is shown for completeness.
+
+```{r}
+#| label: fig-trees
+#| fig-cap: "Pseudochronograms (Myr) of the species pools. Colours: macrophytes (green), grazers (blue), predators (orange)."
+#| fig-height: 6
+fg_col <- c(macrophyte = "#2E7D32", grazer = "#1565C0", predator = "#E65100")
+si <- read_csv(here("data", "derived", "si_table1_long.csv"), show_col_types = FALSE) |> distinct(species, group)
+tr98 <- read.tree(here("data", "raw", "phylogeny", "phylog_dated_2002_21spp_4b4da4d.txt")) |> fix_tip_labels()
+tr99 <- read.tree(here("data", "raw", "phylogeny", "phylog_dated_2005.txt")) |> fix_tip_labels()
+plants <- "Potamogeton|Myriophyllum|Elodea|Ceratophyllum|Vallisneria|Utricularia|Sagittaria"
+grazers <- "Lithobates|Crangonyx|Hyalella|Helisoma|Physa|corixa"
+fg_of <- \(x) case_when(str_detect(x, plants) ~ "macrophyte", str_detect(x, grazers) ~ "grazer", TRUE ~ "predator")
+stopifnot(all(fg_of(si$species) == si$group))
+par(mfrow = c(1, 2), mar = c(4, 1, 2, 1))
+for (tr in list(T98 = tr98, T99 = tr99)) {
+  plot(tr, cex = 0.6, tip.color = fg_col[fg_of(tr$tip.label)], label.offset = 10)
+  axisPhylo(cex.axis = 0.7)
+}
+```
+
+## Metrics track the design
+
+```{r}
+#| label: fig-within-share
+#| fig-cap: "Share of the variance of each metric among compositions that lies within design strata (T98: richness level; T99: FG composition × richness). Initial = stocked composition; final = realized composition at the end of the experiment."
+shares <- bind_rows(
+  w98 |> transmute(exp = "T98", metric, share = within_div_share),
+  w99 |> filter(!str_detect(metric, "MNTD")) |> transmute(exp = "T99", metric, share = within_cell_share)
+) |>
+  separate(metric, c("metric", "composition"), sep = "_") |>
+  mutate(metric = factor(metric, c("PD", "MPD", "VPD")))
+ggplot(shares, aes(metric, share, fill = composition)) +
+  geom_col(position = position_dodge(0.8), width = 0.7) +
+  facet_wrap(~exp) + scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  scale_fill_manual(values = c(init = "#7B1FA2", final = "#F9A825")) +
+  labs(x = NULL, y = "Variance within design strata", fill = NULL)
+```
+
+```{r}
+#| label: tbl-branch-sens
+#| tbl-cap: "Correlation between metrics computed on the bladj pseudochronogram and on trees with Grafen or unit branch lengths (T99, stocked composition)."
+tab("t99_branch_length_sensitivity") |> mutate(across(where(is.numeric), \(x) round(x, 3))) |> kable()
+```
+
+# Statistical models
+
+## Model structure
+
+All models were fitted in `brms` (Bürkner 2017) with CmdStan. Responses were
+standardized (z-scores) so that priors are on a common scale; productivity and
+respiration contain negative values in T99 (oxygen-based estimates), so log
+transformation was not used except for T98 respiration.
+
+For tank $j$ in composition $c[j]$ at sampling period $t$, the primary model
+(step 2) is:
+
+### DAG
+
+```{r}
+#| label: fig-dag
+#| fig-cap: "Directed acyclic graph of the primary model (T99 version; in T98 the design cells are richness levels with level-specific slopes, and σ is constant)."
+#| out-width: "100%"
+DiagrammeR::grViz("
+digraph bef_dag {
+
+  graph [rankdir=TB, fontname=Helvetica, bgcolor=transparent,
+         nodesep=0.5, ranksep=0.75, pad=0.4]
+  node [fontname=Helvetica, fontsize=11]
+
+  # Priors
+  node [shape=hexagon, style=filled, fillcolor='#EDE7F6',
+        color='#7B1FA2', fontcolor='#4A148C']
+  Pb  [label='α, β, γ, δ, θ ~ N(0, 1²)']
+  Ps  [label='σ_comp, σ_tank ~ Exp(2)']
+  Pa  [label='φ ~ N(0, 0.5²), |φ| < 1']
+  Pe  [label='T98: σ ~ Exp(1)\nT99: log σ_t = κ₀ + κ_t,\nκ ~ N(0, 1²)']
+
+  # Parameters
+  node [shape=ellipse, style=filled, fillcolor='#FFF9C4',
+        color='#F9A825', fontcolor='#212121']
+  b   [label='α_cell, β (phylo slope),\nγ_t, δ, θ (pulse)']
+  s_c [label='σ_comp\ncomposition SD']
+  s_k [label='σ_tank\ntank SD']
+  phi [label='φ\nAR(1)']
+  sig [label='σ_t\nresidual SD']
+
+  # Observed data
+  node [shape=rect, style=filled, fillcolor='#E3F2FD',
+        color='#1565C0', fontcolor='#0D47A1']
+  X   [label='X: design cell, period,\npulse × post-pulse']
+  Z   [label='z_w(PD | MPD | VPD)_c\nwithin-cell standardized']
+
+  # Latent
+  node [shape=ellipse, style=filled, fillcolor='#E8F5E9',
+        color='#2E7D32', fontcolor='#1B5E20']
+  u_c [label='u_c (composition RE)\nc = 1…21 (T98), 26 (T99)']
+  u_k [label='v_j (tank RE)\nj = 1…84 (T98), 104 (T99)']
+  e   [label='ε_tj = φ ε_(t−1)j + e_tj']
+  eta [label='μ_tj\nlinear predictor']
+
+  # Response
+  node [shape=doubleoctagon, style=filled, fillcolor='#FFECB3',
+        color='#E65100', fontcolor='#BF360C']
+  Y [label='y_tj (standardized\nprod, resp, dc)']
+
+  Pb -> b   [style=dashed, color='#9C27B0']
+  Ps -> s_c [style=dashed, color='#9C27B0']
+  Ps -> s_k [style=dashed, color='#9C27B0']
+  Pa -> phi [style=dashed, color='#9C27B0']
+  Pe -> sig [style=dashed, color='#9C27B0']
+
+  s_c -> u_c [color='#2E7D32']
+  s_k -> u_k [color='#2E7D32']
+  phi -> e   [color='#2E7D32']
+
+  b   -> eta
+  X   -> eta [label=' Xα', color='#1565C0']
+  Z   -> eta [label=' βz', color='#1565C0']
+  u_c -> eta [color='#2E7D32']
+  u_k -> eta [color='#2E7D32']
+  e   -> eta [color='#2E7D32']
+
+  eta -> Y
+  sig -> Y [color='#E65100']
+
+  {rank=source; Pb; Ps; Pa; Pe}
+  {rank=same;   b; s_c; s_k; phi; sig}
+  {rank=same;   X; Z}
+  {rank=same;   u_c; u_k; e}
+  {rank=sink;   Y}
+}
+")
+```
+
+### Formal equations (Zuur & Ieno 2016)
+
+**Stage 1 — Observation model**
+
+$$
+y_{tj} \sim \mathcal{N}(\mu_{tj},\, \sigma_t^2) \quad \text{(prod, resp)}, \qquad
+y_{tj} \sim t_\nu(\mu_{tj},\, \sigma) \quad \text{(dc)}
+$$
+
+**Stage 2 — Linear predictor**
+
+$$
+\mu_{tj} = \alpha_{\text{cell}[c]} + \beta\, z^{w}_{c} + \gamma_t +
+\delta\,\text{Pulse}_j + \theta\,(\text{Pulse}_j \times \text{Post}_t) +
+u_{c[j]} + v_j + \varepsilon_{tj}
+$$
+
+In T98, $\beta$ is estimated separately for each richness level
+($\beta_{\text{div}[c]}$) and the average slope is derived. In step 3 the
+pulse effect is split into resistance (first sampling(s) after the pulse) and
+recovery phase (later samplings), each by richness level, and modulated by
+$z^w_c$: $+\,\eta_E\,(\text{Pulse}\times\text{Early}\times z^w) + \eta_L\,(\text{Pulse}\times\text{Late}\times z^w)$.
+
+**Stage 3 — Random effects and residual autocorrelation**
+
+$$
+u_c \sim \mathcal{N}(0, \sigma^2_{\text{comp}}), \qquad
+v_j \sim \mathcal{N}(0, \sigma^2_{\text{tank}}), \qquad
+\varepsilon_{tj} = \phi\, \varepsilon_{(t-1)j} + e_{tj}
+$$
+
+$$
+\log \sigma_t = \kappa_0 + \kappa_t \quad \text{(T99 prod, resp; sum-to-zero contrasts)}
+$$
+
+**Stage 4 — Priors** (see @sec-priors)
+
+**Within-stratum standardization of the phylogenetic predictor**
+
+$$
+z^w_c = \frac{x_c - \bar{x}_{s[c]}}{\sqrt{\sum_c (x_c - \bar{x}_{s[c]})^2 / (n - n_s)}}
+$$
+
+where $s[c]$ is the design stratum of composition $c$.
+
+## Priors {#sec-priors}
+
+```{r}
+#| label: tbl-priors
+#| tbl-cap: "Priors (standardized responses)."
+tribble(
+  ~Parameter, ~Prior, ~Justification,
+  "Fixed effects (cells, periods, pulse, phylogenetic slopes)", "N(0, 1)", "Weakly informative on the z-scale: effects of ±2 SD are plausible, larger ones rare",
+  "σ_comp, σ_tank", "Exponential(2)", "Prior mean 0.5 SD; among-unit SDs larger than the total SD are implausible",
+  "σ (constant)", "Exponential(1)", "Residual SD below the total SD of 1",
+  "log σ_t: intercept and period effects (T99)", "N(0, 1)", "Allows several-fold changes in residual SD among periods (observed: 3–5-fold)",
+  "AR(1) coefficient φ", "N(0, 0.5), bounded (−1, 1)", "Moderate autocorrelation most plausible",
+  "Student-t ν (dc)", "Gamma(2, 0.1)", "brms default; allows heavy to near-Gaussian tails",
+  "Correlations (multivariate model)", "LKJ(2)", "Mild shrinkage towards zero"
+) |> kable()
+```
+
+### Prior predictive check
+
+```{r}
+#| label: tbl-prior-pred
+#| tbl-cap: "Prior predictive distribution of the standardized responses (primary MPD models; 200 prior draws). Observed SD = 1."
+tab("prior_predictive_summary") |>
+  transmute(Experiment = exp, Response = response,
+            `Median SD of prior draws` = round(prior_pred_sd_median, 2),
+            `99th percentile of |y_rep|` = round(prior_pred_q99_abs, 1),
+            `Share within observed range` = pct(share_within_obs_range)) |>
+  kable()
+```
+
+```{r}
+#| label: fig-prior-pred
+#| fig-cap: "Prior predictive density (light) vs observed standardized response (dark)."
+#| layout-ncol: 3
+include_graphics(list.files(here("figures", "prior_predictive"), full.names = TRUE))
+```
+
+The priors are weakly informative for T98 and for T99 decomposition. In T99,
+the prior on the residual-SD submodel is diffuse on the outcome scale (the sum
+of an intercept and 13 period effects on the log scale), producing a long
+prior-predictive tail; power-scaling shows that posteriors are not sensitive
+to it (@sec-priorsense).
+
+# Computation and model checking
+
+## MCMC diagnostics
+
+Four chains, 2000 iterations each (1000 warm-up), `adapt_delta = 0.95`. Models
+that did not meet R-hat ≤ 1.01 and bulk/tail ESS ≥ 400 were automatically
+refitted with 4000 iterations and `adapt_delta = 0.99`.
+
+```{r}
+#| label: tbl-diagnostics
+#| tbl-cap: "Convergence summary by analysis (worst value across all parameters and models)."
+diag_all <- bind_rows(
+  tab("diagnostics") |> mutate(analysis = "T98 final composition (step 1)"),
+  tab("step2_diagnostics") |> mutate(analysis = "T98 step 2"),
+  tab("step3_diagnostics") |> mutate(analysis = "T98 step 3"),
+  tab("t99_diagnostics") |> mutate(analysis = "T99 steps 2–3"),
+  tab("t99_species_identity_diagnostics") |> mutate(analysis = "T99 Box (species identity)")
+)
+diag_all |>
+  summarise(models = n(), max_rhat = round(max(max_rhat), 3),
+            min_ess_bulk = round(min(min_ess_bulk)), min_ess_tail = round(min(min_ess_tail)),
+            divergences = sum(divergences), treedepth_hits = sum(max_treedepth_hits), .by = analysis) |>
+  kable()
+```
+
+In the T98 multivariate model, R-hat reached 1.017 only for a nuisance
+parameter (tank-level correlation between productivity and decomposition,
+posterior mean ≈ 0); all focal parameters had R-hat ≤ 1.01.
+
+## Residual autocorrelation and variance structure
+
+```{r}
+#| label: tbl-ar1
+#| tbl-cap: "T98: AR(1) coefficient and LOO comparison of models with and without AR(1) (elpd difference of the worse model)."
+tab("ar1_check") |>
+  transmute(response, `AR(1)` = ci(ar1_mean, ar1_q2.5, ar1_q97.5),
+            `Δelpd (± SE)` = paste0(f2(elpd_diff), " ± ", f2(se_diff))) |>
+  kable()
+```
+
+In T99 the residual SD of productivity and respiration varies 3–5-fold among
+periods (largest right after the pulse). A first fit with Student-t errors
+absorbed this as very heavy tails (ν ≈ 2); the final models use a
+distributional submodel for σ. The Student-t results are kept as a
+sensitivity analysis (`output/tables/sensitivity/`).
+
+## Posterior predictive checks
+
+```{r}
+#| label: fig-ppc
+#| fig-cap: "Posterior predictive checks of the primary MPD models (initial composition). Top: T98; bottom: T99."
+#| layout-ncol: 3
+include_graphics(here("figures", "ppc", c(
+  "uni_prod_zw_MPD_init.png", "uni_resp_zw_MPD_init.png", "uni_dc_zw_MPD_init.png",
+  "t99a_prod_zw_MPD_init_sig.png", "t99a_resp_zw_MPD_init_sig.png", "t99a_dc_zw_MPD_init_sig.png")))
+```
+
+## Prior sensitivity (priorsense) {#sec-priorsense}
+
+```{r}
+#| label: tbl-priorsense
+#| tbl-cap: "Power-scaling sensitivity of the focal parameters [CITAR: priorsense — Kallioinen et al.; verify]. Values > 0.05 indicate sensitivity."
+tab("prior_sensitivity") |>
+  filter(str_detect(variable, "MPD|dist")) |>
+  mutate(across(c(prior, likelihood), \(x) round(x, 3))) |>
+  kable()
+```
+
+All focal parameters are likelihood-dominated. The single flag ("potential
+prior–likelihood conflict") concerns the T98 productivity pulse effect,
+whose prior sensitivity (0.053) is at the threshold; its posterior
+(≈ −0.45 SD) lies well within the N(0, 1) prior.
+
+# Results — T98
+
+## Step 1: final-composition metrics
+
+```{r}
+#| label: fig-t98-step1
+#| fig-cap: "T98: slopes of final-composition metrics (globally standardized) on each response; average across richness levels; 95% (thick) and 98.33% (thin) credible intervals."
+#| fig-height: 3.5
+forest <- \(df, x = "predictor") ggplot(df, aes(mean, .data[[x]])) +
+  geom_vline(xintercept = 0, linetype = 2, colour = "grey50") +
+  geom_linerange(aes(xmin = q0.83, xmax = q99.17), linewidth = 0.4) +
+  geom_linerange(aes(xmin = q2.5, xmax = q97.5), linewidth = 1.2) +
+  geom_point(size = 2) + labs(x = "Effect (SD of response per SD of predictor)", y = NULL)
+tab("pd_slopes") |> filter(div == "average", model == "univariate") |>
+  forest() + facet_wrap(~response)
+```
+
+## Step 2: metrics fixed *a priori*, within richness levels
+
+```{r}
+#| label: fig-t98-step2
+#| fig-cap: "T98: average within-richness slopes of PD, MPD and VPD (initial and final composition)."
+#| fig-height: 4
+s98 <- tab("step2_slopes") |> filter(div == "average") |>
+  mutate(predictor = str_remove(predictor, "^zw_"))
+forest(s98) + facet_wrap(~response)
+```
+
+```{r}
+#| label: tbl-t98-varcomp
+#| tbl-cap: "T98: proportion of among-composition variance explained by each metric relative to a richness-only model (posterior medians are very uncertain because σ_comp is small)."
+tab("step2_r2_composition") |>
+  transmute(response, predictor = str_remove(predictor, "^zw_"),
+            `σ_comp (base)` = f2(sd_comp_base), `σ_comp (with metric)` = f2(sd_comp_x),
+            `R²_comp` = ci(r2_comp_ratio_of_means, q2.5, q97.5)) |>
+  kable()
+```
+
+## Step 3: disturbance
+
+```{r}
+#| label: fig-t98-step3
+#| fig-cap: "T98: acid-pulse effects by richness level (resistance = period 3; recovery = periods 4–6 minus period 3), from the initial-MPD model."
+#| fig-height: 3.5
+d3 <- tab("step3_disturbance_effects")
+d3 |> filter(predictor == "zw_MPD_init", !str_detect(term, "modulates|recovery phase")) |>
+  mutate(div = factor(div, c("S3", "S9", "S15"))) |>
+  forest("div") + facet_grid(term ~ response) + labs(y = "Richness")
+```
+
+```{r}
+#| label: tbl-t98-mod
+#| tbl-cap: "T98: modulation of resistance and recovery phase by phylogenetic metrics (within-richness standardized)."
+d3 |> filter(str_detect(term, "modulates")) |>
+  transmute(response, predictor = str_remove(predictor, "^zw_"), term,
+            `95% CI` = ci(mean, q2.5, q97.5), `98.33% CI` = ci(mean, q0.83, q99.17)) |>
+  kable()
+```
+
+# Results — T99
+
+## Within design cells
+
+```{r}
+#| label: fig-t99-a
+#| fig-cap: "T99: slopes of within-cell standardized metrics."
+#| fig-height: 3.5
+tab("t99_step2_slopes") |> mutate(predictor = str_remove(predictor, "^zw_")) |>
+  forest() + facet_wrap(~response)
+```
+
+## Can a phylogenetic metric replace the trophic design?
+
+```{r}
+#| label: fig-t99-b
+#| fig-cap: "T99: proportion of among-composition variance (relative to a richness-only model) explained by a single globally standardized metric or by the design cells (FG composition × richness). Bars: 95% CI of the draw-wise ratio (truncated at 0)."
+#| fig-height: 3.5
+tab("t99_cells_vs_phylo_r2") |>
+  filter(model != "rich_only") |>
+  mutate(model = factor(model, c("rich_PD", "rich_MPD", "rich_VPD", "cells"),
+                        c("PD", "MPD", "VPD", "design cells"))) |>
+  ggplot(aes(r2_comp, model)) +
+  geom_linerange(aes(xmin = pmax(q2.5, 0), xmax = q97.5), colour = "grey60") +
+  geom_point(size = 2.5) + facet_wrap(~resp) +
+  scale_x_continuous(labels = scales::percent) + coord_cartesian(xlim = c(0, 1)) +
+  labs(x = "Among-composition variance explained", y = NULL)
+```
+
+## Disturbance and its modulation
+
+```{r}
+#| label: fig-t99-c
+#| fig-cap: "T99: acid-pulse effects by richness (resistance = periods 5–6; recovery = periods 7–13 minus 5–6)."
+#| fig-height: 3.5
+c99 <- tab("t99_step3_disturbance")
+c99 |> filter(predictor == "zw_MPD_init", !str_detect(term, "modulates|recovery phase")) |>
+  mutate(rich = factor(rich, c("S6", "S18"))) |>
+  forest("rich") + facet_grid(term ~ response) + labs(y = "Richness")
+```
+
+```{r}
+#| label: tbl-t99-mod
+#| tbl-cap: "T99: modulation of resistance and recovery phase by phylogenetic metrics."
+c99 |> filter(str_detect(term, "modulates")) |>
+  transmute(response, predictor = str_remove(predictor, "^zw_"), term,
+            `95% CI` = ci(mean, q2.5, q97.5), `98.33% CI` = ci(mean, q0.83, q99.17)) |>
+  kable()
+```
+
+### Influence of single compositions
+
+```{r}
+#| label: fig-influence
+#| fig-cap: "T99: MPD × recovery-phase effect when each composition is left out in turn (red: full data)."
+#| fig-height: 5
+inf <- tab("t99_influence_mpd_recovery")
+inf |> mutate(dropped = fct_reorder(dropped, mean)) |>
+  ggplot(aes(mean, dropped, colour = dropped == "none")) +
+  geom_vline(xintercept = 0, linetype = 2, colour = "grey50") +
+  geom_linerange(aes(xmin = q2.5, xmax = q97.5)) + geom_point() +
+  scale_colour_manual(values = c(`FALSE` = "black", `TRUE` = "red"), guide = "none") +
+  facet_grid(~ response + predictor) +
+  labs(x = "MPD × recovery-phase effect", y = "Composition left out")
+```
+
+The negative MPD × recovery-phase effect disappears when composition 12 (cell
+GP_6) is removed. In that composition the two tanks assigned to the pulse
+already had lower productivity and respiration than the two control tanks
+before the pulse and higher values afterwards, so much of its apparent
+"recovery" reflects a pre-treatment imbalance. We therefore do not interpret
+this effect.
+
+# Box — phylogenetically structured species identity effects (exploratory)
+
+If species $i$ has an additive effect $b_i$ and composition $c$ contains
+species in equal proportions $p_{ci} = 1/S_c$ (stocked composition), the
+composition effect is $\mathbf{u} = \mathbf{P}\mathbf{b}$. With
+$\mathbf{b} \sim \mathcal{N}(\mathbf{0}, \sigma^2_{\text{phy}}\mathbf{C} + \sigma^2_{\text{id}}\mathbf{I})$,
+where $\mathbf{C}$ is the phylogenetic correlation matrix, composition effects
+have covariance $\sigma^2_{\text{phy}}\mathbf{P}\mathbf{C}\mathbf{P}^\top + \sigma^2_{\text{id}}\mathbf{P}\mathbf{P}^\top$,
+fitted as two composition-level random effects with known kernels (as in an
+animal model), plus an iid composition term for non-additive effects. This is
+the identity component of Diversity–Interaction models (Kirwan et al. 2009),
+with a phylogenetic prior on species effects; with equal proportions, a
+phylogenetically structured pairwise interaction term (Connolly et al. 2011)
+reduces to $\theta\,\frac{S-1}{2S}\,\text{MPD}$, i.e. the MPD models above.
+
+Kernels were projected orthogonally to the richness means and scaled to unit
+mean diagonal. The phylogenetic and identity kernels are strongly aligned
+(0.87 in T98, 0.67 in T99), so the model was fitted to T99 only and its
+identifiability checked against prior-only fits.
+
+```{r}
+#| label: fig-box
+#| fig-cap: "T99 Box: phylogenetic signal in species effects, σ²_phy / (σ²_phy + σ²_id), and share of non-additive composition variance; prior vs posterior (median and 95% interval)."
+#| fig-height: 3
+tab("t99_species_identity_variance") |>
+  filter(quantity %in% c("phylo_signal", "share_nonadditive")) |>
+  ggplot(aes(median, fit, colour = fit)) +
+  geom_linerange(aes(xmin = q2.5, xmax = q97.5), linewidth = 1) + geom_point(size = 2.5) +
+  facet_grid(quantity ~ response) + coord_cartesian(xlim = c(0, 1)) +
+  scale_colour_manual(values = c(prior = "#7B1FA2", posterior = "#F9A825"), guide = "none") +
+  labs(x = NULL, y = NULL)
+```
+
+```{r}
+#| label: tbl-box-contraction
+#| tbl-cap: "Posterior contraction (1 − posterior width / prior width of the 95% interval)."
+tab("t99_species_identity_contraction") |> mutate(across(where(is.numeric), \(x) round(x, 3))) |> kable()
+```
+
+The posterior of the phylogenetic share is practically identical to the prior
+for productivity and respiration; for decomposition it shifts towards
+phylogenetically structured effects but remains uninformative. Separating
+phylogenetic from non-phylogenetic species effects would require designs in
+which composition varies within trophic groups independently of trophic
+structure.
+
+# References {.unnumbered}
+
+- Bürkner, P.-C. (2017). brms: an R package for Bayesian multilevel models using Stan. *Journal of Statistical Software* 80(1). doi:10.18637/jss.v080.i01
+- Connolly, J., Cadotte, M. W., Brophy, C., Dooley, Á., Finn, J., Kirwan, L., Roscher, C., & Weigelt, A. (2011). Phylogenetically diverse grasslands are associated with pairwise interspecific processes that increase biomass. *Ecology* 92: 1385–1392. doi:10.1890/10-2270.1
+- Downing, A. L. (2005). Relative effects of species composition and richness on ecosystem properties in ponds. *Ecology*. doi:10.1890/03-0239
+- Downing, A. L. & Leibold, M. A. (2002). Ecosystem consequences of species richness and composition in pond food webs. *Nature*. doi:10.1038/416837a
+- Downing, A. L. & Leibold, M. A. (2010). Species richness facilitates ecosystem resilience in aquatic food webs. *Freshwater Biology*. doi:10.1111/j.1365-2427.2010.02472.x
+- Kirwan, L., Connolly, J., Finn, J. A., Brophy, C., Lüscher, A., Nyfeler, D., & Sebastià, M. (2009). Diversity–interaction modeling: estimating contributions of species identities and interactions to ecosystem function. *Ecology* 90: 2032–2038. doi:10.1890/08-1684.1
+- Kruschke, J. K. (2021). Bayesian analysis reporting guidelines. *Nature Human Behaviour*. doi:10.1038/s41562-021-01177-7
+- Tucker, C. M., et al. (2016). A guide to phylogenetic metrics for conservation, community ecology and macroecology. *Biological Reviews*. doi:10.1111/brv.12252
+- [CITAR: priorsense (Kallioinen et al.) — not verified]
+- [CITAR: Zuur & Ieno 2016 — not verified]
+- [CITAR: TimeTree, Phylocom/bladj — not verified]
+
+# Session info {.unnumbered}
+
+```{r}
+#| label: session-info
+#| cache: false
+sessionInfo()
+```

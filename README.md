@@ -26,9 +26,14 @@ unique PD/MPD value, so these metrics are composition-level predictors.
 ## Workflow
 
 ```r
-source("analysis/00_build_data.R")  # derived data, PD metrics, consistency checks
-source("analysis/01_models.R")      # brms models, diagnostics, tables
+source("run_all.R")   # full pipeline (~3-4 h from scratch) and report
 ```
+
+`run_all.R` runs, in order: `00a`/`00` (T98 data and metrics), `01`-`03`
+(T98 models), `10`-`13` (T99 data, models, influence analysis and the
+exploratory species-identity Box), `14` (prior predictive and prior
+sensitivity checks), and renders `analysis/report.qmd` to a self-contained
+HTML report (BARG-style; not versioned).
 
 | Script | Output |
 |---|---|
