@@ -16,6 +16,7 @@
 # period (sigma ~ ftime; their SD varies 3-5 fold over time, which a first
 # Student-t fit absorbed as nu ~ 2). dc: Student-t with constant sigma.
 # AR(1) is defined on the sampling index; spacing is irregular (1-10 days).
+# Sampling period uses sum-to-zero contrasts.
 # Composition 0 (no species) is excluded.
 
 library(tidyverse)
@@ -27,29 +28,9 @@ library(here)
 options(mc.cores = 4, brms.backend = "cmdstanr")
 source(here("R", "brms_helpers.R"))
 
-responses99 <- c(prod = "y99_prod", resp = "y99_resp", dc = "y99_dc")
-families <- c(families, list(y99_prod = gaussian(), y99_resp = gaussian(), y99_dc = student()))
-sigma99 <- list(prod = "ftime", resp = "ftime", dc = NULL)
-
-# ---- Data ----
-t99 <- read_csv(here("data", "derived", "t99_long.csv"), show_col_types = FALSE) |>
-  filter(comp > 0)
-
-metrics <- c("PD_init", "MPD_init", "VPD_init", "MPD_final")
-comp_preds <- t99 |>
-  distinct(comp, cell, across(all_of(metrics))) |>
-  mutate(across(all_of(metrics), \(x) z_within(x, cell), .names = "zw_{.col}"),
-         across(all_of(metrics), z, .names = "zg_{.col}"))
-
-d <- t99 |>
-  left_join(select(comp_preds, comp, starts_with("zw_"), starts_with("zg_")), by = "comp") |>
-  mutate(
-    y99_prod = z(prod), y99_resp = z(resp), y99_dc = z(dc),
-    cell = factor(cell), rich = factor(spdv, levels = c(6, 18), labels = c("S6", "S18")),
-    ftime = factor(time), comp = factor(comp), tank = factor(tank)
-  )
-
-random_ar <- " + (1 | comp) + (1 | tank) + ar(time = time, gr = tank, p = 1)"
+source(here("R", "t99_data.R"))
+metrics <- metrics99
+d <- prep_t99()
 
 # ---- (a) within-cell slopes ----
 rhs_a <- \(x) paste0("0 + cell + ", x, " + ftime + dist + dist:post", random_ar)
@@ -101,18 +82,11 @@ slopes_b <- fits_b |>
   })
 
 # ---- (c) disturbance: resistance and recovery, modulation by zw_X ----
-rhs_c <- \(x) paste0("0 + cell + ", x, " + ftime + rich:dist + rich:dist:early + rich:dist:late",
-                     " + dist:early:", x, " + dist:late:", x, random_ar)
 fits_c <- expand_grid(resp = names(responses99), x = paste0("zw_", metrics)) |>
   mutate(name = paste("t99c", resp, x, "sig", sep = "_"),
          fit = pmap(list(resp, x, name), \(r, x, nm)
            fit_uni(responses99[[r]], data = d, name = nm, rhs_override = rhs_c(x), sigma_rhs = sigma99[[r]])))
 
-find_col <- function(nms, parts) {
-  hit <- nms[map_lgl(str_split(str_remove(nms, "^b_"), ":"), \(p) setequal(p, parts))]
-  stopifnot(length(hit) == 1)
-  hit
-}
 effects_c <- pmap_dfr(list(fits_c$fit, fits_c$resp, fits_c$x), \(f, r, x) {
   dr <- as_draws_df(f)
   nms <- names(dr)
