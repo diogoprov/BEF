@@ -1,0 +1,1 @@
+(((Myriophyllum_verticullatum,Ceratophyllum_demersum),(Elodea_nuttallii,(Potamogeton_zosteriformis,Potamogeton_crispus))),((Lithobates_catesbeianus,Lithobates_clamitans),((Physa_gyrina,Helisoma_trivolvis),((Gammarus_americana,Hyalella_azteca),((Gyrinus_sp,Acilius_sp),(Belostoma_flumireum,(Trichocorixa_sp,(Ambrysus_sp,((Notonecta_undulata,Notonecta_sp),Neoplea_striola)))))))));

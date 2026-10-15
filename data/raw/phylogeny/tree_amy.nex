@@ -1,0 +1,61 @@
+#NEXUS
+[written Fri Mar 22 15:02:51 CDT 2013 by Mesquite  version 2.75 (build 566) at MacBook-de-Diogo-Borges-Provete.local/128.62.118.194]
+
+BEGIN TAXA;
+	TITLE Taxa;
+	DIMENSIONS NTAX=8;
+	TAXLABELS
+		Sagittaria_rigida Vallisneria_americana Elodea_nutallii Potamogeton_natans Potamogeton_crispus Myriophyllum_verticillatum Utricularia_vulgaris Ceratophyllum_demersum 
+	;
+
+END;
+
+
+BEGIN TREES;
+	Title Imported_trees;
+	LINK Taxa = Taxa;
+	TRANSLATE
+		1 Sagittaria_rigida,
+		2 Vallisneria_americana,
+		3 Elodea_nutallii,
+		4 Potamogeton_natans,
+		5 Potamogeton_crispus,
+		6 Myriophyllum_verticillatum,
+		7 Utricularia_vulgaris,
+		8 Ceratophyllum_demersum;
+	TREE Imported_tree_0 = (((((((((((((((1)sagittaria)alismataceae,(((2)vallisneria,(3)elodea)hydrocharitaceae)),(((((((4,5)potamogeton)potamogetonaceae))))))))alismatales))monocots,((((((((((((((((6)myriophyllum)haloragaceae)))))))saxifragales),(((((((((((((((((((((7)utricularia)lentibulariaceae))))))))))lamiales)))lamiids))ericales_to_asterales)asterids)))))core_eudicots)trochodendrales_to_asterales)sabiales_to_asterales)eudicots,(((8)ceratophyllum)ceratophyllaceae)ceratophyllales)ceratophyllales_and_eudicots)poales_to_asterales)magnoliales_to_asterales)austrobaileyales_to_asterales)nymphaeales_to_asterales)angiosperms)seedplants)euphyllophyte;
+
+END;
+
+
+Begin MESQUITE;
+		MESQUITESCRIPTVERSION 2;
+		TITLE AUTO;
+		tell ProjectCoordinator;
+		timeSaved 1363982572007;
+		getEmployee #mesquite.minimal.ManageTaxa.ManageTaxa;
+		tell It;
+			setID 0 2984356592762779725;
+		endTell;
+		getWindow;
+		tell It;
+			suppress;
+			setResourcesState true false 100;
+			setPopoutState 400;
+			setExplanationSize 0;
+			setAnnotationSize 0;
+			setFontIncAnnot 0;
+			setFontIncExp 0;
+			setSize 700 464;
+			setLocation 8 8;
+			setFont SanSerif;
+			setFontSize 10;
+			getToolPalette;
+			tell It;
+			endTell;
+			desuppress;
+		endTell;
+		endTell;
+end;
+
+
