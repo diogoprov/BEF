@@ -119,6 +119,13 @@ write_csv(r2_b, here("output", "tables", "t99_cells_vs_phylo_r2.csv"))
 write_csv(slopes_b, here("output", "tables", "t99_cells_vs_phylo_slopes.csv"))
 write_csv(effects_c, here("output", "tables", "t99_step3_disturbance.csv"))
 
+# Draws for Fig. 5 (model with MPD of the stocked composition)
+dir.create(here("output", "draws"), showWarnings = FALSE)
+fits_c |> filter(x == "zw_MPD_init") |>
+  mutate(draws = map(fit, \(f) pulse_draws(f, "rich", c("S6", "S18")))) |>
+  select(response = resp, draws) |> unnest(draws) |>
+  saveRDS(here("output", "draws", "pulse_draws_t99.rds"))
+
 r2 <- \(df) mutate(df, across(where(is.numeric), \(x) round(x, 2)))
 print(diag, n = Inf)
 print(r2(slopes_a), n = Inf, width = Inf)

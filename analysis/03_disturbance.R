@@ -79,4 +79,11 @@ effects <- pmap_dfr(list(fits$fit, fits$resp, fits$x), \(f, r, x) {
   bind_rows(rich, phy) |> mutate(response = r, predictor = x, .before = 1)
 })
 write_csv(effects, here("output", "tables", "step3_disturbance_effects.csv"))
+
+# Draws for Fig. 5 (model with MPD of the stocked composition)
+dir.create(here("output", "draws"), showWarnings = FALSE)
+fits |> filter(x == "zw_MPD_init") |>
+  mutate(draws = map(fit, \(f) pulse_draws(f, "div", c("S3", "S9", "S15")))) |>
+  select(response = resp, draws) |> unnest(draws) |>
+  saveRDS(here("output", "draws", "pulse_draws_t98.rds"))
 print(effects |> mutate(across(where(is.numeric), \(x) round(x, 2))), n = Inf, width = Inf)

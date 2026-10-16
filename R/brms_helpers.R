@@ -117,6 +117,19 @@ slope_draws <- function(fit, x, resp_prefix = "", levels = c("S3", "S9", "S15"))
 }
 
 # Posterior summary with 95% and Bonferroni-type 98.33% intervals
+# Posterior draws of the acid-pulse effects at each richness level:
+# resistance (dist x early) and recovery (late - early), as in the tables of
+# 03_disturbance.R and 11_models_t99.R. Needs find_col() from the caller.
+pulse_draws <- function(f, prefix, levels) {
+  dr <- posterior::as_draws_df(f)
+  nms <- names(dr)
+  purrr::map_dfr(levels, \(lv) {
+    e <- dr[[find_col(nms, c(paste0(prefix, lv), "dist", "early"))]]
+    l <- dr[[find_col(nms, c(paste0(prefix, lv), "dist", "late"))]]
+    tibble::tibble(level = lv, .draw = seq_along(e), resistance = e, recovery = l - e)
+  })
+}
+
 summarise_draws_ci <- function(v) {
   tibble::tibble(
     mean = mean(v),

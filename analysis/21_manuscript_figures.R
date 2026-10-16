@@ -1,6 +1,7 @@
-# Publication figures for the manuscript (Figs 1-5 and B1). Reads only the
-# trees in data/derived/ and the tables in output/tables/, so it can be rerun
-# without refitting any model. Figure B2 is drawn by 20_figure_design_box.R.
+# Publication figures for the manuscript (Figs 1-5 and B1). Reads the trees
+# in data/derived/, the tables in output/tables/ and the draws in
+# output/draws/, so it can be rerun without refitting any model. Figure B2
+# is drawn by 20_figure_design_box.R.
 #
 # Palettes checked for colour-vision deficiency (minimum pairwise CIEDE2000
 # under deutan/protan/tritan simulation, colorspace + farver): functional
@@ -8,7 +9,8 @@
 # experiments are also told apart by shape, so identity never relies on colour.
 #
 # Inputs (read-only): data/derived/phylo_timetree_{t98_21spp,t99}.tre,
-#   data/derived/si_table1_long.csv, output/tables/*.csv
+#   data/derived/si_table1_long.csv, output/tables/*.csv,
+#   output/draws/pulse_draws_{t98,t99}.rds
 # Outputs: figures/manuscript/{fig1..fig5,figB1}_*.{pdf,png}
 #   (180 mm wide = double column; pdf vector, png 600 dpi)
 
@@ -169,24 +171,32 @@ fig4 <- ggplot(fig4_dat, aes(r2_comp, fct_rev(model))) +
 save_fig(fig4, "fig4_design_vs_metrics_t99", height = 55)
 
 # ---- Fig. 5: acid pulse by richness level, T98 (a) and T99 (b) ----
-pulse_panel <- function(df, rich_col, levels, tag_title) {
-  df |>
-    filter(predictor == "zw_MPD_init",
-           term %in% c("resistance (dist x early)", "recovery (late - early)")) |>
-    mutate(term = factor(term, c("recovery (late - early)", "resistance (dist x early)"),
-                         c("Recovery", "Resistance")),
+# Full posteriors (half-eye: density, mean, 95% thick and 98.33% thin
+# intervals) from draws saved by 03_disturbance.R and 11_models_t99.R.
+# Fill follows stocked richness on one sequential ramp (Purples 3,
+# colorspace); richness is also on the y axis, so colour is redundant.
+rich_fill <- c(S3 = "#A79FE1", S6 = "#8175CB", S9 = "#6E62B6", S15 = "#463690", S18 = "#312271")
+pulse_panel <- function(file, levels, tag_title) {
+  readRDS(here("output", "draws", file)) |>
+    pivot_longer(c(resistance, recovery), names_to = "phase", values_to = "value") |>
+    mutate(phase = factor(phase, c("recovery", "resistance"), c("Recovery", "Resistance")),
            response = lab_response(response),
-           rich = factor(.data[[rich_col]], rev(levels))) |>
-    ggplot(aes(mean, rich)) +
-    ci_layers() +
-    facet_grid(term ~ response) +
-    labs(title = tag_title, x = effect_lab, y = "Stocked richness") +
+           level = factor(level, rev(levels))) |>
+    ggplot(aes(value, level, fill = level)) +
+    geom_vline(xintercept = 0, colour = ink2, linewidth = 0.3, linetype = "22") +
+    ggdist::stat_halfeye(point_interval = ggdist::mean_qi, .width = c(0.95, 1 - 0.05 / 6),
+                         slab_alpha = 0.85, height = 0.9, colour = ink, point_size = 1.3,
+                         interval_size_range = c(0.4, 1.1)) +
+    facet_grid(phase ~ response) +
+    scale_fill_manual(values = rich_fill, guide = "none") +
+    scale_y_discrete(labels = \(x) str_remove(x, "^S")) +
+    labs(title = tag_title, x = "Effect of the pulse (SD of response)", y = "Stocked richness") +
     theme_ms + theme(plot.title = element_text(face = "bold", size = 9),
                      strip.text.y = element_text(angle = 0))
 }
-fig5 <- pulse_panel(tab("step3_disturbance_effects"), "div", c("S3", "S9", "S15"), "a  T98") /
-  pulse_panel(tab("t99_step3_disturbance"), "rich", c("S6", "S18"), "b  T99")
-save_fig(fig5, "fig5_pulse", height = 150)
+fig5 <- pulse_panel("pulse_draws_t98.rds", c("S3", "S9", "S15"), "a  T98") /
+  pulse_panel("pulse_draws_t99.rds", c("S6", "S18"), "b  T99")
+save_fig(fig5, "fig5_pulse", height = 160)
 
 # ---- Fig. B1: prior vs posterior of the variance shares (T99) ----
 figB1_dat <- tab("t99_species_identity_variance") |>
