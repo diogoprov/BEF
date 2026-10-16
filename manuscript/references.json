@@ -1,0 +1,2250 @@
+[
+ {
+  "id": "Kumar2022etal_sac174",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Sudhir",
+    "family": "Kumar"
+   },
+   {
+    "given": "Michael",
+    "family": "Suleski"
+   },
+   {
+    "given": "Jack M",
+    "family": "Craig"
+   },
+   {
+    "given": "Adrienne E",
+    "family": "Kasprowicz"
+   },
+   {
+    "given": "Maxwell",
+    "family": "Sanderford"
+   },
+   {
+    "given": "Michael",
+    "family": "Li"
+   },
+   {
+    "given": "Glen",
+    "family": "Stecher"
+   },
+   {
+    "given": "S Blair",
+    "family": "Hedges"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2022
+    ]
+   ]
+  },
+  "title": "TimeTree 5: an expanded resource for species divergence times",
+  "container-title": "Mol. Biol. Evol.",
+  "container-title-short": "Mol. Biol. Evol.",
+  "volume": "39",
+  "page": "msac174",
+  "DOI": "10.1093/molbev/msac174"
+ },
+ {
+  "id": "Gabry2019etal_.12378",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Jonah",
+    "family": "Gabry"
+   },
+   {
+    "given": "Daniel",
+    "family": "Simpson"
+   },
+   {
+    "given": "Aki",
+    "family": "Vehtari"
+   },
+   {
+    "given": "Michael",
+    "family": "Betancourt"
+   },
+   {
+    "given": "Andrew",
+    "family": "Gelman"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2019
+    ]
+   ]
+  },
+  "title": "Visualization in Bayesian workflow",
+  "container-title": "J. R. Stat. Soc. A",
+  "container-title-short": "J. R. Stat. Soc. A",
+  "volume": "182",
+  "page": "389–402",
+  "DOI": "10.1111/rssa.12378"
+ },
+ {
+  "id": "Burkner2017_80.i01",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Paul-Christian",
+    "family": "Bürkner"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2017
+    ]
+   ]
+  },
+  "title": "brms: an R package for Bayesian multilevel models using Stan",
+  "container-title": "J. Stat. Softw.",
+  "container-title-short": "J. Stat. Softw.",
+  "volume": "80",
+  "page": "1–28",
+  "DOI": "10.18637/jss.v080.i01"
+ },
+ {
+  "id": "Webb2008etal_btn358",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Campbell O.",
+    "family": "Webb"
+   },
+   {
+    "given": "David D.",
+    "family": "Ackerly"
+   },
+   {
+    "given": "Steven W.",
+    "family": "Kembel"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2008
+    ]
+   ]
+  },
+  "title": "Phylocom: software for the analysis of phylogenetic community structure and trait evolution",
+  "container-title": "Bioinformatics",
+  "container-title-short": "Bioinformatics",
+  "volume": "24",
+  "page": "2098–2100",
+  "DOI": "10.1093/bioinformatics/btn358"
+ },
+ {
+  "id": "Eisenhauer2019etal_06.001",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Nico",
+    "family": "Eisenhauer"
+   },
+   {
+    "given": "Holger",
+    "family": "Schielzeth"
+   },
+   {
+    "given": "Andrew D.",
+    "family": "Barnes"
+   },
+   {
+    "given": "Kathryn E.",
+    "family": "Barry"
+   },
+   {
+    "given": "Aletta",
+    "family": "Bonn"
+   },
+   {
+    "given": "Ulrich",
+    "family": "Brose"
+   },
+   {
+    "given": "Helge",
+    "family": "Bruelheide"
+   },
+   {
+    "given": "Nina",
+    "family": "Buchmann"
+   },
+   {
+    "given": "François",
+    "family": "Buscot"
+   },
+   {
+    "given": "Anne",
+    "family": "Ebeling"
+   },
+   {
+    "given": "Olga",
+    "family": "Ferlian"
+   },
+   {
+    "given": "Grégoire T.",
+    "family": "Freschet"
+   },
+   {
+    "given": "Darren P.",
+    "family": "Giling"
+   },
+   {
+    "given": "Stephan",
+    "family": "Hättenschwiler"
+   },
+   {
+    "given": "Helmut",
+    "family": "Hillebrand"
+   },
+   {
+    "given": "Jes",
+    "family": "Hines"
+   },
+   {
+    "given": "Forest",
+    "family": "Isbell"
+   },
+   {
+    "given": "Eva",
+    "family": "Koller-France"
+   },
+   {
+    "given": "Birgitta",
+    "family": "König-Ries"
+   },
+   {
+    "given": "Hans",
+    "family": "de Kroon"
+   },
+   {
+    "given": "Sebastian T.",
+    "family": "Meyer"
+   },
+   {
+    "given": "Alexandru",
+    "family": "Milcu"
+   },
+   {
+    "given": "Jörg",
+    "family": "Müller"
+   },
+   {
+    "given": "Charles A.",
+    "family": "Nock"
+   },
+   {
+    "given": "Jana S.",
+    "family": "Petermann"
+   },
+   {
+    "given": "Christiane",
+    "family": "Roscher"
+   },
+   {
+    "given": "Christoph",
+    "family": "Scherber"
+   },
+   {
+    "given": "Michael",
+    "family": "Scherer-Lorenzen"
+   },
+   {
+    "given": "Bernhard",
+    "family": "Schmid"
+   },
+   {
+    "given": "Stefan A.",
+    "family": "Schnitzer"
+   },
+   {
+    "given": "Andreas",
+    "family": "Schuldt"
+   },
+   {
+    "given": "Teja",
+    "family": "Tscharntke"
+   },
+   {
+    "given": "Manfred",
+    "family": "Türke"
+   },
+   {
+    "given": "Nicole M.",
+    "family": "van Dam"
+   },
+   {
+    "given": "Fons",
+    "family": "van der Plas"
+   },
+   {
+    "given": "Anja",
+    "family": "Vogel"
+   },
+   {
+    "given": "Cameron",
+    "family": "Wagg"
+   },
+   {
+    "given": "David A.",
+    "family": "Wardle"
+   },
+   {
+    "given": "Alexandra",
+    "family": "Weigelt"
+   },
+   {
+    "given": "Wolfgang W.",
+    "family": "Weisser"
+   },
+   {
+    "given": "Christian",
+    "family": "Wirth"
+   },
+   {
+    "given": "Malte",
+    "family": "Jochum"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2019
+    ]
+   ]
+  },
+  "title": "A multitrophic perspective on biodiversity–ecosystem functioning research",
+  "container-title": "Adv. Ecol. Res.",
+  "container-title-short": "Adv. Ecol. Res.",
+  "page": "1–54",
+  "DOI": "10.1016/bs.aecr.2019.06.001",
+  "volume": "61"
+ },
+ {
+  "id": "Barnes2018etal_12.007",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Andrew D.",
+    "family": "Barnes"
+   },
+   {
+    "given": "Malte",
+    "family": "Jochum"
+   },
+   {
+    "given": "Jonathan S.",
+    "family": "Lefcheck"
+   },
+   {
+    "given": "Nico",
+    "family": "Eisenhauer"
+   },
+   {
+    "given": "Christoph",
+    "family": "Scherber"
+   },
+   {
+    "given": "Mary I.",
+    "family": "O’Connor"
+   },
+   {
+    "given": "Peter",
+    "family": "de Ruiter"
+   },
+   {
+    "given": "Ulrich",
+    "family": "Brose"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2018
+    ]
+   ]
+  },
+  "title": "Energy flux: the link between multitrophic biodiversity and ecosystem functioning",
+  "container-title": "Trends Ecol. Evol.",
+  "container-title-short": "Trends Ecol. Evol.",
+  "volume": "33",
+  "page": "186–197",
+  "DOI": "10.1016/j.tree.2017.12.007"
+ },
+ {
+  "id": "Kembel2010etal_btq166",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Steven W.",
+    "family": "Kembel"
+   },
+   {
+    "given": "Peter D.",
+    "family": "Cowan"
+   },
+   {
+    "given": "Matthew R.",
+    "family": "Helmus"
+   },
+   {
+    "given": "William K.",
+    "family": "Cornwell"
+   },
+   {
+    "given": "Helene",
+    "family": "Morlon"
+   },
+   {
+    "given": "David D.",
+    "family": "Ackerly"
+   },
+   {
+    "given": "Simon P.",
+    "family": "Blomberg"
+   },
+   {
+    "given": "Campbell O.",
+    "family": "Webb"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2010
+    ]
+   ]
+  },
+  "title": "Picante: R tools for integrating phylogenies and ecology",
+  "container-title": "Bioinformatics",
+  "container-title-short": "Bioinformatics",
+  "volume": "26",
+  "page": "1463–1464",
+  "DOI": "10.1093/bioinformatics/btq166"
+ },
+ {
+  "id": "Thompson2015etal_117595",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Patrick L.",
+    "family": "Thompson"
+   },
+   {
+    "given": "T. Jonathan",
+    "family": "Davies"
+   },
+   {
+    "given": "Andrew",
+    "family": "Gonzalez"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2015
+    ]
+   ]
+  },
+  "title": "Ecosystem functions across trophic levels are linked to functional and phylogenetic diversity",
+  "container-title": "PLoS ONE",
+  "container-title-short": "PLoS ONE",
+  "volume": "10",
+  "page": "e0117595",
+  "DOI": "10.1371/journal.pone.0117595"
+ },
+ {
+  "id": "Lombardo2002_667",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Paola",
+    "family": "Lombardo"
+   },
+   {
+    "given": "G. Dennis",
+    "family": "Cooke"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2002
+    ]
+   ]
+  },
+  "title": "Consumption and preference of selected food types by two freshwater gastropod species",
+  "container-title": "Arch. Hydrobiol.",
+  "container-title-short": "Arch. Hydrobiol.",
+  "volume": "155",
+  "page": "667–685",
+  "DOI": "10.1127/archiv-hydrobiol/155/2002/667"
+ },
+ {
+  "id": "Kumar2017etal_msx116",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Sudhir",
+    "family": "Kumar"
+   },
+   {
+    "given": "Glen",
+    "family": "Stecher"
+   },
+   {
+    "given": "Michael",
+    "family": "Suleski"
+   },
+   {
+    "given": "S. Blair",
+    "family": "Hedges"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2017
+    ]
+   ]
+  },
+  "title": "TimeTree: a resource for timelines, timetrees, and divergence times",
+  "container-title": "Mol. Biol. Evol.",
+  "container-title-short": "Mol. Biol. Evol.",
+  "volume": "34",
+  "page": "1812–1819",
+  "DOI": "10.1093/molbev/msx116"
+ },
+ {
+  "id": "Connolly2011etal_2270.1",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "John",
+    "family": "Connolly"
+   },
+   {
+    "given": "Marc W.",
+    "family": "Cadotte"
+   },
+   {
+    "given": "Caroline",
+    "family": "Brophy"
+   },
+   {
+    "given": "Áine",
+    "family": "Dooley"
+   },
+   {
+    "given": "John",
+    "family": "Finn"
+   },
+   {
+    "given": "Laura",
+    "family": "Kirwan"
+   },
+   {
+    "given": "Christiane",
+    "family": "Roscher"
+   },
+   {
+    "given": "Alexandra",
+    "family": "Weigelt"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2011
+    ]
+   ]
+  },
+  "title": "Phylogenetically diverse grasslands are associated with pairwise interspecific processes that increase biomass",
+  "container-title": "Ecology",
+  "container-title-short": "Ecology",
+  "volume": "92",
+  "page": "1385–1392",
+  "DOI": "10.1890/10-2270.1"
+ },
+ {
+  "id": "Lefcheck2015etal_ms7936",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Jonathan S.",
+    "family": "Lefcheck"
+   },
+   {
+    "given": "Jarrett E. K.",
+    "family": "Byrnes"
+   },
+   {
+    "given": "Forest",
+    "family": "Isbell"
+   },
+   {
+    "given": "Lars",
+    "family": "Gamfeldt"
+   },
+   {
+    "given": "John N.",
+    "family": "Griffin"
+   },
+   {
+    "given": "Nico",
+    "family": "Eisenhauer"
+   },
+   {
+    "given": "Marc J. S.",
+    "family": "Hensel"
+   },
+   {
+    "given": "Andy",
+    "family": "Hector"
+   },
+   {
+    "given": "Bradley J.",
+    "family": "Cardinale"
+   },
+   {
+    "given": "J. Emmett",
+    "family": "Duffy"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2015
+    ]
+   ]
+  },
+  "title": "Biodiversity enhances ecosystem multifunctionality across trophic levels and habitats",
+  "container-title": "Nat. Commun.",
+  "container-title-short": "Nat. Commun.",
+  "volume": "6",
+  "page": "6936",
+  "DOI": "10.1038/ncomms7936"
+ },
+ {
+  "id": "Zuur2016_.12577",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Alain F.",
+    "family": "Zuur"
+   },
+   {
+    "given": "Elena N.",
+    "family": "Ieno"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2016
+    ]
+   ]
+  },
+  "title": "A protocol for conducting and presenting results of regression-type analyses",
+  "container-title": "Methods Ecol. Evol.",
+  "container-title-short": "Methods Ecol. Evol.",
+  "volume": "7",
+  "page": "636–645",
+  "DOI": "10.1111/2041-210X.12577"
+ },
+ {
+  "id": "BannarMartin2018etal_.12895",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Katherine H.",
+    "family": "Bannar-Martin"
+   },
+   {
+    "given": "Colin T.",
+    "family": "Kremer"
+   },
+   {
+    "given": "S.K. Morgan",
+    "family": "Ernest"
+   },
+   {
+    "given": "Mathew A.",
+    "family": "Leibold"
+   },
+   {
+    "given": "Harald",
+    "family": "Auge"
+   },
+   {
+    "given": "Jonathan M.",
+    "family": "Chase"
+   },
+   {
+    "given": "Steven A.J.",
+    "family": "Declerck"
+   },
+   {
+    "given": "Nico",
+    "family": "Eisenhauer"
+   },
+   {
+    "given": "W. Stanley",
+    "family": "Harpole"
+   },
+   {
+    "given": "Helmut",
+    "family": "Hillebrand"
+   },
+   {
+    "given": "Forest",
+    "family": "Isbell"
+   },
+   {
+    "given": "Thomas",
+    "family": "Koffel"
+   },
+   {
+    "given": "Stefano",
+    "family": "Larsen"
+   },
+   {
+    "given": "Anita",
+    "family": "Narwani"
+   },
+   {
+    "given": "Jana S.",
+    "family": "Petermann"
+   },
+   {
+    "given": "Christiane",
+    "family": "Roscher"
+   },
+   {
+    "given": "Juliano Sarmento",
+    "family": "Cabral"
+   },
+   {
+    "given": "Sarah R.",
+    "family": "Supp"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2018
+    ]
+   ]
+  },
+  "title": "Integrating community assembly and biodiversity to better understand ecosystem function: the Community Assembly and the Functioning of Ecosystems (CAFE) approach",
+  "container-title": "Ecol. Lett.",
+  "container-title-short": "Ecol. Lett.",
+  "volume": "21",
+  "page": "167–180",
+  "DOI": "10.1111/ele.12895"
+ },
+ {
+  "id": "Tsang2025_.70267",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Toby P. N.",
+    "family": "Tsang"
+   },
+   {
+    "given": "Marc W.",
+    "family": "Cadotte"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2025
+    ]
+   ]
+  },
+  "title": "Species overlap and phylogenetic relatedness result in community statistical non-independence (and what to do about it)",
+  "container-title": "Ecol. Lett.",
+  "container-title-short": "Ecol. Lett.",
+  "volume": "28",
+  "page": "e70267",
+  "DOI": "10.1111/ele.70267"
+ },
+ {
+  "id": "Tucker2017etal_.12252",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Caroline M.",
+    "family": "Tucker"
+   },
+   {
+    "given": "Marc W.",
+    "family": "Cadotte"
+   },
+   {
+    "given": "Silvia B.",
+    "family": "Carvalho"
+   },
+   {
+    "given": "T. Jonathan",
+    "family": "Davies"
+   },
+   {
+    "given": "Simon",
+    "family": "Ferrier"
+   },
+   {
+    "given": "Susanne A.",
+    "family": "Fritz"
+   },
+   {
+    "given": "Rich",
+    "family": "Grenyer"
+   },
+   {
+    "given": "Matthew R.",
+    "family": "Helmus"
+   },
+   {
+    "given": "Lanna S.",
+    "family": "Jin"
+   },
+   {
+    "given": "Arne O.",
+    "family": "Mooers"
+   },
+   {
+    "given": "Sandrine",
+    "family": "Pavoine"
+   },
+   {
+    "given": "Oliver",
+    "family": "Purschke"
+   },
+   {
+    "given": "David W.",
+    "family": "Redding"
+   },
+   {
+    "given": "Dan F.",
+    "family": "Rosauer"
+   },
+   {
+    "given": "Marten",
+    "family": "Winter"
+   },
+   {
+    "given": "Florent",
+    "family": "Mazel"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2017
+    ]
+   ]
+  },
+  "title": "A guide to phylogenetic metrics for conservation, community ecology and macroecology",
+  "container-title": "Biol. Rev.",
+  "container-title-short": "Biol. Rev.",
+  "volume": "92",
+  "page": "698–715",
+  "DOI": "10.1111/brv.12252"
+ },
+ {
+  "id": "Leibold2017etal_y.1697",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Mathew A.",
+    "family": "Leibold"
+   },
+   {
+    "given": "Jonathan M.",
+    "family": "Chase"
+   },
+   {
+    "given": "S. K. Morgan",
+    "family": "Ernest"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2017
+    ]
+   ]
+  },
+  "title": "Community assembly and the functioning of ecosystems: how metacommunity processes alter ecosystems attributes",
+  "container-title": "Ecology",
+  "container-title-short": "Ecology",
+  "volume": "98",
+  "page": "909–919",
+  "DOI": "10.1002/ecy.1697"
+ },
+ {
+  "id": "Revell2024_.16505",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Liam J.",
+    "family": "Revell"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2024
+    ]
+   ]
+  },
+  "title": "phytools 2.0: an updated R ecosystem for phylogenetic comparative methods (and other things)",
+  "container-title": "PeerJ",
+  "container-title-short": "PeerJ",
+  "volume": "12",
+  "page": "e16505",
+  "DOI": "10.7717/peerj.16505"
+ },
+ {
+  "id": "Mazel2018etal_5126-3",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Florent",
+    "family": "Mazel"
+   },
+   {
+    "given": "Matthew W.",
+    "family": "Pennell"
+   },
+   {
+    "given": "Marc W.",
+    "family": "Cadotte"
+   },
+   {
+    "given": "Sandra",
+    "family": "Díaz"
+   },
+   {
+    "given": "Giulio Valentino",
+    "family": "Dalla Riva"
+   },
+   {
+    "given": "Richard",
+    "family": "Grenyer"
+   },
+   {
+    "given": "Fabien",
+    "family": "Leprieur"
+   },
+   {
+    "given": "Arne O.",
+    "family": "Mooers"
+   },
+   {
+    "given": "David",
+    "family": "Mouillot"
+   },
+   {
+    "given": "Caroline M.",
+    "family": "Tucker"
+   },
+   {
+    "given": "William D.",
+    "family": "Pearse"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2018
+    ]
+   ]
+  },
+  "title": "Prioritizing phylogenetic diversity captures functional diversity unreliably",
+  "container-title": "Nat. Commun.",
+  "container-title-short": "Nat. Commun.",
+  "volume": "9",
+  "page": "2888",
+  "DOI": "10.1038/s41467-018-05126-3"
+ },
+ {
+  "id": "Ives2011_1264.1",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Anthony R.",
+    "family": "Ives"
+   },
+   {
+    "given": "Matthew R.",
+    "family": "Helmus"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2011
+    ]
+   ]
+  },
+  "title": "Generalized linear mixed models for phylogenetic analyses of community structure",
+  "container-title": "Ecol. Monogr.",
+  "container-title-short": "Ecol. Monogr.",
+  "volume": "81",
+  "page": "511–525",
+  "DOI": "10.1890/10-1264.1"
+ },
+ {
+  "id": "Tucker2018etal_y.2349",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Caroline M.",
+    "family": "Tucker"
+   },
+   {
+    "given": "T. Jonathan",
+    "family": "Davies"
+   },
+   {
+    "given": "Marc W.",
+    "family": "Cadotte"
+   },
+   {
+    "given": "William D.",
+    "family": "Pearse"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2018
+    ]
+   ]
+  },
+  "title": "On the relationship between phylogenetic diversity and trait diversity",
+  "container-title": "Ecology",
+  "container-title-short": "Ecology",
+  "volume": "99",
+  "page": "1473–1479",
+  "DOI": "10.1002/ecy.2349"
+ },
+ {
+  "id": "Best2013etal_.12016",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "R. J.",
+    "family": "Best"
+   },
+   {
+    "given": "N. C.",
+    "family": "Caulk"
+   },
+   {
+    "given": "J. J.",
+    "family": "Stachowicz"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2013
+    ]
+   ]
+  },
+  "title": "Trait vs. phylogenetic diversity as predictors of competition and community composition in herbivorous marine amphipods",
+  "container-title": "Ecol. Lett.",
+  "container-title-short": "Ecol. Lett.",
+  "volume": "16",
+  "page": "72–80",
+  "DOI": "10.1111/ele.12016"
+ },
+ {
+  "id": "Kruschke2021_1177-7",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "John K.",
+    "family": "Kruschke"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2021
+    ]
+   ]
+  },
+  "title": "Bayesian analysis reporting guidelines",
+  "container-title": "Nat. Hum. Behav.",
+  "container-title-short": "Nat. Hum. Behav.",
+  "volume": "5",
+  "page": "1282–1291",
+  "DOI": "10.1038/s41562-021-01177-7"
+ },
+ {
+  "id": "Flynn2011etal_1245.1",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Dan F. B.",
+    "family": "Flynn"
+   },
+   {
+    "given": "Nicholas",
+    "family": "Mirotchnick"
+   },
+   {
+    "given": "Meha",
+    "family": "Jain"
+   },
+   {
+    "given": "Matthew I.",
+    "family": "Palmer"
+   },
+   {
+    "given": "Shahid",
+    "family": "Naeem"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2011
+    ]
+   ]
+  },
+  "title": "Functional and phylogenetic diversity as predictors of biodiversity–ecosystem-function relationships",
+  "container-title": "Ecology",
+  "container-title-short": "Ecology",
+  "volume": "92",
+  "page": "1573–1581",
+  "DOI": "10.1890/10-1245.1"
+ },
+ {
+  "id": "DOWNING2010_2472.x",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "AMY L.",
+    "family": "Downing"
+   },
+   {
+    "given": "MATHEW A.",
+    "family": "Leibold"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2010
+    ]
+   ]
+  },
+  "title": "Species richness facilitates ecosystem resilience in aquatic food webs",
+  "container-title": "Freshwater Biol.",
+  "container-title-short": "Freshwater Biol.",
+  "volume": "55",
+  "page": "2123–2137",
+  "DOI": "10.1111/j.1365-2427.2010.02472.x"
+ },
+ {
+  "id": "Cardinale2015etal_.12540",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Bradley J.",
+    "family": "Cardinale"
+   },
+   {
+    "given": "Patrick",
+    "family": "Venail"
+   },
+   {
+    "given": "Kevin",
+    "family": "Gross"
+   },
+   {
+    "given": "Todd H.",
+    "family": "Oakley"
+   },
+   {
+    "given": "Anita",
+    "family": "Narwani"
+   },
+   {
+    "given": "Eric",
+    "family": "Allan"
+   },
+   {
+    "given": "Pedro",
+    "family": "Flombaum"
+   },
+   {
+    "given": "Jasmin",
+    "family": "Joshi"
+   },
+   {
+    "given": "Peter B.",
+    "family": "Reich"
+   },
+   {
+    "given": "David",
+    "family": "Tilman"
+   },
+   {
+    "given": "Jasper",
+    "family": "van Ruijven"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2015
+    ]
+   ]
+  },
+  "title": "Further re-analyses looking for effects of phylogenetic diversity on community biomass and stability",
+  "container-title": "Funct. Ecol.",
+  "container-title-short": "Funct. Ecol.",
+  "volume": "29",
+  "page": "1607–1610",
+  "DOI": "10.1111/1365-2435.12540"
+ },
+ {
+  "id": "Venail2013_2002.1",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Patrick A.",
+    "family": "Venail"
+   },
+   {
+    "given": "Martha J.",
+    "family": "Vives"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2013
+    ]
+   ]
+  },
+  "title": "Phylogenetic distance and species richness interactively affect the productivity of bacterial communities",
+  "container-title": "Ecology",
+  "container-title-short": "Ecology",
+  "volume": "94",
+  "page": "2529–2536",
+  "DOI": "10.1890/12-2002.1"
+ },
+ {
+  "id": "Cadotte2012etal_0426.1",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Marc W.",
+    "family": "Cadotte"
+   },
+   {
+    "given": "Russell",
+    "family": "Dinnage"
+   },
+   {
+    "given": "David",
+    "family": "Tilman"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2012
+    ]
+   ]
+  },
+  "title": "Phylogenetic diversity promotes ecosystem stability",
+  "container-title": "Ecology",
+  "container-title-short": "Ecology",
+  "volume": "93",
+  "page": "S223–S233",
+  "DOI": "10.1890/11-0426.1"
+ },
+ {
+  "id": "Staab2021etal_.13722",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Michael",
+    "family": "Staab"
+   },
+   {
+    "given": "Xiaojuan",
+    "family": "Liu"
+   },
+   {
+    "given": "Thorsten",
+    "family": "Assmann"
+   },
+   {
+    "given": "Helge",
+    "family": "Bruelheide"
+   },
+   {
+    "given": "François",
+    "family": "Buscot"
+   },
+   {
+    "given": "Walter",
+    "family": "Durka"
+   },
+   {
+    "given": "Alexandra",
+    "family": "Erfmeier"
+   },
+   {
+    "given": "Alexandra-Maria",
+    "family": "Klein"
+   },
+   {
+    "given": "Keping",
+    "family": "Ma"
+   },
+   {
+    "given": "Stefan",
+    "family": "Michalski"
+   },
+   {
+    "given": "Tesfaye",
+    "family": "Wubet"
+   },
+   {
+    "given": "Bernhard",
+    "family": "Schmid"
+   },
+   {
+    "given": "Andreas",
+    "family": "Schuldt"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2021
+    ]
+   ]
+  },
+  "title": "Tree phylogenetic diversity structures multitrophic communities",
+  "container-title": "Funct. Ecol.",
+  "container-title-short": "Funct. Ecol.",
+  "volume": "35",
+  "page": "521–534",
+  "DOI": "10.1111/1365-2435.13722"
+ },
+ {
+  "id": "Duffy2007etal_1037.x",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "J. Emmett",
+    "family": "Duffy"
+   },
+   {
+    "given": "Bradley J.",
+    "family": "Cardinale"
+   },
+   {
+    "given": "Kristin E.",
+    "family": "France"
+   },
+   {
+    "given": "Peter B.",
+    "family": "McIntyre"
+   },
+   {
+    "given": "Elisa",
+    "family": "Thébault"
+   },
+   {
+    "given": "Michel",
+    "family": "Loreau"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2007
+    ]
+   ]
+  },
+  "title": "The functional role of biodiversity in ecosystems: incorporating trophic complexity",
+  "container-title": "Ecol. Lett.",
+  "container-title-short": "Ecol. Lett.",
+  "volume": "10",
+  "page": "522–538",
+  "DOI": "10.1111/j.1461-0248.2007.01037.x"
+ },
+ {
+  "id": "Kirwan2009etal_1684.1",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "L.",
+    "family": "Kirwan"
+   },
+   {
+    "given": "J.",
+    "family": "Connolly"
+   },
+   {
+    "given": "J. A.",
+    "family": "Finn"
+   },
+   {
+    "given": "C.",
+    "family": "Brophy"
+   },
+   {
+    "given": "A.",
+    "family": "Lüscher"
+   },
+   {
+    "given": "D.",
+    "family": "Nyfeler"
+   },
+   {
+    "given": "M-T.",
+    "family": "Sebastià"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2009
+    ]
+   ]
+  },
+  "title": "Diversity–interaction modeling: estimating contributions of species identities and interactions to ecosystem function",
+  "container-title": "Ecology",
+  "container-title-short": "Ecology",
+  "volume": "90",
+  "page": "2032–2038",
+  "DOI": "10.1890/08-1684.1"
+ },
+ {
+  "id": "Cadotte2013_685110",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Marc W.",
+    "family": "Cadotte"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2013
+    ]
+   ]
+  },
+  "title": "Experimental evidence that evolutionarily diverse assemblages result in higher productivity",
+  "container-title": "Proc. Natl Acad. Sci. USA",
+  "container-title-short": "Proc. Natl Acad. Sci. USA",
+  "volume": "110",
+  "page": "8996–9000",
+  "DOI": "10.1073/pnas.1301685110"
+ },
+ {
+  "id": "Wang2018_.12865",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Shaopeng",
+    "family": "Wang"
+   },
+   {
+    "given": "Ulrich",
+    "family": "Brose"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2018
+    ]
+   ]
+  },
+  "title": "Biodiversity and ecosystem functioning in food webs: the vertical diversity hypothesis",
+  "container-title": "Ecol. Lett.",
+  "container-title-short": "Ecol. Lett.",
+  "volume": "21",
+  "page": "9–20",
+  "DOI": "10.1111/ele.12865"
+ },
+ {
+  "id": "Alavez2023etal_5455-1",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Verónica",
+    "family": "Alavez"
+   },
+   {
+    "given": "Rocio",
+    "family": "Santos-Gally"
+   },
+   {
+    "given": "Manuel",
+    "family": "Gutiérrez-Aguilar"
+   },
+   {
+    "given": "Ek",
+    "family": "del-Val"
+   },
+   {
+    "given": "Karina",
+    "family": "Boege"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2023
+    ]
+   ]
+  },
+  "title": "Influence of phylogenetic diversity of plant communities on tri-trophic interactions",
+  "container-title": "Oecologia",
+  "container-title-short": "Oecologia",
+  "volume": "203",
+  "page": "125–137",
+  "DOI": "10.1007/s00442-023-05455-1"
+ },
+ {
+  "id": "Douglass2008etal_1175.x",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "James G.",
+    "family": "Douglass"
+   },
+   {
+    "given": "J. Emmett",
+    "family": "Duffy"
+   },
+   {
+    "given": "John F.",
+    "family": "Bruno"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2008
+    ]
+   ]
+  },
+  "title": "Herbivore and predator diversity interactively affect ecosystem properties in an experimental marine community",
+  "container-title": "Ecol. Lett.",
+  "container-title-short": "Ecol. Lett.",
+  "volume": "11",
+  "page": "598–608",
+  "DOI": "10.1111/j.1461-0248.2008.01175.x"
+ },
+ {
+  "id": "Downing2002_16837a",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Amy L.",
+    "family": "Downing"
+   },
+   {
+    "given": "Mathew A.",
+    "family": "Leibold"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2002
+    ]
+   ]
+  },
+  "title": "Ecosystem consequences of species richness and composition in pond food webs",
+  "container-title": "Nature",
+  "container-title-short": "Nature",
+  "volume": "416",
+  "page": "837–841",
+  "DOI": "10.1038/416837a"
+ },
+ {
+  "id": "Gianuca2016etal_6.0487",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Andros T.",
+    "family": "Gianuca"
+   },
+   {
+    "given": "Jelena H.",
+    "family": "Pantel"
+   },
+   {
+    "given": "Luc",
+    "family": "De Meester"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2016
+    ]
+   ]
+  },
+  "title": "Disentangling the effect of body size and phylogenetic distances on zooplankton top-down control of algae",
+  "container-title": "Proc. R. Soc. B",
+  "container-title-short": "Proc. R. Soc. B",
+  "volume": "283",
+  "page": "20160487",
+  "DOI": "10.1098/rspb.2016.0487"
+ },
+ {
+  "id": "Paradis2019_bty633",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Emmanuel",
+    "family": "Paradis"
+   },
+   {
+    "given": "Klaus",
+    "family": "Schliep"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2019
+    ]
+   ]
+  },
+  "title": "ape 5.0: an environment for modern phylogenetics and evolutionary analyses in R",
+  "container-title": "Bioinformatics",
+  "container-title-short": "Bioinformatics",
+  "volume": "35",
+  "page": "526–528",
+  "DOI": "10.1093/bioinformatics/bty633"
+ },
+ {
+  "id": "Vehtari2021etal_ba1221",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Aki",
+    "family": "Vehtari"
+   },
+   {
+    "given": "Andrew",
+    "family": "Gelman"
+   },
+   {
+    "given": "Daniel",
+    "family": "Simpson"
+   },
+   {
+    "given": "Bob",
+    "family": "Carpenter"
+   },
+   {
+    "given": "Paul-Christian",
+    "family": "Bürkner"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2021
+    ]
+   ]
+  },
+  "title": "Rank-normalization, folding, and localization: an improved R-hat for assessing convergence of MCMC (with discussion)",
+  "container-title": "Bayesian Anal.",
+  "container-title-short": "Bayesian Anal.",
+  "volume": "16",
+  "page": "667–718",
+  "DOI": "10.1214/20-BA1221"
+ },
+ {
+  "id": "Vehtari2017etal_9696-4",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Aki",
+    "family": "Vehtari"
+   },
+   {
+    "given": "Andrew",
+    "family": "Gelman"
+   },
+   {
+    "given": "Jonah",
+    "family": "Gabry"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2017
+    ]
+   ]
+  },
+  "title": "Practical Bayesian model evaluation using leave-one-out cross-validation and WAIC",
+  "container-title": "Stat. Comput.",
+  "container-title-short": "Stat. Comput.",
+  "volume": "27",
+  "page": "1413–1432",
+  "DOI": "10.1007/s11222-016-9696-4"
+ },
+ {
+  "id": "Thebault2003_847100",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Elisa",
+    "family": "Thébault"
+   },
+   {
+    "given": "Michel",
+    "family": "Loreau"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2003
+    ]
+   ]
+  },
+  "title": "Food-web constraints on biodiversity–ecosystem functioning relationships",
+  "container-title": "Proc. Natl Acad. Sci. USA",
+  "container-title-short": "Proc. Natl Acad. Sci. USA",
+  "volume": "100",
+  "page": "14949–14954",
+  "DOI": "10.1073/pnas.2434847100"
+ },
+ {
+  "id": "Srivastava2009etal_0439.1",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Diane S.",
+    "family": "Srivastava"
+   },
+   {
+    "given": "Bradley J.",
+    "family": "Cardinale"
+   },
+   {
+    "given": "Amy L.",
+    "family": "Downing"
+   },
+   {
+    "given": "J. Emmett",
+    "family": "Duffy"
+   },
+   {
+    "given": "Claire",
+    "family": "Jouseau"
+   },
+   {
+    "given": "Mahesh",
+    "family": "Sankaran"
+   },
+   {
+    "given": "Justin P.",
+    "family": "Wright"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2009
+    ]
+   ]
+  },
+  "title": "Diversity has stronger top-down than bottom-up effects on decomposition",
+  "container-title": "Ecology",
+  "container-title-short": "Ecology",
+  "volume": "90",
+  "page": "1073–1083",
+  "DOI": "10.1890/08-0439.1"
+ },
+ {
+  "id": "Downing2005_3-0239",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Amy L.",
+    "family": "Downing"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2005
+    ]
+   ]
+  },
+  "title": "Relative effects of species composition and richness on ecosystem properties in ponds",
+  "container-title": "Ecology",
+  "container-title-short": "Ecology",
+  "volume": "86",
+  "page": "701–715",
+  "DOI": "10.1890/03-0239"
+ },
+ {
+  "id": "Bell2009etal_647931",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Thomas",
+    "family": "Bell"
+   },
+   {
+    "given": "Andrew K.",
+    "family": "Lilley"
+   },
+   {
+    "given": "Andy",
+    "family": "Hector"
+   },
+   {
+    "given": "Bernhard",
+    "family": "Schmid"
+   },
+   {
+    "given": "Lindsay",
+    "family": "King"
+   },
+   {
+    "given": "Jonathan A.",
+    "family": "Newman"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2009
+    ]
+   ]
+  },
+  "title": "A linear model method for biodiversity–ecosystem functioning experiments",
+  "container-title": "Am. Nat.",
+  "container-title-short": "Am. Nat.",
+  "volume": "174",
+  "page": "836–849",
+  "DOI": "10.1086/647931"
+ },
+ {
+  "id": "Kallioinen2024etal_0366-5",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Noa",
+    "family": "Kallioinen"
+   },
+   {
+    "given": "Topi",
+    "family": "Paananen"
+   },
+   {
+    "given": "Paul-Christian",
+    "family": "Bürkner"
+   },
+   {
+    "given": "Aki",
+    "family": "Vehtari"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2024
+    ]
+   ]
+  },
+  "title": "Detecting and diagnosing prior and likelihood sensitivity with power-scaling",
+  "container-title": "Stat. Comput.",
+  "container-title-short": "Stat. Comput.",
+  "volume": "34",
+  "page": "57",
+  "DOI": "10.1007/s11222-023-10366-5"
+ },
+ {
+  "id": "Hector2011etal_017434",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Andy",
+    "family": "Hector"
+   },
+   {
+    "given": "Thomas",
+    "family": "Bell"
+   },
+   {
+    "given": "Yann",
+    "family": "Hautier"
+   },
+   {
+    "given": "Forest",
+    "family": "Isbell"
+   },
+   {
+    "given": "Marc",
+    "family": "Kéry"
+   },
+   {
+    "given": "Peter B.",
+    "family": "Reich"
+   },
+   {
+    "given": "Jasper",
+    "family": "van Ruijven"
+   },
+   {
+    "given": "Bernhard",
+    "family": "Schmid"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2011
+    ]
+   ]
+  },
+  "title": "BUGS in the analysis of biodiversity experiments: species richness and composition are of similar importance for grassland productivity",
+  "container-title": "PLoS ONE",
+  "container-title-short": "PLoS ONE",
+  "volume": "6",
+  "page": "e17434",
+  "DOI": "10.1371/journal.pone.0017434"
+ },
+ {
+  "id": "Schmid2017etal_rtw107",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Bernhard",
+    "family": "Schmid"
+   },
+   {
+    "given": "Martin",
+    "family": "Baruffol"
+   },
+   {
+    "given": "Zhiheng",
+    "family": "Wang"
+   },
+   {
+    "given": "Pascal A.",
+    "family": "Niklaus"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2017
+    ]
+   ]
+  },
+  "title": "A guide to analyzing biodiversity experiments",
+  "container-title": "J. Plant Ecol.",
+  "container-title-short": "J. Plant Ecol.",
+  "volume": "10",
+  "page": "91–110",
+  "DOI": "10.1093/jpe/rtw107"
+ },
+ {
+  "id": "Venail2015etal_.12432",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Patrick",
+    "family": "Venail"
+   },
+   {
+    "given": "Kevin",
+    "family": "Gross"
+   },
+   {
+    "given": "Todd H.",
+    "family": "Oakley"
+   },
+   {
+    "given": "Anita",
+    "family": "Narwani"
+   },
+   {
+    "given": "Eric",
+    "family": "Allan"
+   },
+   {
+    "given": "Pedro",
+    "family": "Flombaum"
+   },
+   {
+    "given": "Forest",
+    "family": "Isbell"
+   },
+   {
+    "given": "Jasmin",
+    "family": "Joshi"
+   },
+   {
+    "given": "Peter B.",
+    "family": "Reich"
+   },
+   {
+    "given": "David",
+    "family": "Tilman"
+   },
+   {
+    "given": "Jasper",
+    "family": "van Ruijven"
+   },
+   {
+    "given": "Bradley J.",
+    "family": "Cardinale"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2015
+    ]
+   ]
+  },
+  "title": "Species richness, but not phylogenetic diversity, influences community biomass production and temporal stability in a re-examination of 16 grassland biodiversity studies",
+  "container-title": "Funct. Ecol.",
+  "container-title-short": "Funct. Ecol.",
+  "volume": "29",
+  "page": "615–626",
+  "DOI": "10.1111/1365-2435.12432"
+ },
+ {
+  "id": "Gravel2012etal_ms2123",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Dominique",
+    "family": "Gravel"
+   },
+   {
+    "given": "Thomas",
+    "family": "Bell"
+   },
+   {
+    "given": "Claire",
+    "family": "Barbera"
+   },
+   {
+    "given": "Marine",
+    "family": "Combe"
+   },
+   {
+    "given": "Thomas",
+    "family": "Pommier"
+   },
+   {
+    "given": "Nicolas",
+    "family": "Mouquet"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2012
+    ]
+   ]
+  },
+  "title": "Phylogenetic constraints on ecosystem functioning",
+  "container-title": "Nat. Commun.",
+  "container-title-short": "Nat. Commun.",
+  "volume": "3",
+  "page": "1117",
+  "DOI": "10.1038/ncomms2123"
+ },
+ {
+  "id": "Srivastava2012etal_1795.x",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "Diane S.",
+    "family": "Srivastava"
+   },
+   {
+    "given": "Marc W.",
+    "family": "Cadotte"
+   },
+   {
+    "given": "A. Andrew M.",
+    "family": "MacDonald"
+   },
+   {
+    "given": "Robin G.",
+    "family": "Marushia"
+   },
+   {
+    "given": "Nicholas",
+    "family": "Mirotchnick"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2012
+    ]
+   ]
+  },
+  "title": "Phylogenetic diversity and the functioning of ecosystems",
+  "container-title": "Ecol. Lett.",
+  "container-title-short": "Ecol. Lett.",
+  "volume": "15",
+  "page": "637–648",
+  "DOI": "10.1111/j.1461-0248.2012.01795.x"
+ },
+ {
+  "id": "RCoreTeam2026",
+  "type": "book",
+  "author": [
+   {
+    "literal": "R Core Team"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2026
+    ]
+   ]
+  },
+  "title": "R: a language and environment for statistical computing",
+  "publisher": "R Foundation for Statistical Computing, Vienna, Austria",
+  "URL": "https://www.R-project.org/"
+ },
+ {
+  "id": "Gabry2025cmdstanr",
+  "type": "software",
+  "author": [
+   {
+    "family": "Gabry",
+    "given": "Jonah"
+   },
+   {
+    "family": "Češnovar",
+    "given": "Rok"
+   },
+   {
+    "family": "Johnson",
+    "given": "Andrew"
+   },
+   {
+    "family": "Bronder",
+    "given": "Steve"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2025
+    ]
+   ]
+  },
+  "title": "cmdstanr: R interface to 'CmdStan'",
+  "version": "0.9.0.9002",
+  "URL": "https://github.com/stan-dev/cmdstanr"
+ },
+ {
+  "id": "Ooms2023phylocomr",
+  "type": "software",
+  "author": [
+   {
+    "family": "Ooms",
+    "given": "Jeroen"
+   },
+   {
+    "family": "Chamberlain",
+    "given": "Scott"
+   },
+   {
+    "family": "Sanchez Reyes",
+    "given": "Luna"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2023
+    ]
+   ]
+  },
+  "title": "phylocomr: interface to 'Phylocom'",
+  "version": "0.3.4",
+  "DOI": "10.32614/CRAN.package.phylocomr"
+ },
+ {
+  "id": "Davies2016etal",
+  "type": "article-journal",
+  "author": [
+   {
+    "given": "T. Jonathan",
+    "family": "Davies"
+   },
+   {
+    "given": "Mark C.",
+    "family": "Urban"
+   },
+   {
+    "given": "Bronwyn",
+    "family": "Rayfield"
+   },
+   {
+    "given": "Marc W.",
+    "family": "Cadotte"
+   },
+   {
+    "given": "Pedro R.",
+    "family": "Peres-Neto"
+   }
+  ],
+  "issued": {
+   "date-parts": [
+    [
+     2016
+    ]
+   ]
+  },
+  "title": "Deconstructing the relationships between phylogenetic diversity and ecology: a case study on ecosystem functioning",
+  "container-title": "Ecology",
+  "container-title-short": "Ecology",
+  "volume": "97",
+  "page": "2212–2222",
+  "DOI": "10.1002/ecy.1507"
+ }
+]

@@ -19,3 +19,7 @@ output/models/
 analysis/report.html
 analysis/report_files/
 analysis/report_cache/
+
+# Rendered manuscript
+manuscript/manuscript.docx
+manuscript/manuscript_files/

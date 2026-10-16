@@ -47,47 +47,6 @@ therefore requires large species pools within a trophic level, compositions
 chosen along relatedness with balanced species incidence, and analyses that
 model shared species explicitly.
 
-## References
-
-Bell, T., Lilley, A. K., Hector, A., Schmid, B., King, L. and Newman, J. A.
-2009. A linear model method for biodiversity–ecosystem functioning
-experiments. – Am. Nat. 174: 836–849. https://doi.org/10.1086/647931
-
-Cadotte, M. W. 2013. Experimental evidence that evolutionarily diverse
-assemblages result in higher productivity. – Proc. Natl Acad. Sci. USA 110:
-8996–9000. https://doi.org/10.1073/pnas.1301685110
-
-Connolly, J., Cadotte, M. W., Brophy, C., Dooley, Á., Finn, J., Kirwan, L.,
-Roscher, C. and Weigelt, A. 2011. Phylogenetically diverse grasslands are
-associated with pairwise interspecific processes that increase biomass. –
-Ecology 92: 1385–1392. https://doi.org/10.1890/10-2270.1
-
-Ives, A. R. and Helmus, M. R. 2011. Generalized linear mixed models for
-phylogenetic analyses of community structure. – Ecol. Monogr. 81: 511–525.
-https://doi.org/10.1890/10-1264.1
-
-Kirwan, L., Connolly, J., Finn, J. A., Brophy, C., Lüscher, A., Nyfeler, D.
-and Sebastià, M. T. 2009. Diversity–interaction modeling: estimating
-contributions of species identities and interactions to ecosystem function.
-– Ecology 90: 2032–2038. https://doi.org/10.1890/08-1684.1
-
-Srivastava, D. S., Cadotte, M. W., MacDonald, A. A. M., Marushia, R. G. and
-Mirotchnick, N. 2012. Phylogenetic diversity and the functioning of
-ecosystems. – Ecol. Lett. 15: 637–648.
-https://doi.org/10.1111/j.1461-0248.2012.01795.x
-
-Tsang, T. P. N. and Cadotte, M. W. 2025. Species overlap and phylogenetic
-relatedness result in community statistical non-independence (and what to
-do about it). – Ecol. Lett. 28: e70267. https://doi.org/10.1111/ele.70267
-
-Venail, P. A. and Vives, M. J. 2013. Phylogenetic distance and species
-richness interactively affect the productivity of bacterial communities. –
-Ecology 94: 2529–2536. https://doi.org/10.1890/12-2002.1
-
-<!-- Verified 2026-10-16 via Scholar Gateway, Consensus and Undermind
-     (metadata; full text read for Cadotte 2013, Connolly et al. 2011,
-     Tsang & Cadotte 2025). Initials "A. A. M." for MacDonald in Srivastava
-     et al. 2012 not confirmed by the tools: check before submission. -->
 
 ## Figure B2 legend
 

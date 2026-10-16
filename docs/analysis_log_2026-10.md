@@ -220,3 +220,26 @@
   para θ; a inflação de 10–13% em 24 composições (painel c) é do Wald/REML.
   Prior mais apertada nos sd não testada: o problema está nas variâncias, que
   não são o alvo, e θ já está bem amostrado.
+
+## 12. Re-datação das pseudocronogramas com o TimeTree (`analysis/00b_redate_phylogenies.R`)
+
+- Idades: API pairwise do TimeTree 5 (timetree.org, consulta de 2026-10-16),
+  salvas em `data/raw/phylogeny/timetree_calibrations.csv` (mediana, IC,
+  nº de estudos). bladj rodado com `phylocomr` 0.3.4; topologias do usuário
+  mantidas. Saídas: `data/derived/phylo_timetree_{t98_19spp,t98_21spp,t99}.tre`.
+- Problema das árvores de 2013: poucos nós calibrados, então o bladj pôs nós
+  rasos no meio de ramos profundos. *Lithobates* cat.–clam. 391 Myr (agora
+  ≤ 24, limite superior: *Lithobates* s.l. vs *Rana*, sem dados dentro do
+  gênero); *Physa*–*Helisoma* 293 → 137; *Potamogeton* 48,5 → 12 (T98) e 8,7
+  (T99); Nepomorpha 310 → 257. Nós profundos quase iguais: Bilateria 783 → 721
+  (IC 646–797); raiz 1369 → 1455. O "1.565 Myr" do texto era distância
+  par a par (2 × 783), não idade do nó.
+- Não usados: Corixidae vs resto (256,9, igual à coroa de Nepomorpha) e
+  *Belostoma*–Corixidae (116,6; o TimeTree agrupa Belostomatidae com
+  Corixidae, em conflito com a topologia). Sem dados: Notonectidae, Gyrinidae,
+  Corixinae, Pleidae–Notonectidae (interpolados).
+- Correção de topologia (T99): *Sagittaria* estava dentro de Hydrocharitaceae;
+  agora é irmã de (*Elodea*, *Vallisneria*).
+- Métricas das composições estocadas, árvore antiga vs nova: r = 0,981–0,997
+  (PD, MPD, VPD, PSV; T98 e T99); MNTD do T99 r = 0,88. As análises ainda usam
+  as árvores de 2013; trocar exige rodar de novo 00, 10 e os modelos.
