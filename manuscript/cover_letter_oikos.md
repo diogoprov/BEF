@@ -8,7 +8,7 @@
 
 [Date]
 
-Authors: Diogo B. Provete (Universidade Federal de Mato Grosso do Sul, Brazil [DEPARTAMENTO/INSTITUTO A CONFIRMAR]), Amy L. Downing (Department of Zoology, Ohio Wesleyan University, Delaware, OH, USA) and Mathew A. Leibold (University of Florida, Gainesville, FL, USA [DEPARTAMENTO A CONFIRMAR])
+Authors: Diogo B. Provete (Instituto de Biociências, Universidade Federal de Mato Grosso do Sul, Campo Grande, MS, Brazil), Amy L. Downing (Department of Biological Sciences, Ohio Wesleyan University, Delaware, OH, USA) and Mathew A. Leibold (Department of Biology, University of Florida, Gainesville, FL, USA)
 
 Dear Editor,
 
@@ -20,7 +20,7 @@ We believe that Oikos is the right outlet for this work for three reasons. First
 
 The experiments were originally published by Downing and Leibold (2002, Nature) and Downing (2005, Ecology), which analysed the effects of richness and composition but not of phylogenetic diversity, and by Downing and Leibold (2010, Freshwater Biology), which analysed resistance and resilience to the acid pulse. None of these studies used phylogenetic information. An earlier version of these analyses was part of the PhD thesis of the first author (2016), which was not published in a peer-reviewed outlet; the present analyses replace it entirely, because we found and corrected errors in the derived data used at that time. The manuscript is not under consideration elsewhere, and all authors have approved its submission. We declare no conflict of interest.
 
-The data, phylogenies and code needed to reproduce all analyses will be made available in a public repository with a persistent identifier upon acceptance, and anonymized files are provided for review [LINK ANÔNIMO A INCLUIR].
+The data, phylogenies and code needed to reproduce all analyses are provided for review through an anonymized copy of the project repository [URL anonymous.4open.science A GERAR] and will be archived in Zenodo with a DOI upon acceptance.
 
 We suggest the following potential reviewers, none of whom has collaborated with any of the authors to our knowledge:
 
@@ -35,7 +35,8 @@ Thank you for considering our manuscript.
 Sincerely,
 
 Diogo B. Provete, on behalf of all authors
-Universidade Federal de Mato Grosso do Sul, Brazil [ENDEREÇO COMPLETO A CONFIRMAR]
+Instituto de Biociências, Universidade Federal de Mato Grosso do Sul
+Av. Costa e Silva s/n, Cidade Universitária, 79070-900 Campo Grande, MS, Brazil
 dbprovete@gmail.com
 
 # Significance Statement (submission form)

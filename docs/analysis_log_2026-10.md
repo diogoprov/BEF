@@ -110,7 +110,8 @@
 - 27 composições × 4 tanques; composição 0 = controle sem espécies (excluída).
   Células do desenho: composição de grupos funcionais × riqueza
   (M_6, G_6, MG_6, GP_6, MGP_6, MGP_18). 13 amostragens irregulares
-  (dias 0–72); decomposição em 9.
+  (dias 0–72); decomposição em 10 (sem dc nos períodos 4, 6 e 13). [Corrigido
+  em 2026-10-16: antes dizia 9; o "7 de 10 períodos" do PPC com AR(1) estava certo.]
 - Mapeamento de códigos resolvido pelos dados; `Ecology2005.txt` tem 2 erros
   (comp. 5 sem *L. clamitans*; comp. 16 com *Buenoa* em vez de *Dineutus*),
   confirmados pela biomassa final. Fonte: planilha do desenho.
