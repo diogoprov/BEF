@@ -8,6 +8,8 @@
 
 [Date]
 
+Authors: Diogo B. Provete (Universidade Federal de Mato Grosso do Sul, Brazil [DEPARTAMENTO/INSTITUTO A CONFIRMAR]), Amy L. Downing (Department of Zoology, Ohio Wesleyan University, Delaware, OH, USA) and Mathew A. Leibold (University of Florida, Gainesville, FL, USA [DEPARTAMENTO A CONFIRMAR])
+
 Dear Editor,
 
 Please find attached our manuscript entitled "Whole-community phylogenetic diversity restates trophic structure in experimental pond food webs", which we submit for consideration as a Research Paper in Oikos.
@@ -20,14 +22,20 @@ The experiments were originally published by Downing and Leibold (2002, Nature) 
 
 The data, phylogenies and code needed to reproduce all analyses will be made available in a public repository with a persistent identifier upon acceptance, and anonymized files are provided for review [LINK ANÔNIMO A INCLUIR].
 
-[Suggested reviewers, if requested by the submission system: A INCLUIR]
+We suggest the following potential reviewers, none of whom has collaborated with any of the authors to our knowledge:
+
+1. Patrick Venail [afiliação e e-mail a confirmar], who reanalysed 16 grassland experiments to test whether phylogenetic diversity predicts biomass beyond species richness, and assembled bacterial communities along gradients of relatedness.
+2. Toby P. N. Tsang [afiliação e e-mail a confirmar], who showed with simulations that species overlap and phylogenetic relatedness make communities statistically non-independent in analyses of ecosystem function.
+3. Caroline M. Tucker [afiliação e e-mail a confirmar], who proposed the richness, divergence and regularity framework for phylogenetic metrics and analysed the relationship between phylogenetic and trait diversity.
+4. Rebecca J. Best [afiliação e e-mail a confirmar], who manipulated trait and phylogenetic diversity independently in mesocosms of grazing amphipods.
+5. Florent Mazel [afiliação e e-mail a confirmar], who tested empirically how well phylogenetic diversity captures functional diversity.
 
 Thank you for considering our manuscript.
 
 Sincerely,
 
 Diogo B. Provete, on behalf of all authors
-[Afiliação completa]
+Universidade Federal de Mato Grosso do Sul, Brazil [ENDEREÇO COMPLETO A CONFIRMAR]
 dbprovete@gmail.com
 
 # Significance Statement (submission form)
