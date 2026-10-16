@@ -20,7 +20,7 @@ biomass_to_species <- c(
   ple_dw       = "Neoplea_striola",
   not2sm_dw    = "Notonecta_undulata",
   not1big_dw   = "Notonecta_sp",
-  bel_dw       = "Belostoma_flumireum",
+  bel_dw       = "Belostoma_flumineum",
   whi_dw       = "Gyrinus_sp",
   dit_dw       = "Acilius_sp"
 )
@@ -35,14 +35,19 @@ biomass_presence <- function(biomass, site_col = "tank") {
   m
 }
 
-# Spelling used in the 2014 trees -> current tip labels
-fix_tip_labels <- function(tree) {
-  tree$tip.label <- dplyr::recode(tree$tip.label,
+# Misspellings in the raw files (2014 trees, treat.txt) -> current names
+fix_species_names <- function(x) {
+  dplyr::recode(x,
     Potamageton_zosteriformis = "Potamogeton_zosteriformis",
     Potamageton_crispus = "Potamogeton_crispus",
     Hyallela_azteca = "Hyalella_azteca",
-    Helisoma_trivolis = "Helisoma_trivolvis"
+    Helisoma_trivolis = "Helisoma_trivolvis",
+    Belostoma_flumireum = "Belostoma_flumineum"
   )
+}
+
+fix_tip_labels <- function(tree) {
+  tree$tip.label <- fix_species_names(tree$tip.label)
   tree
 }
 

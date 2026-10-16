@@ -53,13 +53,13 @@ topology <- function(tr) {
   sub_nwk <- \(tips) if (length(tips) == 1) tips else
     sub(";$", "", write.tree(extract.clade(tr, getMRCA(tr, tips))))
   corix <- intersect(c("Trichocorixa_sp", "Hesperocorixa_sp"), tr$tip.label)
-  old_clade <- sub_nwk(c("Belostoma_flumireum", "Ambrysus_sp"))
-  new_clade <- sprintf("((Belostoma_flumireum,%s),%s)", sub_nwk(corix),
+  old_clade <- sub_nwk(c("Belostoma_flumineum", "Ambrysus_sp"))
+  new_clade <- sprintf("((Belostoma_flumineum,%s),%s)", sub_nwk(corix),
                        sub_nwk(c("Ambrysus_sp", "Notonecta_undulata")))
   stopifnot(grepl(old_clade, nwk, fixed = TRUE))
   out <- read.tree(text = sub(old_clade, new_clade, nwk, fixed = TRUE))
   stopifnot(setequal(out$tip.label, tr$tip.label),
-            is.monophyletic(out, c("Belostoma_flumireum", corix)))
+            is.monophyletic(out, c("Belostoma_flumineum", corix)))
   out
 }
 
@@ -112,8 +112,10 @@ if (!all(file.exists(here("data", "derived", c("comm_initial.csv", "t99_comm_ini
 }
 comm98_init <- read_csv(here("data", "derived", "comm_initial.csv"), show_col_types = FALSE) |>
   column_to_rownames("comp") |> as.matrix()
+colnames(comm98_init) <- fix_species_names(colnames(comm98_init))
 comm99_init <- read_csv(here("data", "derived", "t99_comm_initial.csv"), show_col_types = FALSE) |>
   column_to_rownames("comp") |> as.matrix()
+colnames(comm99_init) <- fix_species_names(colnames(comm99_init))
 
 compare <- function(comm, tr_old, tr_new, label) {
   m_old <- phylo_metrics(comm, tr_old); m_new <- phylo_metrics(comm, tr_new)

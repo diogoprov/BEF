@@ -32,7 +32,7 @@ SPECIES = {
     "P": "Ambrysus_sp",
     "Q": "Gyrinus_sp",
     "R": "Acilius_sp",
-    "S": "Belostoma_flumireum",
+    "S": "Belostoma_flumineum",
     "T": "Notonecta_undulata",
     "U": "Notonecta_sp",
 }

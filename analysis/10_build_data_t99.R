@@ -35,7 +35,7 @@ design_codes <- c(
   bull = "Lithobates_catesbeianus", gre = "Lithobates_clamitans", gam = "Crangonyx_richmondensis",
   hya = "Hyalella_azteca", hel = "Helisoma_trivolvis", phy = "Physa_gyrina",
   cor = "Hesperocorixa_sp", co2 = "Trichocorixa_sp",
-  nau = "Ambrysus_sp", bel = "Belostoma_flumireum", no1 = "Notonecta_undulata",
+  nau = "Ambrysus_sp", bel = "Belostoma_flumineum", no1 = "Notonecta_undulata",
   no2 = "Buenoa_sp", ple = "Neoplea_striola", dit = "Coptotomus_sp",
   whi = "Gyrinus_sp", hyd = "Dineutus_sp"
 )
@@ -49,7 +49,7 @@ biomass_codes <- c(
   bul_g = "Lithobates_catesbeianus", gre_g = "Lithobates_clamitans", gam_g = "Crangonyx_richmondensis",
   hya_g = "Hyalella_azteca", hel_g = "Helisoma_trivolvis", phy_g = "Physa_gyrina",
   cobhesp_g = "Hesperocorixa_sp", cosmtri_g = "Trichocorixa_sp",
-  amb_nau_g = "Ambrysus_sp", bel_g = "Belostoma_flumireum", nund_g = "Notonecta_undulata",
+  amb_nau_g = "Ambrysus_sp", bel_g = "Belostoma_flumineum", nund_g = "Notonecta_undulata",
   buen_g = "Buenoa_sp", ple_g = "Neoplea_striola", dit_g = "Coptotomus_sp",
   whb_gyr_g = "Gyrinus_sp", whs_din_g = "Dineutus_sp"
 )

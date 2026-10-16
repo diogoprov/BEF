@@ -69,7 +69,7 @@ codes99 <- c(
   bull = "Lithobates_catesbeianus", gre = "Lithobates_clamitans", gam = "Crangonyx_richmondensis",
   hya = "Hyalella_azteca", hel = "Helisoma_trivolvis", phy = "Physa_gyrina",
   cor = "Hesperocorixa_sp", co2 = "Trichocorixa_sp",
-  nau = "Ambrysus_sp", bel = "Belostoma_flumireum", no1 = "Notonecta_undulata",
+  nau = "Ambrysus_sp", bel = "Belostoma_flumineum", no1 = "Notonecta_undulata",
   no2 = "Buenoa_sp", ple = "Neoplea_striola", dit = "Coptotomus_sp",
   whi = "Gyrinus_sp", hyd = "Dineutus_sp"
 )

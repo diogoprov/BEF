@@ -10,13 +10,13 @@ potamogeton_zc,Potamogeton_zosteriformis,Potamogeton_crispus,11.965,,,1,Potamoge
 potamogeton_cn,Potamogeton_crispus,Potamogeton_natans,8.668,3.232,14.100,3,Potamogeton crispus,Potamogeton natans,
 bilateria,Lithobates_catesbeianus,Physa_gyrina,721.453,645.710,797.196,21,Aquarana catesbeiana,Physella gyrina,Deuterostomia vs Protostomia
 protostomia,Physa_gyrina,Crangonyx_richmondensis,608.074,572.624,643.520,14,Physella gyrina,Crangonyx (genus),Mollusca vs Arthropoda
-pancrustacea,Crangonyx_richmondensis,Belostoma_flumireum,481.931,456.396,507.470,21,Crangonyx (genus),Belostoma flumineum,Amphipoda vs Insecta
-insects,Gyrinus_sp,Belostoma_flumireum,366.648,344.854,388.440,10,Gyrinus (genus),Belostoma flumineum,Coleoptera vs Hemiptera
+pancrustacea,Crangonyx_richmondensis,Belostoma_flumineum,481.931,456.396,507.470,21,Crangonyx (genus),Belostoma flumineum,Amphipoda vs Insecta
+insects,Gyrinus_sp,Belostoma_flumineum,366.648,344.854,388.440,10,Gyrinus (genus),Belostoma flumineum,Coleoptera vs Hemiptera
 adephaga,Gyrinus_sp,Acilius_sp,221.303,195.958,246.650,8,Gyrinus (genus),Acilius (genus),Gyrinidae vs Dytiscidae
 adephaga,Gyrinus_sp,Coptotomus_sp,221.303,195.958,246.650,8,Gyrinus (genus),Coptotomus (genus),Gyrinidae vs Dytiscidae (T99 pool)
 amphipoda,Crangonyx_richmondensis,Hyalella_azteca,189.514,49.700,329.330,4,Crangonyx (genus),Hyalella azteca,wide CI
 pulmonata,Physa_gyrina,Helisoma_trivolvis,136.840,87.640,186.040,2,Physella gyrina,Planorbella trivolvis,Physidae vs Planorbidae
-nepomorpha,Belostoma_flumireum,Ambrysus_sp,256.850,216.673,297.028,2,Belostoma flumineum,Ambrysus (genus),crown Nepomorpha: (Belostomatidae + Corixidae) vs (Naucoridae + Notonectoidea)
-belost_corix,Belostoma_flumireum,Trichocorixa_sp,116.585,25.289,207.881,2,Belostoma flumineum,Trichocorixa / Hesperocorixa (genera),Belostomatidae vs Corixidae; wide CI
+nepomorpha,Belostoma_flumineum,Ambrysus_sp,256.850,216.673,297.028,2,Belostoma flumineum,Ambrysus (genus),crown Nepomorpha: (Belostomatidae + Corixidae) vs (Naucoridae + Notonectoidea)
+belost_corix,Belostoma_flumineum,Trichocorixa_sp,116.585,25.289,207.881,2,Belostoma flumineum,Trichocorixa / Hesperocorixa (genera),Belostomatidae vs Corixidae; wide CI
 naucor_notonect,Ambrysus_sp,Notonecta_undulata,196.774,190.696,202.852,2,Ambrysus (genus),Notonecta undulata,Naucoridae vs Notonectoidea+Pleoidea
 lithobates,Lithobates_catesbeianus,Lithobates_clamitans,23.861,21.433,26.289,3,Lithobates clamitans / L. pipiens,Rana (genus),MAXIMUM: no TimeTree data within Lithobates; age of Lithobates s.l. vs Rana used as an upper bound

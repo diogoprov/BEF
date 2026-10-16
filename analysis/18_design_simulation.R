@@ -73,7 +73,7 @@ pools <- list(
   grazer = c("Lithobates_catesbeianus", "Lithobates_clamitans", "Crangonyx_richmondensis",
              "Hyalella_azteca", "Helisoma_trivolvis", "Physa_gyrina", "Hesperocorixa_sp",
              "Trichocorixa_sp"),
-  predator = c("Ambrysus_sp", "Belostoma_flumireum", "Notonecta_undulata", "Buenoa_sp",
+  predator = c("Ambrysus_sp", "Belostoma_flumineum", "Notonecta_undulata", "Buenoa_sp",
                "Neoplea_striola", "Coptotomus_sp", "Gyrinus_sp", "Dineutus_sp")
 )
 stopifnot(setequal(unlist(pools), tree99$tip.label))

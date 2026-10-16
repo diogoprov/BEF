@@ -42,6 +42,7 @@ comm_comp <- read.table(here("data", "raw", "nature2001", "treat.txt"),
                         header = TRUE, row.names = 1) |>
   as.matrix() |>
   t()
+colnames(comm_comp) <- fix_species_names(colnames(comm_comp))
 
 # ---- Tank-level community from final biomass ----
 biomass <- read_excel(xlsx, sheet = "species biomass T98")
