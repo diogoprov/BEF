@@ -10,9 +10,9 @@
 # Oikos CSL modified to NSO format (en dash before the journal, DOI at the
 # end, full author lists). Run check_citations.py before rendering.
 #
-# Figures 1–5 are provisional copies of analysis/report.qmd figures and must
-# be redrawn for publication. Results and Box 1 numbers come from the 2013
-# trees and must be updated after the overnight run of run_all.R.
+# Figures 1–5 and B1 are drawn by analysis/21_manuscript_figures.R (B2 by
+# 20_figure_design_box.R) from output/tables/. Results and Box 1 numbers come
+# from the 2013 trees and must be updated after the overnight run of run_all.R.
 format:
   docx:
     number-sections: false
@@ -51,25 +51,23 @@ lang: en-GB
 
 ![](../figures/manuscript/fig1_phylogenies.png)
 
-**Figure 1.** Pseudochronograms of the species pools of the 1998 (T98, left; 21 species) and 1999 (T99, right; 24 species) pond mesocosm experiments, with time in millions of years. Tip colours indicate functional groups: macrophytes (green), periphyton grazers (blue) and invertebrate predators (orange). Notice that the deepest splits separate plants from animals and vertebrates (tadpoles) from protostomes, so that any metric computed over a whole composition is dominated by which functional groups it contains. [FIGURA PROVISÓRIA: mostra as árvores de 2013; o report.qmd re-renderizado no run noturno trará as árvores do TimeTree.]
+**Figure 1.** Pseudochronograms of the species pools of the (a) 1998 (T98; 21 species) and (b) 1999 (T99; 24 species) pond mesocosm experiments, dated with node ages from TimeTree 5 (Kumar et al. 2022). Tip symbols indicate functional groups: macrophytes (green circles), periphyton grazers (purple squares) and invertebrate predators (yellow triangles). Notice that the deepest splits separate plants from animals and vertebrates (tadpoles) from protostomes, so that any metric computed over a whole composition is dominated by which functional groups it contains.
 
 ![](../figures/manuscript/fig2_within_strata_variance.png)
 
-**Figure 2.** Share of the variance of each phylogenetic metric among compositions that lies within design strata (T98, richness levels; T99, design cells defined by functional-group composition and richness), for stocked (purple) and realized (orange) compositions. PD, Faith's phylogenetic diversity; MPD, mean pairwise distance; VPD, variance of pairwise distances. Notice that, for stocked compositions, less than 4% of the variance of any metric remained within design cells in T99, and only VPD retained most of its variance within richness levels in T98. [FIGURA PROVISÓRIA]
+**Figure 2.** Share of the variance of each phylogenetic metric among compositions that lies within design strata (T98, richness levels; T99, design cells defined by functional-group composition and richness), for stocked (dark grey) and realized (yellow) compositions. PD, Faith's phylogenetic diversity; MPD, mean pairwise distance; VPD, variance of pairwise distances. Notice that, for stocked compositions, less than 4% of the variance of any metric remained within design cells in T99, and only VPD retained most of its variance within richness levels in T98.
 
-![](../figures/manuscript/fig3_slopes_t98.png)
+![](../figures/manuscript/fig3_slopes.png)
 
-**Figure 3.** Effects of phylogenetic metrics of stocked (init) and realized (final) compositions on decomposition (dc), productivity (prod) and respiration (resp) among compositions of the same richness in T98, in standard deviations of the response per standard deviation of the metric. Points are posterior means, thick bars 95% and thin bars 98.33% credible intervals. Notice that all intervals include zero. [FIGURA PROVISÓRIA: incluir o painel do T99, citado no texto junto com o T98.]
+**Figure 3.** Effects of phylogenetic metrics of stocked and realized compositions on productivity, respiration and decomposition among compositions of the same richness level in T98 (purple circles) and of the same design cell in T99 (red triangles), in standard deviations of the response per standard deviation of the metric. In T99, only MPD was computed for realized compositions. Points are posterior means, thick bars 95% and thin bars 98.33% credible intervals. Notice that all 98.33% intervals include zero.
 
 ![](../figures/manuscript/fig4_design_vs_metrics_t99.png)
 
-**Figure 4.** Among-composition variance in decomposition (dc), productivity (prod) and respiration (resp) explained by the design cells and by single phylogenetic metrics in T99, relative to a model with richness only. Bars are 95% credible intervals, truncated at zero because the ratio of variances is unbounded below. Notice that the design cells explained more of the variance in productivity and respiration than any single metric, and that PD explained almost none of it. [FIGURA PROVISÓRIA]
+**Figure 4.** Among-composition variance in productivity, respiration and decomposition explained by the design cells (black) and by single phylogenetic metrics (red) in T99, relative to a model with richness only. Points are posterior means and bars 95% credible intervals, truncated at −10% because the ratio of variances is unbounded below; negative values indicate that a metric did not reduce the among-composition variance. Notice that the design cells explained more of the variance in productivity and respiration than any single metric, and that PD explained almost none of it.
 
-![](../figures/manuscript/fig5a_pulse_t98.png)
+![](../figures/manuscript/fig5_pulse.png)
 
-![](../figures/manuscript/fig5b_pulse_t99.png)
-
-**Figure 5.** Effects of the acid pulse on decomposition (dc), productivity (prod) and respiration (resp) at each richness level in (a) T98 and (b) T99, split into a resistance phase (first sampling period or periods after the pulse; bottom row) and a recovery phase (difference between later and early periods; top row), in standard deviations of the response, estimated in the models with MPD of the stocked composition. Points are posterior means, thick bars 95% and thin bars 98.33% credible intervals. Notice that respiration dropped by about one standard deviation in both experiments and then recovered. [FIGURA PROVISÓRIA]
+**Figure 5.** Effects of the acid pulse on productivity, respiration and decomposition at each stocked richness level in (a) T98 and (b) T99, split into a resistance phase (first sampling period or periods after the pulse; bottom row) and a recovery phase (difference between later and early periods; top row), in standard deviations of the response, estimated in the models with MPD of the stocked composition. Points are posterior means, thick bars 95% and thin bars 98.33% credible intervals. Notice that respiration dropped by about one standard deviation in both experiments and then recovered.
 
 ![](../figures/box_design_simulation.png)
 

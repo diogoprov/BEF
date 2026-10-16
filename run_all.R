@@ -40,6 +40,7 @@ Sys.setenv(FULL_SIM = "1")
 run("analysis/18_design_simulation.R")       # Box: design simulation (~7 min on 17 cores)
 run("analysis/19_design_simulation_brms.R")  # Bayesian check of the simulation
 run("analysis/20_figure_design_box.R")       # Box figure
+run("analysis/21_manuscript_figures.R")      # manuscript Figs 1-5 and B1
 
 # BARG checks
 run("analysis/14_prior_checks.R")            # prior predictive and prior sensitivity

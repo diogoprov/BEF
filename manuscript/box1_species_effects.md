@@ -12,4 +12,4 @@ However, the two covariance matrices are distinguishable only if compositions th
 
 ## Figure B1 legend
 
-**Figure B1.** Prior (purple) and posterior (yellow) distributions of the phylogenetic share of species effects, σ²_phy/(σ²_phy + σ²_id) (phylo_signal), and of the share of non-additive composition variance (share_nonadditive), for decomposition (dc), productivity (prod) and respiration (resp) in T99. Points are medians and bars 95% intervals. Notice that the posterior of the phylogenetic share overlaps its prior almost completely for every response. [FIGURA PROVISÓRIA]
+**Figure B1.** Prior (dark grey circles) and posterior (yellow triangles) distributions of the phylogenetic share of species effects, σ²_phy/(σ²_phy + σ²_id), and of the share of non-additive composition variance, for productivity, respiration and decomposition in T99. Points are medians and bars 95% intervals. Notice that the posterior of the phylogenetic share overlaps its prior almost completely for every response.
