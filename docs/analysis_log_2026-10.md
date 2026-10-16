@@ -133,3 +133,73 @@
 - Convergência: R-hat ≤ 1,01 exceto 2 modelos com VPD (≤ 1,019) por trade-off
   entre efeitos fixos de célula e tempo (parâmetro focal ok). Corrigir com
   contrastes soma-zero em ftime no fechamento.
+
+## 10. PD dentro dos grupos tróficos (`analysis/17_within_trophic_check.R`)
+
+- Pergunta: a MPD calculada *dentro* de cada grupo trófico (macrófitas,
+  herbívoros, predadores; composição estocada) varia entre composições dentro
+  das células do desenho, e assim escapa do confundimento com a estrutura
+  trófica? Apenas descritivo, sem modelos.
+- Há variação, mas só com poucas espécies por grupo. CV da MPD dentro do
+  grupo: 0,19–0,31 (T98, 3 spp.) e 0,19–0,60 (T99, 2–3 spp.), contra
+  0,04–0,09 com 5–6 spp. (5 de 7 ou 6 de 8 espécies do pool: pouco espaço
+  combinatório). O contraste útil se resume a ~7 composições por experimento
+  (S9 no T98; MGP_6 no T99).
+- MPD média dentro dos grupos: 72% da variância dentro dos níveis de riqueza
+  no T98 (MPD da comunidade inteira: 11%), quase toda em S9 (DP 73 vs 12 Myr
+  em S15); 9% dentro das células no T99 (DP 133 Myr em MGP_6).
+- A variação vem de poucas bifurcações profundas, cada uma ligada a táxons
+  reconhecíveis: girinos vs invertebrados (1565 Myr) e caramujos vs
+  crustáceos/insetos (1172) nos herbívoros; Coleoptera vs Hemiptera (744) nos
+  predadores; monocotiledôneas vs *Ceratophyllum*/*Myriophyllum*/*Utricularia*
+  (~284–326) nas macrófitas. A MPD dentro de grupo funciona como índice de
+  presença de *Lithobates*, caramujos e besouros → confundida com identidade
+  de 1–2 espécies (mesmo problema do modelo do Box, em escala menor).
+- Conclusão: a opção "PD dentro dos níveis tróficos" não dá um teste limpo.
+  Usar como material suplementar para sustentar o enquadramento do artigo
+  (PD multitrófica não se separa de estrutura trófica nem de identidade com
+  estes desenhos); efeitos nulos dentro dos níveis tratados como não
+  informativos. Título do abstract a revisar ("does not predict" excede o que
+  o desenho sustenta).
+- Pendência: as idades da árvore parecem altas (vertebrado–protostômio
+  1565 Myr); conferir a calibração do pseudocronograma [não verificado].
+- Próximo: Box de desenho experimental (simulação) — ver plano.
+
+## 11. Box de desenho experimental (`analysis/18`–`20`)
+
+- Pergunta: que desenho separaria um efeito de parentesco (θ, efeito da MPD
+  dentro dos grupos) da estrutura trófica e da identidade de espécies, e
+  quando σ²_phy (sinal filogenético nos efeitos de espécie) seria separável
+  de σ²_id? Modelo gerador na parametrização do script 13 (kernels P C Pᵀ e
+  P Pᵀ, projetados ortogonais aos efeitos fixos); escala de médias por
+  composição; s_phy, s_id ∈ {0,15/0,15; 0,21/0; 0/0,21}, s_comp 0,10,
+  s_tanque 0,30, 4 tanques; θ ∈ {0; 0,1; 0,2} DP por DP da MPD entre
+  composições aleatórias do pool; 24/48/96 composições; 1000 réplicas
+  (7,2 min, 17 núcleos).
+- Desenhos: D1 montagem aleatória tipo Downing (k = 2 ou 6 por grupo); D2
+  gradiente de MPD (pool T99, k = 3); D3 gradiente + incidência balanceada;
+  D4b grupo focal = macrófitas T99 (8 spp.), resto fixo; D4 grupo focal com
+  20 spp. em árvore pure-birth (10 árvores), resto fixo.
+- Mecanismo: no D2 a MPD correlaciona 0,72 com a presença de
+  *L. catesbeianus*; o balanceamento reduz para 0,41 (D3); D4 0,34.
+- Poder (θ = 0,1, phy+id, modelo com kernels), 24 composições: D1 0,33; D2
+  0,71; D3 0,86; D4 0,78; D4b 0,60. Com 96: todos ≥ 0,87.
+- **Erro tipo I com composições tratadas como independentes (equivalente ao
+  `(1 | comp)` iid) cresce com o número de composições**: 0,15–0,22 com 24 e
+  0,26–0,52 com 96, porque composições compartilham espécies e o número
+  efetivo de unidades satura no tamanho do pool. Com kernels: 0,10–0,13
+  (24) e 0,06–0,08 (96); o excesso em 24 provavelmente vem da estimativa
+  REML das variâncias na fronteira (checar com brms, script 19).
+- **Implicação para os resultados do artigo**: os modelos com `(1 | comp)`
+  (T98 21 e T99 26 composições) estão na faixa em que o erro tipo I nominal
+  de 5% vira ~15–20%. Reforça a leitura dos poucos efeitos "credíveis"
+  (ex.: MPD × recuperação no T99) como não confirmatórios.
+- σ²_phy vs σ²_id: intervalo 10–90% da fração filogenética cobre ~0–1 em
+  quase todos os desenhos e tamanhos; só D4 com 96 composições começa a
+  separar (q10 0,53 quando a verdade é 1; q90 0,61 quando é 0). Separar
+  efeitos de espécie filogeneticamente estruturados de identidade exige pool
+  grande dentro do grupo e ~100 composições.
+- Figura: `figures/box_design_simulation.{png,pdf}` (paleta checada para
+  daltonismo; formas + rótulos diretos como codificação secundária).
+- Ressalvas: θ definido por DP do pool favorece desenhos com seleção; D4 usa
+  árvores pure-birth; D4b repete composições com 96 (só 56 triplets).

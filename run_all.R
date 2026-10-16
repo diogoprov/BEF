@@ -34,6 +34,11 @@ run("analysis/10_build_data_t99.R")
 run("analysis/11_models_t99.R")              # steps 2-3 and cells vs phylogenetic metrics
 run("analysis/12_influence_t99.R")           # leave-one-composition-out (effects excluding zero)
 run("analysis/13_species_identity_t99.R")    # Box: phylogenetically structured species effects
+run("analysis/17_within_trophic_check.R")    # MPD within trophic groups (descriptive, T98 and T99)
+Sys.setenv(FULL_SIM = "1")
+run("analysis/18_design_simulation.R")       # Box: design simulation (~7 min on 17 cores)
+run("analysis/19_design_simulation_brms.R")  # Bayesian check of the simulation
+run("analysis/20_figure_design_box.R")       # Box figure
 
 # BARG checks
 run("analysis/14_prior_checks.R")            # prior predictive and prior sensitivity
