@@ -203,3 +203,12 @@
   daltonismo; formas + rótulos diretos como codificação secundária).
 - Ressalvas: θ definido por DP do pool favorece desenhos com seleção; D4 usa
   árvores pure-birth; D4b repete composições com 96 (só 56 triplets).
+- Checagem bayesiana (script 19; D2 e D4, 24 composições, θ = 0, phy+id,
+  100 réplicas cada; priors normal(0, 1) em b e Intercept, exponential(2) em
+  sd e sigma; adapt_delta 0,99): IC 95% de θ exclui zero em 5% (D2) e 3% (D4)
+  das réplicas (MCSE ~0,02), contra 12–13% do Wald com REML → o excesso do
+  REML vem da estimativa pontual das variâncias. **Diagnósticos ruins no D2**:
+  R-hat máx. 1,24, ESS bulk mín. 13, divergências em 34/100 réplicas (D4:
+  1,02; 216; 15/100). Provável funil nas variâncias perto de zero (não
+  verificado por parâmetro). Resultado sugestivo, não confirmado, até
+  repetir salvando diagnósticos por réplica e por parâmetro.
