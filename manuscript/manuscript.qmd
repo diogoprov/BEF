@@ -59,7 +59,7 @@ lang: en-GB
 
 ![](../figures/manuscript/fig3_slopes.png)
 
-**Figure 3.** Effects of phylogenetic metrics of stocked and realized compositions on productivity, respiration and decomposition among compositions of the same richness level in T98 (purple circles) and of the same design cell in T99 (red triangles), in standard deviations of the response per standard deviation of the metric. In T99, only MPD was computed for realized compositions. Points are posterior means, thick bars 95% and thin bars 98.33% credible intervals. Notice that all 98.33% intervals include zero.
+**Figure 3.** Effects of phylogenetic metrics of stocked and realized compositions on productivity, respiration and decomposition among compositions of the same richness level in T98 (purple; average of the slopes within the three richness levels) and of the same design cell in T99 (red), in standard deviations of the response per standard deviation of the metric. In T99, only MPD was computed for realized compositions. Shaded densities are posterior distributions, each scaled to its own maximum; points are posterior means, thick bars 95% and thin bars 98.33% credible intervals. Notice that all 98.33% intervals include zero.
 
 ![](../figures/manuscript/fig4_design_vs_metrics_t99.png)
 
@@ -67,7 +67,7 @@ lang: en-GB
 
 ![](../figures/manuscript/fig5_pulse.png)
 
-**Figure 5.** Effects of the acid pulse on productivity, respiration and decomposition at each stocked richness level in (a) T98 and (b) T99, split into a resistance phase (first sampling period or periods after the pulse; bottom row) and a recovery phase (difference between later and early periods; top row), in standard deviations of the response, estimated in the models with MPD of the stocked composition. Shaded densities are posterior distributions, coloured from lighter to darker with increasing stocked richness; points are posterior means, thick bars 95% and thin bars 98.33% credible intervals. Notice that respiration dropped by about one standard deviation in both experiments and then recovered.
+**Figure 5.** Effects of the acid pulse on productivity, respiration and decomposition at each stocked richness level in (a) T98 and (b) T99, split into a resistance phase (first sampling period or periods after the pulse; bottom row) and a recovery phase (difference between later and early periods; top row), in standard deviations of the response, estimated in the models with MPD of the stocked composition. Shaded densities are posterior distributions, coloured from yellow-green to purple with increasing stocked richness; points are posterior means, thick bars 95% and thin bars 98.33% credible intervals. Notice that respiration dropped by about one standard deviation in both experiments and then recovered.
 
 ![](../figures/box_design_simulation.png)
 

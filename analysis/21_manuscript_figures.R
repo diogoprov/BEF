@@ -10,7 +10,7 @@
 #
 # Inputs (read-only): data/derived/phylo_timetree_{t98_21spp,t99}.tre,
 #   data/derived/si_table1_long.csv, output/tables/*.csv,
-#   output/draws/pulse_draws_{t98,t99}.rds
+#   output/draws/{pulse,slope}_draws_{t98,t99}.rds
 # Outputs: figures/manuscript/{fig1..fig5,figB1}_*.{pdf,png}
 #   (180 mm wide = double column; pdf vector, png 600 dpi)
 
@@ -133,22 +133,28 @@ fig2 <- ggplot(fig2_dat, aes(share, fct_rev(metric), fill = composition)) +
 save_fig(fig2, "fig2_within_strata_variance", height = 70)
 
 # ---- Fig. 3: within-strata slopes, T98 and T99 ----
+# Full posteriors from draws saved by 02_initial_composition.R (T98: average
+# of the within-richness slopes) and 11_models_t99.R (T99: within-cell slope).
+# Each slab is scaled to its own maximum, so the narrow T99 posteriors do not
+# flatten the T98 ones.
 fig3_dat <- bind_rows(
-  tab("step2_slopes") |> filter(div == "average") |> mutate(exp = "T98"),
-  tab("t99_step2_slopes") |> mutate(exp = "T99")
+  readRDS(here("output", "draws", "slope_draws_t98.rds")) |> mutate(exp = "T98"),
+  readRDS(here("output", "draws", "slope_draws_t99.rds")) |> mutate(exp = "T99")
 ) |>
   split_predictor() |>
-  mutate(response = lab_response(response), exp = factor(exp, c("T98", "T99")),
+  mutate(response = lab_response(response), exp = factor(exp, c("T99", "T98")),
          row = fct_rev(interaction(metric, composition, sep = ", ", lex.order = TRUE)))
-fig3 <- ggplot(fig3_dat, aes(mean, row, colour = exp, fill = exp, shape = exp)) +
-  ci_layers(dodge = 0.6, fill = NULL) +
+fig3 <- ggplot(fig3_dat, aes(value, row, fill = exp)) +
+  geom_vline(xintercept = 0, colour = ink2, linewidth = 0.3, linetype = "22") +
+  ggdist::stat_halfeye(point_interval = ggdist::mean_qi, .width = c(0.95, 1 - 0.05 / 6),
+                       normalize = "groups", position = position_dodge(width = 0.55),
+                       height = 0.55, slab_alpha = 0.8, colour = ink, point_size = 1.1,
+                       interval_size_range = c(0.35, 0.9)) +
   facet_wrap(~response) +
-  scale_colour_manual(values = exp_col, name = NULL) +
-  scale_fill_manual(values = exp_col, name = NULL) +
-  scale_shape_manual(values = exp_shp, name = NULL) +
+  scale_fill_manual(values = exp_col, breaks = c("T98", "T99"), name = NULL) +
   labs(x = effect_lab, y = NULL) +
   theme_ms
-save_fig(fig3, "fig3_slopes", height = 85)
+save_fig(fig3, "fig3_slopes", height = 110)
 
 # ---- Fig. 4: design cells vs single metrics (T99) ----
 # Point estimates of the variance ratio can be slightly negative (a metric
@@ -173,9 +179,10 @@ save_fig(fig4, "fig4_design_vs_metrics_t99", height = 55)
 # ---- Fig. 5: acid pulse by richness level, T98 (a) and T99 (b) ----
 # Full posteriors (half-eye: density, mean, 95% thick and 98.33% thin
 # intervals) from draws saved by 03_disturbance.R and 11_models_t99.R.
-# Fill follows stocked richness on one sequential ramp (Purples 3,
-# colorspace); richness is also on the y axis, so colour is redundant.
-rich_fill <- c(S3 = "#A79FE1", S6 = "#8175CB", S9 = "#6E62B6", S15 = "#463690", S18 = "#312271")
+# Fill follows stocked richness on a multi-hue sequential ramp (viridis,
+# begin = 0.15, end = 0.9: yellow-green -> teal -> purple), monotonic in
+# lightness, so it also reads in grey scale; richness is on the y axis too.
+rich_fill <- c(S3 = "#BBDF27", S6 = "#49C16D", S9 = "#1F968B", S15 = "#30698E", S18 = "#463480")
 pulse_panel <- function(file, levels, tag_title) {
   readRDS(here("output", "draws", file)) |>
     pivot_longer(c(resistance, recovery), names_to = "phase", values_to = "value") |>

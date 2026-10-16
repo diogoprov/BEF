@@ -115,6 +115,12 @@ walk2(all_fits$fit, all_fits$name, save_ppc)
 
 write_csv(diag, here("output", "tables", "t99_diagnostics.csv"))
 write_csv(slopes_a, here("output", "tables", "t99_step2_slopes.csv"))
+# Draws of the within-cell slopes, for Fig. 3
+dir.create(here("output", "draws"), showWarnings = FALSE)
+pmap_dfr(list(fits_a$fit, fits_a$resp, fits_a$x), \(f, r, x) {
+  v <- as_draws_df(f)[[paste0("b_", x)]]
+  tibble(response = r, predictor = x, .draw = seq_along(v), value = v)
+}) |> saveRDS(here("output", "draws", "slope_draws_t99.rds"))
 write_csv(r2_b, here("output", "tables", "t99_cells_vs_phylo_r2.csv"))
 write_csv(slopes_b, here("output", "tables", "t99_cells_vs_phylo_slopes.csv"))
 write_csv(effects_c, here("output", "tables", "t99_step3_disturbance.csv"))

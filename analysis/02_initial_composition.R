@@ -66,6 +66,13 @@ slopes <- pmap_dfr(list(fits$fit, fits$resp, fits$x), \(f, r, x)
   summarise_slopes(slope_draws(f, x), "univariate", r, x))
 write_csv(slopes, here("output", "tables", "step2_slopes.csv"))
 
+# Draws of the average within-richness slope, for Fig. 3
+dir.create(here("output", "draws"), showWarnings = FALSE)
+pmap_dfr(list(fits$fit, fits$resp, fits$x), \(f, r, x) {
+  v <- slope_draws(f, x)$average
+  tibble(response = r, predictor = x, .draw = seq_along(v), value = v)
+}) |> saveRDS(here("output", "draws", "slope_draws_t98.rds"))
+
 # ---- Among-composition variance explained ----
 sd_comp <- \(f) as_draws_df(f)$sd_comp__Intercept
 set.seed(SEED)
