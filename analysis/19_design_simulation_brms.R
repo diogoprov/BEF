@@ -8,7 +8,8 @@
 # 95% CrI of theta excludes zero (target 0.05), and MCMC diagnostics.
 #
 # Inputs: output/models/design_sim_designs.rds (written by script 18)
-# Outputs: output/tables/design_sim_brms.csv, design_sim_brms_diagnostics.csv
+# Outputs: output/tables/design_sim_brms.csv, design_sim_brms_diagnostics.csv;
+#          output/models/design_sim_brms_reps.rds (git-ignored)
 
 suppressPackageStartupMessages({library(tidyverse); library(brms); library(posterior); library(here)})
 options(mc.cores = 4, brms.backend = "cmdstanr")
@@ -60,29 +61,56 @@ run_design <- function(nm) {
                   seed = SEED + r, refresh = 0, silent = 2)
     dr <- as_draws_df(fit)
     np <- nuts_params(fit)
+    pars <- c("b_zmpd", "sd_c_phy__Intercept", "sd_c_id__Intercept", "sigma")
+    sm <- summarise_draws(subset_draws(dr, variable = pars), "rhat", "ess_bulk", "ess_tail")
     tibble(
       design = nm, rep = r,
       est = median(dr$b_zmpd),
       lo = quantile(dr$b_zmpd, 0.025), hi = quantile(dr$b_zmpd, 0.975),
-      max_rhat = max(rhat(fit), na.rm = TRUE),
-      min_ess_bulk = min(summarise_draws(dr, ess_bulk)$ess_bulk, na.rm = TRUE),
-      divergences = sum(np$Value[np$Parameter == "divergent__"])
+      divergences = sum(np$Value[np$Parameter == "divergent__"]),
+      diag = list(sm)
     )
   })
 }
 
 res <- map_dfr(names(designs), run_design)
 
-summary_brms <- res |>
-  group_by(design) |>
-  summarise(excl_zero = mean(lo > 0 | hi < 0),
-            mcse = sqrt(excl_zero * (1 - excl_zero) / n()),
-            median_width = median(hi - lo), .groups = "drop")
-diag_brms <- res |>
-  group_by(design) |>
-  summarise(max_rhat = max(max_rhat), min_ess_bulk = min(min_ess_bulk),
-            reps_with_divergences = sum(divergences > 0), .groups = "drop")
+saveRDS(res, here("output", "models", "design_sim_brms_reps.rds"))
 
-print(summary_brms); print(diag_brms)
+# Per-replicate diagnostics: theta alone and all four parameters
+res <- res |>
+  mutate(
+    rhat_theta = map_dbl(diag, \(d) d$rhat[d$variable == "b_zmpd"]),
+    ess_theta  = map_dbl(diag, \(d) min(d$ess_bulk[d$variable == "b_zmpd"],
+                                       d$ess_tail[d$variable == "b_zmpd"])),
+    rhat_max   = map_dbl(diag, \(d) max(d$rhat)),
+    ess_min    = map_dbl(diag, \(d) min(d$ess_bulk, d$ess_tail)),
+    clean_theta = rhat_theta < 1.01 & ess_theta > 400,
+    clean_all   = rhat_max < 1.01 & ess_min > 400 & divergences == 0,
+    excl = lo > 0 | hi < 0
+  )
+
+rate <- \(x) tibble(n = length(x), excl_zero = mean(x), mcse = sqrt(mean(x) * (1 - mean(x)) / length(x)))
+summary_brms <- bind_rows(
+  res |> group_by(design) |> reframe(subset = "all replicates", rate(excl)),
+  res |> filter(clean_theta) |> group_by(design) |> reframe(subset = "theta converged", rate(excl)),
+  res |> filter(clean_all) |> group_by(design) |> reframe(subset = "all parameters converged, no divergences", rate(excl))
+) |> arrange(design)
+
+diag_brms <- res |>
+  select(design, rep, divergences, diag) |>
+  unnest(diag) |>
+  group_by(design, variable) |>
+  summarise(rhat_max = max(rhat), rhat_gt_1.01 = sum(rhat > 1.01),
+            ess_bulk_min = min(ess_bulk), ess_tail_min = min(ess_tail), .groups = "drop") |>
+  left_join(res |> group_by(design) |> summarise(reps_with_divergences = sum(divergences > 0),
+                                                 median_divergences = median(divergences)),
+            by = "design")
+
+# Do non-converged replicates differ in theta's interval?
+by_clean <- res |> group_by(design, clean_all) |>
+  summarise(n = n(), excl_zero = mean(excl), median_width = median(hi - lo), .groups = "drop")
+
+print(summary_brms); print(diag_brms, n = Inf); print(by_clean)
 write_csv(summary_brms, here("output", "tables", "design_sim_brms.csv"))
 write_csv(diag_brms, here("output", "tables", "design_sim_brms_diagnostics.csv"))

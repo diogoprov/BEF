@@ -207,8 +207,16 @@
   100 réplicas cada; priors normal(0, 1) em b e Intercept, exponential(2) em
   sd e sigma; adapt_delta 0,99): IC 95% de θ exclui zero em 5% (D2) e 3% (D4)
   das réplicas (MCSE ~0,02), contra 12–13% do Wald com REML → o excesso do
-  REML vem da estimativa pontual das variâncias. **Diagnósticos ruins no D2**:
-  R-hat máx. 1,24, ESS bulk mín. 13, divergências em 34/100 réplicas (D4:
-  1,02; 216; 15/100). Provável funil nas variâncias perto de zero (não
-  verificado por parâmetro). Resultado sugestivo, não confirmado, até
-  repetir salvando diagnósticos por réplica e por parâmetro.
+  REML vem da estimativa pontual das variâncias.
+- Diagnósticos por parâmetro (rodada repetida com as mesmas sementes): no D2
+  os problemas estão em sd_id, sigma e sd_phy (R-hat máx. 1,19/1,17/1,14;
+  ESS bulk mín. 17–24) — troca entre variância de identidade e residual com
+  24 composições, coerente com a não identificabilidade do painel d. θ
+  convergiu (R-hat < 1,01, ESS > 400) em 94/100 réplicas (D4: 99/100).
+  Exclusão do zero: D2 5,3% (θ convergido, n = 94), 6,8% (tudo convergido,
+  sem divergências, n = 59); D4 3,0% (n = 99) e 1,4% (n = 73). Todos
+  compatíveis com 5% dado o MCSE (0,02–0,03). Conclusão: com a incerteza das
+  variâncias propagada, o modelo com kernels mantém o erro tipo I nominal
+  para θ; a inflação de 10–13% em 24 composições (painel c) é do Wald/REML.
+  Prior mais apertada nos sd não testada: o problema está nas variâncias, que
+  não são o alvo, e θ já está bem amostrado.
