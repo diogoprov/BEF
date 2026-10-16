@@ -1,0 +1,115 @@
+---
+title: "Does phylogenetic diversity predict ecosystem functioning in multitrophic food webs?"
+subtitle: "Proposed framing — reanalysis of the T98 and T99 pond experiments"
+author: "Diogo B. Provete · draft for Amy Downing and Mathew Leibold"
+date: today
+format:
+  html:
+    embed-resources: true
+    theme: cosmo
+    fig-width: 9
+    fig-height: 3.2
+    page-layout: article
+  typst:
+    papersize: a4
+    margin:
+      x: 1.6cm
+      y: 1.4cm
+    fontsize: 9.5pt
+    fig-width: 9
+    fig-height: 3
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+library(tidyverse)
+library(patchwork)
+library(here)
+tab <- \(f) read_csv(here("output", "tables", paste0(f, ".csv")), show_col_types = FALSE)
+pct <- \(x) paste0(round(100 * x), "%")
+w98 <- tab("step2_within_div_variance"); w99 <- tab("t99_within_cell_variance"); r2b <- tab("t99_cells_vs_phylo_r2")
+g <- \(w, m, col) w[[col]][w$metric == m]
+r2 <- \(r, m) r2b$r2_comp[r2b$resp == r & r2b$model == m]
+```
+
+**The question.** A decade ago it was often argued that phylogenetic diversity
+(PD) should predict ecosystem function better than species richness, "in a range
+of communities, from single-trophic to complex networks" (Srivastava et al. 2012,
+*Ecol. Lett.*). The multitrophic part of that claim has rarely, if ever, been tested with
+experiments that manipulated more than two trophic levels, which are rare (e.g. of 94 diversity manipulations synthesized by Lefcheck et al. 2015,
+only 3 involved carnivores, each manipulating a single trophic group).
+
+**Why these data.** The T98 (Downing & Leibold 2002, *Nature*) and T99 (Downing
+2005, *Ecology*) experiments manipulated richness and composition of macrophytes,
+grazers and predators simultaneously, measured productivity, respiration and
+decomposition repeatedly, and imposed an acid pulse. They are among the very few
+designs able to test the claim directly.
+
+**Main results** (Bayesian mixed models; details in the attached report).
+
+1. **Whole-community phylogenetic metrics mostly restate trophic structure.**
+   Every composition is built from plants and animals, and the plant–animal
+   split dominates phylogenetic distances. Once the design is accounted for,
+   little independent variation remains in the metrics of the stocked
+   communities: `r pct(g(w98, "PD_init", "within_div_share"))`
+   (PD) and `r pct(g(w98, "MPD_init", "within_div_share"))` (MPD) in T98, and
+   `r pct(g(w99, "PD_init", "within_cell_share"))`–`r pct(g(w99, "VPD_init", "within_cell_share"))`
+   in T99 (panel A; VPD keeps more in T98, and realized compositions vary more
+   because of extinctions and invasions).
+2. **No robust effect of PD, MPD or VPD on productivity or respiration** at fixed
+   richness or trophic design, for stocked or realized composition, in either
+   experiment.
+3. **Across trophic configurations (T99), one metric is an imperfect summary of
+   food-web structure:** design cells (FG composition × richness) account for
+   `r pct(r2("prod", "cells"))` / `r pct(r2("resp", "cells"))` of among-composition
+   variance in productivity / respiration; the best single metric (VPD) for
+   `r pct(r2("prod", "rich_VPD"))` / `r pct(r2("resp", "rich_VPD"))`; PD for
+   ~0 (panel B).
+4. **Disturbance:** the acid pulse depressed respiration by ≈ 1 SD, followed by
+   recovery (stronger at the highest richness), consistent with Downing & Leibold
+   (2010). Phylogenetic metrics did not robustly modulate resistance or recovery;
+   a positive PD/MPD × recovery effect on decomposition in T99 was not replicated
+   in T98 (exploratory).
+
+```{r}
+#| fig-height: 3
+shares <- bind_rows(
+  w98 |> transmute(exp = "T98", metric, share = within_div_share),
+  w99 |> filter(!str_detect(metric, "MNTD")) |> transmute(exp = "T99", metric, share = within_cell_share)
+) |>
+  separate(metric, c("metric", "composition"), sep = "_") |>
+  mutate(metric = factor(metric, c("PD", "MPD", "VPD")),
+         composition = factor(composition, c("init", "final"), c("stocked", "realized")))
+pA <- ggplot(shares, aes(metric, share, fill = composition)) +
+  geom_col(position = position_dodge(0.8), width = 0.7) + facet_wrap(~exp) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  scale_fill_manual(values = c(stocked = "#7B1FA2", realized = "#F9A825")) +
+  labs(title = "A. Variance of metrics left after the design", x = NULL, y = NULL, fill = NULL) +
+  theme_bw(base_size = 9) + theme(legend.position = "bottom")
+pB <- r2b |> filter(model != "rich_only", resp != "dc") |>
+  mutate(model = factor(model, c("rich_PD", "rich_MPD", "rich_VPD", "cells"), c("PD", "MPD", "VPD", "design cells")),
+         resp = recode(resp, prod = "productivity", resp = "respiration")) |>
+  ggplot(aes(r2_comp, model)) + geom_point(size = 2) + facet_wrap(~resp) +
+  scale_x_continuous(labels = scales::percent) + coord_cartesian(xlim = c(0, 1)) +
+  labs(title = "B. T99: among-composition variance explained", x = NULL, y = NULL) +
+  theme_bw(base_size = 9)
+pA + pB + plot_layout(widths = c(1.1, 1))
+```
+
+**Proposed message.** In multitrophic communities, whole-community phylogenetic
+diversity largely re-describes who eats whom; once trophic structure and
+richness are controlled, it adds little. A phylogenetic "BEF shortcut" for food
+webs therefore requires designs in which relatedness varies within trophic
+levels, independently of trophic structure.
+
+**Proposed target:** *Oikos* (Research article); fallback *Freshwater Biology*.
+**Working title:** "Phylogenetic diversity restates trophic structure and does not
+predict ecosystem functioning in experimental multitrophic food webs".
+
+**Questions for you:** (i) Does this framing work for you? (ii) Amy: please confirm
+the timing of the acid pulse in T99 (inferred between days 19 and 22) and that the
+stocked compositions match your design. (iii) Any data or analyses you would add
+or remove?
