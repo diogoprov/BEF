@@ -36,7 +36,7 @@ comm <- read_csv(here("data", "derived", "t99_comm_initial.csv"), show_col_types
   column_to_rownames("comp") |>
   as.matrix()
 P <- comm / rowSums(comm)
-tree <- read.tree(here("data", "raw", "phylogeny", "phylog_dated_2005.txt")) |> fix_tip_labels()
+tree <- read.tree(here("data", "derived", "phylo_timetree_t99.tre")) |> fix_tip_labels()
 C <- vcv(tree, corr = TRUE)[colnames(P), colnames(P)]
 
 rich_c <- distinct(d, comp, spdv) |> arrange(as.integer(as.character(comp)))

@@ -7,7 +7,7 @@
 # Thirteen sampling periods with irregular spacing (days 0-72); decomposition
 # measured in nine of them.
 #
-# Inputs (read-only): data/raw/ecology2005/, data/raw/phylogeny/phylog_dated_2005.txt
+# Inputs (read-only): data/raw/ecology2005/, data/derived/phylo_timetree_t99.tre
 # Outputs: data/derived/t99_long.csv, data/derived/t99_metrics_initial.csv,
 #          data/derived/t99_metrics_final.csv, output/tables/t99_*.csv
 
@@ -54,7 +54,7 @@ biomass_codes <- c(
   whb_gyr_g = "Gyrinus_sp", whs_din_g = "Dineutus_sp"
 )
 
-tree <- read.tree(here("data", "raw", "phylogeny", "phylog_dated_2005.txt")) |> fix_tip_labels()
+tree <- read.tree(here("data", "derived", "phylo_timetree_t99.tre")) |> fix_tip_labels()
 stopifnot(is.ultrametric(tree, tol = 1e-4), setequal(tree$tip.label, design_codes),
           setequal(tree$tip.label, biomass_codes))
 

@@ -491,41 +491,6 @@
   "DOI": "10.1127/archiv-hydrobiol/155/2002/667"
  },
  {
-  "id": "Kumar2017etal_msx116",
-  "type": "article-journal",
-  "author": [
-   {
-    "given": "Sudhir",
-    "family": "Kumar"
-   },
-   {
-    "given": "Glen",
-    "family": "Stecher"
-   },
-   {
-    "given": "Michael",
-    "family": "Suleski"
-   },
-   {
-    "given": "S. Blair",
-    "family": "Hedges"
-   }
-  ],
-  "issued": {
-   "date-parts": [
-    [
-     2017
-    ]
-   ]
-  },
-  "title": "TimeTree: a resource for timelines, timetrees, and divergence times",
-  "container-title": "Mol. Biol. Evol.",
-  "container-title-short": "Mol. Biol. Evol.",
-  "volume": "34",
-  "page": "1812–1819",
-  "DOI": "10.1093/molbev/msx116"
- },
- {
   "id": "Connolly2011etal_2270.1",
   "type": "article-journal",
   "author": [

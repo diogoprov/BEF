@@ -11,7 +11,8 @@
 # end, full author lists). Run check_citations.py before rendering.
 #
 # Figures 1–5 are provisional copies of analysis/report.qmd figures and must
-# be redrawn for publication. Box 1 has not been written yet.
+# be redrawn for publication. Results and Box 1 numbers come from the 2013
+# trees and must be updated after the overnight run of run_all.R.
 format:
   docx:
     number-sections: false
@@ -31,9 +32,9 @@ lang: en-GB
 
 {{< include discussion.md >}}
 
-# Box 1. Phylogenetically structured species effects
+{{< include box1_species_effects.md >}}
 
-[BOX 1 A ESCREVER: modelo de efeitos de espécies com covariância σ²_phy P C Pᵀ + σ²_id P Pᵀ, ligação com Diversity–Interactions models e com MPD, e resultado da contração prior→posterior da fração filogenética. Citado em Material and methods, Results e Discussion.]
+![](../figures/manuscript/figB1_species_effects.png)
 
 {{< include box2_design.md >}}
 
@@ -46,17 +47,11 @@ lang: en-GB
 ::: {#refs}
 :::
 
-# Tables
-
-**Table 1.** [TABELA A MONTAR a partir de analysis/report.qmd, tbl-design: desenho dos experimentos T98 e T99 (pool de espécies, níveis de riqueza, células do desenho, número de composições e tanques, datas de amostragem e do pulso ácido).]
-
-**Table 2.** [TABELA A MONTAR a partir de analysis/report.qmd, tbl-priors: priors de todos os parâmetros dos modelos, com a justificativa das simulações preditivas a priori.]
-
 # Figure legends
 
 ![](../figures/manuscript/fig1_phylogenies.png)
 
-**Figure 1.** Pseudochronograms of the species pools of the 1998 (T98, left; 21 species) and 1999 (T99, right; 24 species) pond mesocosm experiments, with time in millions of years. Tip colours indicate functional groups: macrophytes (green), periphyton grazers (blue) and invertebrate predators (orange). Notice that the deepest splits separate plants from animals and vertebrates (tadpoles) from protostomes, so that any metric computed over a whole composition is dominated by which functional groups it contains. [FIGURA PROVISÓRIA: árvores datadas em 2013; refazer se as árvores re-datadas com o TimeTree forem adotadas.]
+**Figure 1.** Pseudochronograms of the species pools of the 1998 (T98, left; 21 species) and 1999 (T99, right; 24 species) pond mesocosm experiments, with time in millions of years. Tip colours indicate functional groups: macrophytes (green), periphyton grazers (blue) and invertebrate predators (orange). Notice that the deepest splits separate plants from animals and vertebrates (tadpoles) from protostomes, so that any metric computed over a whole composition is dominated by which functional groups it contains. [FIGURA PROVISÓRIA: mostra as árvores de 2013; o report.qmd re-renderizado no run noturno trará as árvores do TimeTree.]
 
 ![](../figures/manuscript/fig2_within_strata_variance.png)
 

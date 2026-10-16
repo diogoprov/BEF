@@ -65,7 +65,7 @@ S_TANK <- 0.30    # tank-level residual of the time-averaged response
 THETAS <- c(0, 0.1, 0.2)
 
 # ---- Species pools (T99) ----
-tree99 <- read.tree(here("data", "raw", "phylogeny", "phylog_dated_2005.txt")) |> fix_tip_labels()
+tree99 <- read.tree(here("data", "derived", "phylo_timetree_t99.tre")) |> fix_tip_labels()
 pools <- list(
   macrophyte = c("Ceratophyllum_demersum", "Elodea_nuttallii", "Myriophyllum_verticullatum",
                  "Potamogeton_crispus", "Potamogeton_natans", "Sagittaria_rigida",

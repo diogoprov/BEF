@@ -24,6 +24,7 @@ run <- function(script) {
 
 # T98 (Downing & Leibold 2002)
 run("analysis/00a_initial_composition.py")   # initial composition from the Nature SI
+run("analysis/00b_redate_phylogenies.R")     # TimeTree-dated trees (T98 and T99)
 run("analysis/00_build_data.R")              # derived data and phylogenetic metrics
 run("analysis/01_models.R")                  # final-composition metrics; AR(1) check; multivariate model
 run("analysis/02_initial_composition.R")     # step 2: metrics fixed a priori, within richness

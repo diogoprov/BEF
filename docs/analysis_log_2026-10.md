@@ -240,6 +240,14 @@
   Corixinae, Pleidae–Notonectidae (interpolados).
 - Correção de topologia (T99): *Sagittaria* estava dentro de Hydrocharitaceae;
   agora é irmã de (*Elodea*, *Vallisneria*).
-- Métricas das composições estocadas, árvore antiga vs nova: r = 0,981–0,997
-  (PD, MPD, VPD, PSV; T98 e T99); MNTD do T99 r = 0,88. As análises ainda usam
-  as árvores de 2013; trocar exige rodar de novo 00, 10 e os modelos.
+- Topologia do TimeTree adotada (pedido do usuário, 2026-10-16): matriz
+  pairwise completa das 27 espécies; única diferença das árvores de 2013 é
+  Nepomorpha → ((Belostoma, Corixidae) 116,6, (Ambrysus, (Neoplea,
+  Notonectidae)) 196,8) 256,9. Neoplea sem dados no TimeTree (mantida irmã de
+  Notonectidae). Calibração Sagittaria–Hydrocharitaceae corrigida para 90,6
+  (o 86,5 anterior era mediana de pares com Vallisneria–Elodea).
+- Métricas das composições estocadas, árvore antiga vs nova: r = 0,987–0,996
+  (PD, MPD, VPD, PSV; T98 e T99); MNTD do T99 r = 0,87.
+- Todos os scripts passaram a ler data/derived/phylo_timetree_*.tre; 00b
+  entrou no run_all.R. Rodada completa agendada para 2026-10-16 23:00
+  (log em output/logs/). Números dos Resultados e do Box 1 a atualizar.

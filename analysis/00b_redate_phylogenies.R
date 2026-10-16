@@ -3,26 +3,25 @@
 # The 2013 pseudochronograms were dated in Phylocom (bladj) with very few
 # calibrated nodes, so bladj placed shallow undated nodes halfway between deep
 # calibrations and the tips (e.g., Lithobates catesbeianus vs L. clamitans at
-# 391 Myr, Physa vs Helisoma at 293 Myr). Here the user's topologies are kept
-# and every node that TimeTree 5 dates is calibrated with its median pairwise
+# 391 Myr, Physa vs Helisoma at 293 Myr). Here the topologies follow TimeTree
+# (see below) and every node that TimeTree 5 dates is calibrated with its median pairwise
 # age (timetree.org/api/pairwise, queried 2026-10-16; ages, CIs and number of
 # studies in data/raw/phylogeny/timetree_calibrations.csv). Remaining nodes are
 # interpolated by bladj, run through the R package phylocomr.
 #
-# Calibrations deliberately not used:
-#   - Corixidae vs (Naucoridae + Notonectoidea): TimeTree returns 256.9 Myr, the
-#     same age as the Nepomorpha crown under the user's topology.
-#   - Belostoma vs Corixidae (116.6 Myr): TimeTree groups Belostomatidae with
-#     Corixidae, which conflicts with the user's topology.
-#   - No TimeTree data within Lithobates s.l., Notonectidae, Gyrinidae,
-#     Corixinae or Pleidae vs Notonectidae; these nodes are interpolated, and
-#     the Lithobates pair is fixed at the age of Lithobates s.l. vs Rana
-#     (an upper bound) instead of being interpolated from Bilateria.
-#
-# Topology correction (T99 tree): the 2013 tree grouped Sagittaria with
-# Vallisneria, making Hydrocharitaceae (Elodea + Vallisneria) non-monophyletic;
-# here Sagittaria (Alismataceae) is sister to Hydrocharitaceae, as in the
-# Phylomatic tree (data/raw/phylogeny/tree_amy.txt) and the 21-species T98 tree.
+# Topology: the full TimeTree pairwise age matrix of the 27 species (queried
+# 2026-10-16) agrees with the 2013 trees except in two places, both changed:
+#   - Nepomorpha: TimeTree groups Belostomatidae with Corixidae (116.6 Myr)
+#     and Naucoridae with Notonectidae (196.8 Myr), whereas the 2013 trees had
+#     Belostoma sister to all other bugs. TimeTree has no data for Neoplea
+#     (Pleidae), which is kept as sister to Notonectidae, as in the 2013 trees.
+#   - T99: the 2013 tree grouped Sagittaria with Vallisneria, making
+#     Hydrocharitaceae (Elodea + Vallisneria) non-monophyletic; Sagittaria
+#     (Alismataceae) is sister to Hydrocharitaceae.
+# No TimeTree data within Lithobates s.l., Notonectidae, Gyrinidae, Corixidae
+# or for Neoplea; these nodes are interpolated, except that the Lithobates
+# pair is fixed at the age of Lithobates s.l. vs Rana (an upper bound) instead
+# of being interpolated from Bilateria.
 #
 # Inputs (read-only): data/raw/phylogeny/phylog_dated_{2002,2002_21spp_4b4da4d,2005}.txt,
 #   data/raw/phylogeny/timetree_calibrations.csv
@@ -43,12 +42,25 @@ old <- list(
   t99       = read.tree(here("data", "raw", "phylogeny", "phylog_dated_2005.txt"))
 ) |> map(fix_tip_labels)
 
-# Topology only, with the T99 monocot correction
+# Topology only, rearranged to the TimeTree topology
 topology <- function(tr) {
   tr$edge.length <- NULL; tr$node.label <- NULL; tr$root.edge <- NULL
-  read.tree(text = sub("((Sagittaria_rigida,Vallisneria_americana),Elodea_nuttallii)",
-                       "(Sagittaria_rigida,(Vallisneria_americana,Elodea_nuttallii))",
-                       write.tree(tr), fixed = TRUE))
+  nwk <- sub("((Sagittaria_rigida,Vallisneria_americana),Elodea_nuttallii)",
+             "(Sagittaria_rigida,(Vallisneria_americana,Elodea_nuttallii))",
+             write.tree(tr), fixed = TRUE)
+  tr <- read.tree(text = nwk)
+  # Nepomorpha: ((Belostoma, Corixidae), (Ambrysus, (Neoplea, Notonectidae)))
+  sub_nwk <- \(tips) if (length(tips) == 1) tips else
+    sub(";$", "", write.tree(extract.clade(tr, getMRCA(tr, tips))))
+  corix <- intersect(c("Trichocorixa_sp", "Hesperocorixa_sp"), tr$tip.label)
+  old_clade <- sub_nwk(c("Belostoma_flumireum", "Ambrysus_sp"))
+  new_clade <- sprintf("((Belostoma_flumireum,%s),%s)", sub_nwk(corix),
+                       sub_nwk(c("Ambrysus_sp", "Notonecta_undulata")))
+  stopifnot(grepl(old_clade, nwk, fixed = TRUE))
+  out <- read.tree(text = sub(old_clade, new_clade, nwk, fixed = TRUE))
+  stopifnot(setequal(out$tip.label, tr$tip.label),
+            is.monophyletic(out, c("Belostoma_flumireum", corix)))
+  out
 }
 
 redate <- function(tr) {
@@ -92,6 +104,12 @@ dir.create(here("output", "tables"), showWarnings = FALSE, recursive = TRUE)
 write_csv(node_ages, here("output", "tables", "phylo_redating_node_ages.csv"))
 
 # ---- Old vs new metrics for the compositions analysed ----
+# (needs the community matrices written by 00_build_data.R and
+# 10_build_data_t99.R; skipped in a run from scratch)
+if (!all(file.exists(here("data", "derived", c("comm_initial.csv", "t99_comm_initial.csv"))))) {
+  message("Community matrices not found; skipping the metric comparison.")
+  quit(save = "no")
+}
 comm98_init <- read_csv(here("data", "derived", "comm_initial.csv"), show_col_types = FALSE) |>
   column_to_rownames("comp") |> as.matrix()
 comm99_init <- read_csv(here("data", "derived", "t99_comm_initial.csv"), show_col_types = FALSE) |>

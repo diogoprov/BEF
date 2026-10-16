@@ -32,10 +32,10 @@ stopifnot(
   all(count(distinct(ef, tank, treat, dist), tank)$n == 1)
 )
 
-# ---- Phylogeny: pseudochronogram re-dated in Phylocom (bladj) without the
-# two macrophytes that went extinct (commit c47b468) ----
-tree <- read.tree(here("data", "raw", "phylogeny", "phylog_dated_2002.txt"))
-stopifnot(is.ultrametric(tree), Ntip(tree) == 19)
+# ---- Phylogeny: pseudochronogram without the two macrophytes that went
+# extinct, re-dated with TimeTree ages (analysis/00b_redate_phylogenies.R) ----
+tree <- read.tree(here("data", "derived", "phylo_timetree_t98_19spp.tre"))
+stopifnot(is.ultrametric(tree, tol = 1e-4), Ntip(tree) == 19)
 
 # ---- Composition-level community (final composition, D&L 2002) ----
 comm_comp <- read.table(here("data", "raw", "nature2001", "treat.txt"),
@@ -84,8 +84,8 @@ stopifnot(all(final_si[, colnames(comm_comp)] == comm_comp),
           all(final_si[, setdiff(colnames(final_si), colnames(comm_comp))] == 0))
 
 # The initial pool includes Utricularia and Vallisneria (extinct in all tanks),
-# so it requires the original 21-species pseudochronogram (commit 4b4da4d)
-tree21 <- read.tree(here("data", "raw", "phylogeny", "phylog_dated_2002_21spp_4b4da4d.txt")) |>
+# so it requires the 21-species pseudochronogram
+tree21 <- read.tree(here("data", "derived", "phylo_timetree_t98_21spp.tre")) |>
   fix_tip_labels()
 stopifnot(is.ultrametric(tree21, tol = 1e-4), setequal(tree21$tip.label, colnames(comm_init)))
 

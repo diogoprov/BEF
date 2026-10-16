@@ -48,7 +48,7 @@ lineages <- function(comm) {
 }
 
 # ---- T98 ----
-tree98 <- read.tree(here("data", "raw", "phylogeny", "phylog_dated_2002_21spp_4b4da4d.txt")) |>
+tree98 <- read.tree(here("data", "derived", "phylo_timetree_t98_21spp.tre")) |>
   fix_tip_labels()
 grp98 <- read_csv(here("data", "derived", "si_table1_long.csv"), show_col_types = FALSE) |>
   distinct(species, group) |> deframe()
@@ -61,7 +61,7 @@ g98 <- group_metrics(comm98, tree98, grp98) |> left_join(cell98, by = "comp") |>
   mutate(experiment = "T98")
 
 # ---- T99 ----
-tree99 <- read.tree(here("data", "raw", "phylogeny", "phylog_dated_2005.txt")) |> fix_tip_labels()
+tree99 <- read.tree(here("data", "derived", "phylo_timetree_t99.tre")) |> fix_tip_labels()
 codes99 <- c(
   cer = "Ceratophyllum_demersum", elo = "Elodea_nuttallii", mir = "Myriophyllum_verticullatum",
   po1 = "Potamogeton_crispus", po2 = "Potamogeton_natans", sag = "Sagittaria_rigida",

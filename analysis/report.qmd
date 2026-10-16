@@ -183,8 +183,8 @@ dimensions of Tucker et al. (2016), fixed *a priori*: PD (richness), MPD
 #| fig-height: 6
 fg_col <- c(macrophyte = "#2E7D32", grazer = "#1565C0", predator = "#E65100")
 si <- read_csv(here("data", "derived", "si_table1_long.csv"), show_col_types = FALSE) |> distinct(species, group)
-tr98 <- read.tree(here("data", "raw", "phylogeny", "phylog_dated_2002_21spp_4b4da4d.txt")) |> fix_tip_labels()
-tr99 <- read.tree(here("data", "raw", "phylogeny", "phylog_dated_2005.txt")) |> fix_tip_labels()
+tr98 <- read.tree(here("data", "derived", "phylo_timetree_t98_21spp.tre")) |> fix_tip_labels()
+tr99 <- read.tree(here("data", "derived", "phylo_timetree_t99.tre")) |> fix_tip_labels()
 plants <- "Potamogeton|Myriophyllum|Elodea|Ceratophyllum|Vallisneria|Utricularia|Sagittaria"
 grazers <- "Lithobates|Crangonyx|Hyalella|Helisoma|Physa|corixa"
 fg_of <- \(x) case_when(str_detect(x, plants) ~ "macrophyte", str_detect(x, grazers) ~ "grazer", TRUE ~ "predator")
