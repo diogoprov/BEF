@@ -11,8 +11,8 @@
 # end, full author lists). Run check_citations.py before rendering.
 #
 # Figures 1–5 and B1 are drawn by analysis/21_manuscript_figures.R (B2 by
-# 20_figure_design_box.R) from output/tables/. Results and Box 1 numbers come
-# from the 2013 trees and must be updated after the overnight run of run_all.R.
+# 20_figure_design_box.R) from output/tables/. Results and Box 1 numbers
+# were updated on 2026-10-17 from the full run of run_all.R (TimeTree trees).
 format:
   docx:
     number-sections: false
@@ -55,7 +55,7 @@ lang: en-GB
 
 ![](../figures/manuscript/fig2_within_strata_variance.png)
 
-**Figure 2.** Share of the variance of each phylogenetic metric among compositions that lies within design strata (T98, richness levels; T99, design cells defined by functional-group composition and richness), for stocked (dark grey) and realized (yellow) compositions. PD, Faith's phylogenetic diversity; MPD, mean pairwise distance; VPD, variance of pairwise distances. Notice that, for stocked compositions, less than 4% of the variance of any metric remained within design cells in T99, and only VPD retained most of its variance within richness levels in T98.
+**Figure 2.** Share of the variance of each phylogenetic metric among compositions that lies within design strata (T98, richness levels; T99, design cells defined by functional-group composition and richness), for stocked (dark grey) and realized (yellow) compositions. PD, Faith's phylogenetic diversity; MPD, mean pairwise distance; VPD, variance of pairwise distances. Notice that, for stocked compositions, less than 3% of the variance of any metric remained within design cells in T99, and only VPD retained most of its variance within richness levels in T98.
 
 ![](../figures/manuscript/fig3_slopes.png)
 
@@ -63,7 +63,7 @@ lang: en-GB
 
 ![](../figures/manuscript/fig4_design_vs_metrics_t99.png)
 
-**Figure 4.** Among-composition variance in productivity, respiration and decomposition explained by the design cells (black) and by single phylogenetic metrics (red) in T99, relative to a model with richness only. Points are posterior means and bars 95% credible intervals, truncated at −10% because the ratio of variances is unbounded below; negative values indicate that a metric did not reduce the among-composition variance. Notice that the design cells explained more of the variance in productivity and respiration than any single metric, and that PD explained almost none of it.
+**Figure 4.** Among-composition variance in productivity, respiration and decomposition explained by the design cells (black) and by single phylogenetic metrics (red) in T99, relative to a model with richness only. Points are posterior means and bars 95% credible intervals, truncated at −10% because the ratio of variances is unbounded below; negative values indicate that a metric did not reduce the among-composition variance. Notice that the design cells explained more of the variance in productivity and respiration than any single metric, and that PD explained the least.
 
 ![](../figures/manuscript/fig5_pulse.png)
 

@@ -1,6 +1,8 @@
 <!-- Adapted 2026-10-16 from the Box section of analysis/report.qmd
      (analysis/13_species_identity_t99.R; output/tables/t99_species_identity_*.csv).
-     Numbers come from the 2013 trees: update after the overnight run. -->
+     Numbers updated 2026-10-17 (TimeTree trees). The T98 kernel alignment
+     (0.81) was computed ad hoc with the code of script 13 applied to T98;
+     it is not written by the pipeline. -->
 
 # Box 1. Phylogenetically structured species effects
 
@@ -8,7 +10,7 @@ Phylogenetic metrics summarize composition, but they do not say how the species 
 
 This model is the species-identity component of Diversity–Interactions models (Kirwan et al. 2009) with a phylogenetic prior on species effects, as in phylogenetic mixed models of community data (Ives and Helmus 2011). Additionally, with equal proportions, a phylogenetically structured pairwise interaction term (Connolly et al. 2011) reduces to θ (*S* − 1)/(2*S*) MPD, so that the MPD models of the main text are a special case. The share of species effects that is phylogenetically structured, σ²_phy/(σ²_phy + σ²_id), measures directly whether relatedness predicts what species do, without summarizing composition into a single metric.
 
-However, the two covariance matrices are distinguishable only if compositions that share closely related species differ from compositions that share the same species. In our experiments, after projecting both matrices orthogonally to the richness means and scaling them to unit mean diagonal, the phylogenetic and identity matrices were strongly aligned (correlation of 0.87 in T98 and 0.67 in T99). Therefore, we fitted the model only to T99 and compared its posterior with a fit to the priors alone. The posterior of the phylogenetic share was practically identical to its prior for all responses (contraction of the 95% interval of 0.001–0.003), whereas the posterior of the non-additive share contracted by 5–7% for productivity and respiration and by 21% for decomposition (Fig. B1). Thus, the data contained information about how much compositions differed beyond the additive effects of their species, but almost none about whether those species effects followed phylogeny. Separating phylogenetically structured from idiosyncratic species effects would require designs in which composition varies within trophic groups independently of trophic structure, which we explore in Box 2.
+However, the two covariance matrices are distinguishable only if compositions that share closely related species differ from compositions that share the same species. In our experiments, after projecting both matrices orthogonally to the richness means and scaling them to unit mean diagonal, the phylogenetic and identity matrices were strongly aligned (correlation of 0.81 in T98 and 0.67 in T99). Therefore, we fitted the model only to T99 and compared its posterior with a fit to the priors alone. The posterior of the phylogenetic share was practically identical to its prior for all responses (contraction of the 95% interval of 0.001–0.009), whereas the posterior of the non-additive share contracted by 4–8% for productivity and respiration and by 32% for decomposition (Fig. B1). Thus, the data contained information about how much compositions differed beyond the additive effects of their species, but almost none about whether those species effects followed phylogeny. Separating phylogenetically structured from idiosyncratic species effects would require designs in which composition varies within trophic groups independently of trophic structure, which we explore in Box 2.
 
 ## Figure B1 legend
 

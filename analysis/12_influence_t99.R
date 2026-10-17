@@ -1,11 +1,13 @@
 # Influence of single compositions on the T99 effects whose 95% intervals
 # excluded zero (analysis/11_models_t99.R, parts a and c).
 #
-# Each of the 4 models (prod, resp x MPD_init, MPD_final) is refitted 26
-# times, each time leaving one composition out (predictor values are kept as
+# Each of the 8 models (prod, resp x MPD_init, MPD_final; dc x PD_init,
+# VPD_init, MPD_final; within-cell MPD_init slope on dc) is refitted 26 times,
+# each time leaving one composition out (predictor values are kept as
 # standardized in the full data). The compiled model is reused via update().
-# Summaries are cached per fit in output/models/influence/ so the script can
-# resume.
+# Summaries are cached per fit in output/models/influence/<hash of the data>/
+# so the script can resume, and any change in the data (e.g., new trees)
+# starts a fresh cache.
 
 library(tidyverse)
 library(brms)
@@ -17,15 +19,15 @@ source(here("R", "brms_helpers.R"))
 source(here("R", "t99_data.R"))
 
 d <- prep_t99()
-cache_dir <- here("output", "models", "influence")
+cache_dir <- here("output", "models", "influence", rlang::hash(d))
 dir.create(cache_dir, showWarnings = FALSE, recursive = TRUE)
 
 # part c (disturbance) models: MPD x recovery phase (prod, resp) and the
-# decomposition effects that excluded zero (PD_init, MPD_final x recovery);
+# decomposition effects that excluded zero (PD_init, VPD_init, MPD_final x recovery);
 # part a model: within-cell MPD_init slope on decomposition
 targets <- bind_rows(
   expand_grid(resp = c("prod", "resp"), x = c("zw_MPD_init", "zw_MPD_final"), part = "c"),
-  tibble(resp = "dc", x = c("zw_PD_init", "zw_MPD_final"), part = "c"),
+  tibble(resp = "dc", x = c("zw_PD_init", "zw_VPD_init", "zw_MPD_final"), part = "c"),
   tibble(resp = "dc", x = "zw_MPD_init", part = "a")
 )
 rhs_a <- \(x, resp) paste0("0 + cell + ", x, " + ftime + dist + dist:post", random_for(resp))

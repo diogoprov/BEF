@@ -23,9 +23,10 @@ of 8 (D4b) or 20 species (D4).
 
 With eight species per group, a gradient in MPD is largely a gradient in the
 presence of a few deeply divergent taxa (Fig. B2a). In D2, MPD correlated at
-0.72 with the presence of *Lithobates catesbeianus*. Balancing incidence
+0.61 with the presence of *Buenoa* sp. and at about 0.52 with that of
+*Physa gyrina*, *Coptotomus* sp. and *Lithobates catesbeianus*. Balancing incidence
 reduced this correlation, and selecting compositions along MPD more than
-doubled power relative to random assembly (Fig. B2b; 0.86 vs 0.33 with 24
+doubled power relative to random assembly (Fig. B2b; 0.97 vs 0.37 with 24
 compositions). Selecting compositions along relatedness at fixed richness
 has been done within single trophic levels (Cadotte 2013, Venail and Vives
 2013), and balancing species incidence across treatments follows the logic
@@ -33,16 +34,18 @@ of designs that separate species identity from richness (Bell et al. 2009).
 
 Treating compositions as independent units inflated false positives, and the
 inflation increased with the number of compositions because compositions
-share species (Fig. B2c; 15–22% with 24 compositions, 26–52% with 96, for a
+share species (Fig. B2c; 10–25% with 24 compositions, 16–52% with 96, for a
 nominal 5%), as also reported for naive regressions across communities
 that overlap in species and phylogeny (Tsang and Cadotte 2025). Modelling
 shared species with covariance kernels reduced the
-rate to 6–8% with 96 compositions, and to 3–5% with 24 compositions when
+rate to 4–8% with 96 compositions, and to 5–7% with 24 compositions when
 variance-component uncertainty was propagated in Bayesian fits (D2 and D4).
 
 Phylogenetically structured species effects could not be distinguished from
-idiosyncratic identity effects in almost any design (Fig. B2d); separation
-began only with a 20-species focal pool and 96 compositions. Testing whether evolutionary history adds to species identity
+idiosyncratic identity effects with 24 compositions in any design, nor
+with 48 in most designs (Fig. B2d); estimates began to separate only with
+96 compositions, and not even then when a single group of eight species
+varied (D4b). Testing whether evolutionary history adds to species identity
 therefore requires large species pools within a trophic level, compositions
 chosen along relatedness with balanced species incidence, and analyses that
 model shared species explicitly.
