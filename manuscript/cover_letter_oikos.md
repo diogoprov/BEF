@@ -20,7 +20,7 @@ We believe that Oikos is the right outlet for this work for three reasons. First
 
 The experiments were originally published by Downing and Leibold (2002, Nature) and Downing (2005, Ecology), which analysed the effects of richness and composition but not of phylogenetic diversity, and by Downing and Leibold (2010, Freshwater Biology), which analysed resistance and resilience to the acid pulse. None of these studies used phylogenetic information. An earlier version of these analyses was part of the PhD thesis of the first author (2016), which was not published in a peer-reviewed outlet; the present analyses replace it entirely, because we found and corrected errors in the derived data used at that time. The manuscript is not under consideration elsewhere, and all authors have approved its submission. We declare no conflict of interest.
 
-The data, phylogenies and code needed to reproduce all analyses are provided for review through an anonymized copy of the project repository [URL anonymous.4open.science A GERAR] and will be archived in Zenodo with a DOI upon acceptance.
+The data, phylogenies and code needed to reproduce all analyses are archived in Zenodo (https://doi.org/10.5281/zenodo.23445936), in a version anonymized for review; author information will be added to the record upon acceptance.
 
 We suggest the following potential reviewers, none of whom has collaborated with any of the authors to our knowledge:
 

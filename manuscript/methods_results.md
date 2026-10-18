@@ -60,7 +60,7 @@ To identify the kind of experiment that could separate an effect of relatedness 
 
 ## Software and data availability
 
-All analyses were performed in R v. 4.6.1 (R Core Team 2026). Bayesian models were fitted in the R package brms v. 2.23.0 (Bürkner 2017) with CmdStan v. 2.39.0 through cmdstanr v. 0.9.0.9002 (Gabry et al. 2025), phylogenetic metrics were computed in picante (Kembel et al. 2010) and ape (Paradis and Schliep 2019), simulated trees were generated in phytools (Revell 2024), and prior sensitivity was assessed in priorsense (Kallioinen et al. 2024). Data, phylogenies and code are available to reviewers in an anonymized copy of the project repository ([URL anonymous.4open.science A GERAR]) and will be archived in Zenodo upon acceptance [DOI A INCLUIR].
+All analyses were performed in R v. 4.6.1 (R Core Team 2026). Bayesian models were fitted in the R package brms v. 2.23.0 (Bürkner 2017) with CmdStan v. 2.39.0 through cmdstanr v. 0.9.0.9002 (Gabry et al. 2025), phylogenetic metrics were computed in picante (Kembel et al. 2010) and ape (Paradis and Schliep 2019), simulated trees were generated in phytools (Revell 2024), and prior sensitivity was assessed in priorsense (Kallioinen et al. 2024). Data, phylogenies and code are archived in Zenodo (https://doi.org/10.5281/zenodo.23445936; anonymized for review).
 
 # Results
 

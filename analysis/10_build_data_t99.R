@@ -5,7 +5,7 @@
 # no-species control (excluded from the phylogenetic analyses). Species
 # richness 6 or 18; functional-group (FG) composition: M, G, MG, GP, MGP.
 # Thirteen sampling periods with irregular spacing (days 0-72); decomposition
-# measured in nine of them.
+# measured in ten of them.
 #
 # Inputs (read-only): data/raw/ecology2005/, data/derived/phylo_timetree_t99.tre
 # Outputs: data/derived/t99_long.csv, data/derived/t99_metrics_initial.csv,

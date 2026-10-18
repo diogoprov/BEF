@@ -25,3 +25,8 @@ manuscript/manuscript.docx
 manuscript/manuscript_files/
 output/logs/
 output/draws/
+
+# Zenodo deposit built by tools/build_zenodo_deposit.sh
+/zenodo/
+manuscript/manuscript_figures_inline.qmd
+manuscript/manuscript_figures_inline.docx
