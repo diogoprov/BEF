@@ -1,0 +1,66 @@
+---
+# Supporting information (anonymized, like the main file). Tables are read
+# from output/tables/ and data/raw/phylogeny/; nothing is typed by hand.
+# Render: quarto render manuscript/appendix_s1.qmd --to docx, then
+# python3 -I tools/docx_line_page_numbers.py manuscript/appendix_s1.docx
+format:
+  docx:
+    number-sections: false
+execute:
+  echo: false
+  warning: false
+  message: false
+lang: en-GB
+---
+
+**Whole-community phylogenetic diversity restates trophic structure in experimental pond food webs**
+
+**Appendix S1**
+
+```{r}
+suppressPackageStartupMessages({library(dplyr); library(readr); library(knitr); library(here)})
+grp <- read_csv(here("output", "tables", "within_trophic_group_summary.csv"), show_col_types = FALSE)
+cal <- read_csv(here("data", "raw", "phylogeny", "timetree_calibrations.csv"), show_col_types = FALSE)
+f0 <- \(x) formatC(x, format = "f", digits = 0, big.mark = ",")
+```
+
+**Table S1.** Mean pairwise distance (MPD, Myr) computed within each functional group of the stocked compositions, by experiment and number of species stocked per group. *n*, number of compositions; distinct, number of distinct within-group compositions; CV, coefficient of variation of within-group MPD among compositions. Distances were computed on the TimeTree-dated pseudochronograms (analysis/17_within_trophic_check.R).
+
+```{r}
+grp |>
+  mutate(group = recode(group, macrophyte = "Macrophytes", grazer = "Grazers", predator = "Predators"),
+         group = factor(group, c("Macrophytes", "Grazers", "Predators"))) |>
+  arrange(experiment, group, n) |>
+  transmute(Experiment = experiment, `Functional group` = as.character(group), `Species per group` = n,
+            n = n_comp, Distinct = n_distinct,
+            `MPD, mean (SD)` = paste0(f0(mpd_mean), " (", f0(mpd_sd), ")"),
+            `MPD, range` = paste0(f0(mpd_min), "–", f0(mpd_max)),
+            CV = formatC(cv, format = "f", digits = 2)) |>
+  kable(align = "llrrrrrr")
+```
+
+**Table S2.** Node calibrations used to date the pseudochronograms. Each calibrated node is the most recent common ancestor of the two tips listed; ages are the median pairwise divergence times of TimeTree 5 (Kumar et al. 2022; queried on 16 October 2026), with their 95% confidence intervals and the number of studies on which they are based. Remaining nodes were interpolated with bladj (Webb et al. 2008) through phylocomr (Ooms et al. 2023). Names queried in TimeTree are given when they differ from the tip labels.
+
+```{r}
+lab <- \(x) gsub("_", " ", x)
+cal |>
+  distinct(tip_a, tip_b, .keep_all = TRUE) |>
+  arrange(desc(age_mya)) |>
+  transmute(`Tip a` = paste0("*", lab(tip_a), "*"), `Tip b` = paste0("*", lab(tip_b), "*"),
+            `Age (Myr)` = formatC(age_mya, format = "f", digits = 1),
+            `95% CI` = if_else(is.na(ci_low), "–", paste0(formatC(ci_low, format = "f", digits = 1), "–",
+                                                         formatC(ci_high, format = "f", digits = 1))),
+            Studies = n_studies,
+            `Queried as` = if_else(lab(tip_a) == taxon_a_queried & lab(tip_b) == taxon_b_queried, "",
+                                   paste(taxon_a_queried, "/", taxon_b_queried)),
+            Node = note) |>
+  kable(align = "llrrrll")
+```
+
+**References**
+
+Kumar, S., Suleski, M., Craig, J. M., Kasprowicz, A. E., Sanderford, M., Li, M., Stecher, G. and Hedges, S. B. 2022. TimeTree 5: an expanded resource for species divergence times. – Mol. Biol. Evol. 39: msac174. https://doi.org/10.1093/molbev/msac174
+
+Ooms, J., Chamberlain, S. and Sanchez Reyes, L. 2023. phylocomr: interface to "Phylocom". – R package version 0.3.4. https://doi.org/10.32614/CRAN.package.phylocomr
+
+Webb, C. O., Ackerly, D. D. and Kembel, S. W. 2008. Phylocom: software for the analysis of phylogenetic community structure and trait evolution. – Bioinformatics 24: 2098–2100. https://doi.org/10.1093/bioinformatics/btn358

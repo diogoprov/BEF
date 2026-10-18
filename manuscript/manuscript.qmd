@@ -1,7 +1,9 @@
 ---
 # Anonymized submission file for Oikos (double-blind review): no author
-# names, affiliations or acknowledgements. Author information goes in the
-# cover letter and the submission form only.
+# names, affiliations or acknowledgements. Author information,
+# acknowledgements and funding are in title_page.qmd; supporting information
+# in appendix_s1.qmd. After rendering, add line and page numbers with
+# python3 -I tools/docx_line_page_numbers.py manuscript/manuscript.docx
 #
 # Sections are kept in separate files and included here. In-text citations
 # are written by hand (author–year); the reference list is generated from
@@ -37,10 +39,6 @@ lang: en-GB
 ![](../figures/manuscript/figB1_species_effects.png)
 
 {{< include box2_design.md >}}
-
-# Acknowledgements
-
-[OMITIDO NA VERSÃO ANÔNIMA]
 
 # References
 

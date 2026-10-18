@@ -8,7 +8,7 @@ Phylogenetic diversity has been proposed as a predictor of ecosystem
 functioning from single trophic levels to complex food webs (Srivastava et
 al. 2012). We simulated experiments under the same model used in Box 1: each
 species has an effect on the response, these effects covary with
-phylogenetic relatedness (variance σ²_phy) or vary idiosyncratically (σ²_id),
+phylogenetic relatedness (variance $\sigma^2_{\mathrm{phy}}$) or vary idiosyncratically ($\sigma^2_{\mathrm{id}}$),
 as in phylogenetic mixed models of community data (Ives and Helmus 2011),
 and mean pairwise distance within trophic groups (MPD) may add an effect of
 its own, analogous to the community phylogenetic diversity term added to
@@ -72,7 +72,7 @@ species effects modelled through covariance kernels; the dotted line marks
 compositions as independent (left) or modelling shared species (right;
 restricted maximum likelihood with Wald tests); the solid line marks the
 nominal 5%. (d) Estimated phylogenetic share of the variance in species
-effects, σ²_phy / (σ²_phy + σ²_id), when the truth is 1 (left) or 0 (right);
+effects, $\sigma^2_{\mathrm{phy}}/(\sigma^2_{\mathrm{phy}} + \sigma^2_{\mathrm{id}})$, when the truth is 1 (left) or 0 (right);
 points are medians and bars span the 10th–90th percentiles of 1000
-replicates. Variance components: σ_phy = σ_id = 0.15 in (a)–(c); σ_phy = 0.21
-or σ_id = 0.21 in (d); non-additive composition SD 0.10, tank SD 0.30.
+replicates. Variance components: $\sigma_{\mathrm{phy}} = \sigma_{\mathrm{id}} = 0.15$ in (a)–(c); $\sigma_{\mathrm{phy}} = 0.21$
+or $\sigma_{\mathrm{id}} = 0.21$ in (d); non-additive composition SD 0.10, tank SD 0.30.

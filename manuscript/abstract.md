@@ -3,9 +3,7 @@
      Supersedes docs/abstract.md. Title changed: "does not predict" overstated
      what the design can show (within-design nulls are non-informative). -->
 
-# Title
-
-Whole-community phylogenetic diversity restates trophic structure in experimental pond food webs
+**Whole-community phylogenetic diversity restates trophic structure in experimental pond food webs**
 
 Running title: Phylogenetic diversity in experimental food webs
 

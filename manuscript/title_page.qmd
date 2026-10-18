@@ -1,0 +1,33 @@
+---
+# Oikos double-anonymous review: title page supplied as a separate file (not
+# part of the blinded manuscript). Acknowledgements adapted from the
+# Acknowledgements of chapter 3 of DBP's PhD thesis (manuscript/thesis/,
+# 2016); funding of DBP as listed in the title page of
+# af-frogs-climate-rarity (2026-10-16). Bracketed items must be completed.
+format:
+  docx:
+    number-sections: false
+lang: en-GB
+---
+
+**Whole-community phylogenetic diversity restates trophic structure in experimental pond food webs**
+
+**Running title:** Phylogenetic diversity in experimental food webs
+
+**Authors:** Diogo B. Provete^1^ (ORCID 0000-0002-0097-0651), Amy L. Downing^2^ [ORCID], Mathew A. Leibold^3^ [ORCID]
+
+^1^ Instituto de Biociências, Universidade Federal de Mato Grosso do Sul, Campo Grande, MS, Brazil\
+^2^ Department of Biological Sciences, Ohio Wesleyan University, Delaware, OH, USA\
+^3^ Department of Biology, University of Florida, Gainesville, FL, USA
+
+**Corresponding author:** Diogo B. Provete (diogo.provete@ufms.br), Instituto de Biociências, Universidade Federal de Mato Grosso do Sul, Av. Costa e Silva s/n, Cidade Universitária, 79070-900 Campo Grande, MS, Brazil.
+
+**Acknowledgements.** This study is part of the PhD dissertation of DBP at the Graduate Program in Ecology and Evolution of the Federal University of Goiás, Brazil. We thank Sally Amen, Marc W. Cadotte, Alexandre S. G. Coelho, Luciano F. Sgarbi and Fernando R. Silva for statistical and data manipulation advice; D. T. Corrêa, C. Cuellar, R. A. Deans, G. Livingston, J. W. Malcom, E. Moran, E. Resetarits, R. Shaw and G. K. Smith, from the laboratory of MAL, for helpful feedback and a pleasant working environment during the visit of DBP to the University of Texas at Austin; and Adriano S. Melo and Marcus V. Cianciaruso for their comments on an earlier version of this manuscript.
+
+**Funding.** DBP received doctoral fellowships from the Coordenação de Aperfeiçoamento de Pessoal de Nível Superior – Brasil (CAPES-DS and CAPES-PDSE, process 18641-12-1), and was funded by the Fundação de Amparo à Pesquisa do Estado de São Paulo (FAPESP; post-doctoral fellowship, process 2016/13949-7), the Conselho Nacional de Desenvolvimento Científico e Tecnológico (CNPq; post-doctoral fellowship abroad, PDE, process 203734/2014-9) and the Fundação de Apoio ao Desenvolvimento do Ensino, Ciência e Tecnologia do Estado de Mato Grosso do Sul (FUNDECT; process 83/027.032/2024). This study was financed in part by the Coordenação de Aperfeiçoamento de Pessoal de Nível Superior – Brasil (CAPES) – through the Institutional Internationalization Program (CAPES-PrInt-UFMS) – Call Notice 41/2017 – Finance Code 001. [Funding of ALD and MAL, including the grants that supported the original experiments.]
+
+**Author contributions (CRediT).** [Draft for co-authors to confirm.] Diogo B. Provete: Conceptualization, Data curation, Formal analysis, Methodology, Visualization, Writing – original draft. Amy L. Downing: Investigation, Data curation, Resources, Writing – review & editing. Mathew A. Leibold: Conceptualization, Resources, Supervision, Writing – review & editing.
+
+**Conflict of interest statement.** The authors declare no conflict of interest.
+
+**Data availability statement.** Data, phylogenies and code are archived in Zenodo (https://doi.org/10.5281/zenodo.23445936).
